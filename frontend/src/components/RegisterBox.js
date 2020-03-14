@@ -14,9 +14,7 @@ class RegisterBox extends React.Component {
     render() {
       return (
         <div className="inner-container">
-          <div className="header">
-            Register
-          </div>
+          
           <div className="box">
   
             <div className="input-group">
