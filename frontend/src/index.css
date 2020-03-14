@@ -1,6 +1,9 @@
-body
-{
-    background-color: rgb(248, 248, 255);
+html, body {
+    margin:0;
+    padding:0;
+height:100%;
+background-image: url(media/background.jpg);
+background-size: cover;
 }
 
 
@@ -12,6 +15,13 @@ body
     align-items: center;
     flex-direction: column;
     
+}
+
+.AppHeader
+{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
 }
 
 .box-controller {
@@ -47,9 +57,15 @@ body
     flex-direction: column;
     max-width: 24em;
     min-width: 21em;
-    box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
     border-radius: 6px;
     padding: 24px;
+    background-image: url(media/loginpanelbg.png) ;
+    border-radius: 19px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+
+
 }
 
 .header {

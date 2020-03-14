@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from 'react-dom';
 import './index.css';
+import logo from '../src/media/logo.png';
 
 class App extends React.Component {
 
@@ -25,6 +26,9 @@ class App extends React.Component {
       return (
         
         <div className="root-container">
+          <header className="AppHeader">
+            <img src={logo} className="AppLogo" alt="logo" />
+          </header>
             <div className="box-controller">
                 <div
                     className={"controller " + (this.state.isLoginOpen
