@@ -1,0 +1,82 @@
+html, body {
+		margin:0;
+		padding:0;
+    height:100%;
+    background-image: url(media/background.jpg);
+    background-size: cover;
+}
+
+.AppHeader {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.AppLogo {
+  margin-top: 70px;
+  margin-bottom: 20px;
+  height: 100px;
+  pointer-events: none;
+}
+
+.MainContent {
+  height: 432px;
+  background-image: url(media/loginpanelbg.png) ;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  padding-top: 30px;
+  /*
+  position:relative;
+  padding:10px;
+  padding-bottom: 100%;
+  */
+}
+
+.LoginPanel {
+  height: 432px;
+  text-align: center;
+}
+
+.Footer {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+/*
+  border-top: 2px solid #d9d9d9;
+  height: 40px;
+  box-sizing: border-box;
+  vertical-align: bottom;
+  display: block;
+  margin-top: 20px;
+  #a9a9a9
+  */
+}
+
+.Footer-text {
+  font-size: 12px;
+  font-style: bold;
+  color: #a9a9a9;
+  margin-right: 30px;
+}
+
+
+/*
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+*/
