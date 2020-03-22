@@ -1,12 +1,14 @@
 import React from "react"
-import LoginPanel from "./LoginPanel"
+import LinkInput from './LinkInput'
 
 function MainContent() {
     return (
         <div>
-        <main className="MainContent">
-            <LoginPanel />
-        </main>
+            <center>
+                <main className="MainContent">
+                    <LinkInput />
+                </main>
+            </center>
         </div>
     )
 }

@@ -21,13 +21,11 @@ html, body {
 
 .MainContent {
   height: 432px;
-  width: 578px;
   background-image: url(media/loginpanelbg.png) ;
   background-repeat: no-repeat;
   background-position-x: center;
-
-  /*
   padding-bottom: -10px;
+  /*
   padding-top: 5px;
   position:relative;
   padding:10px;
@@ -41,7 +39,7 @@ html, body {
 }
 
 .Footer {
-  position: absolute;
+  position:absolute;
   bottom:0;
   width:100%;
   text-align: center;
@@ -65,12 +63,32 @@ html, body {
   margin-right: 30px;
 }
 
+
+/*
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+*/
+
 .root-container {
   width: 100%;
   height: 88%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  
 }
 
 .box-controller {
@@ -218,9 +236,4 @@ html, body {
 
 .show {
   visibility: visible;
-}
-
-.LinkInput {
-  display : block;
-  padding-top: 30px;
 }

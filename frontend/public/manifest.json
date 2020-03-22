@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Noticrawl",
+  "name": "web scrapper and notifier",
   "icons": [
     {
       "src": "favicon.ico",
