@@ -4,9 +4,9 @@ function LinkInput() {
     return (
         <div>
             <linkinput className="LinkInput">
-                <h1>Wklej swój link poniżej</h1>
+                <h1>Paste your link below:</h1>
                 <input type="text" name="link"></input>
-                <button>Prześlij</button>
+                <button>Send</button>
             </linkinput>
         </div>
     )
