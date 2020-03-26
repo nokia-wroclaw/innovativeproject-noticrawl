@@ -1,5 +1,6 @@
 import React from "react"
 import LinkInput from './LinkInput'
+import Navbar from './Navbar'
 
 function MainContent() {
     return (
@@ -7,6 +8,7 @@ function MainContent() {
             <center>
                 <main className="MainContent">
                     <LinkInput />
+                    <Navbar />
                 </main>
             </center>
         </div>
