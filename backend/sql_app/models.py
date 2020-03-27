@@ -16,8 +16,8 @@ class UsersData(Base):
 class Links(Base):
     __tablename__ = "Links"
 
-    Link_id = Column(Integer, autoincrement=True, primary_key=True)
-    Url_address = Column(VARCHAR(2048), index=True, nullable=False)
+    Link_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    Url_address = Column(VARCHAR(2048), nullable=False, index=True)
     Description = Column(Text, index=True)
     User_id = Column(Integer, ForeignKey("Users_data.User_id"))
 
@@ -25,10 +25,17 @@ class Links(Base):
     Link_Script = relationship("Scripts", back_populates="Script_Link")
 
 class Scripts(Base):
-    Script_id = Column(Integer, autoincrement=True, primary_key=True)
-    Instructions = Column(Text, nullable=False)
+    Script_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    Instructions = Column(Text, nullable=False, index=True)
     Link_id = Column(Integer, ForeignKey("Links.Link_id"))
 
     Script_Link = relationship("Links", back_populates="Link_Script")
+    Script_Notification = relationship("Notifications", back_populates="Notification_Script")
 
-class
+class Notifications(Base):
+    Notification_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    Address = Column(VARCHAR(255), index=True)
+    Communicator = Column(Enum('email', 'slack'), nullable=False)
+    Script_id = Column(Integer, ForeignKey("Scripts.Script_id"))
+
+    Notification_Script = relationship("Scripts", back_populates="Script_Notification")
