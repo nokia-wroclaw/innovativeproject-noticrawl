@@ -20,18 +20,18 @@ html, body {
 }
 
 .MainContent {
+  width: 50%;
+  height: auto;
+  min-height: 432px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50px;
+  /*
+  stare - w razie czego:
   height: 432px;
   width: 578px;
   background-image: url(media/loginpanelbg.png) ;
   background-repeat: no-repeat;
   background-position-x: center;
-
-  /*
-  padding-bottom: -10px;
-  padding-top: 5px;
-  position:relative;
-  padding:10px;
-  padding-bottom: 100%;
   */
 }
 
@@ -109,14 +109,6 @@ html, body {
   flex-direction: column;
   max-width: 24em;
   min-width: 21em;
-  /*
-  border-radius: 6px;
-  padding: 24px;
-  border-radius: 19px;
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  */
 }
 
 
@@ -169,7 +161,6 @@ html, body {
 
 .login-btn {
   padding: 2px 30px;
-  /* background-color: #417cef; */
   border: 0;
   font-size: 18px;
   border-radius: 3px;
@@ -227,16 +218,18 @@ html, body {
 
 
 #nav {
-
+  display: block;
 	width: 100%;
   float: center;
-  margin-top: 40%;
-  margin-left: 5%;
+  list-style: none;
+  margin-block-start: center; 
+  margin-left: 17%;
+  position: relative;
+  margin-top: 170px;
   /*
   margin: 0 0 3em 0;
   padding: 0;
   */
-  list-style: none; 
 }
 
 #nav li {
@@ -244,8 +237,9 @@ html, body {
 }
 
 #nav li a {
-    display: block;
+    
     /*
+    display: block;
     padding: 8px 15px;
     */
 		text-decoration: none;
