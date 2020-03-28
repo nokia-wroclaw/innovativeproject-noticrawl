@@ -1,16 +1,12 @@
 import React from "react"
-import LinkInput from './LinkInput'
-import Navbar from './Navbar'
+import LoginPanel from "./LoginPanel"
 
 function MainContent() {
     return (
         <div>
-            <center>
-                <main className="MainContent">
-                    <LinkInput />
-                    <Navbar />
-                </main>
-            </center>
+        <main className="MainContent">
+            <LoginPanel />
+        </main>
         </div>
     )
 }
