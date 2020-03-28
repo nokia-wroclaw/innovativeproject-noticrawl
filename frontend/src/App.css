@@ -20,13 +20,12 @@ html, body {
 }
 
 .MainContent {
-  width: 50%;
+  width: 40%;
   height: auto;
   min-height: 432px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50px;
   /*
-  stare - w razie czego:
   height: 432px;
   width: 578px;
   background-image: url(media/loginpanelbg.png) ;
@@ -218,17 +217,19 @@ html, body {
 
 
 #nav {
-  display: block;
-	width: 100%;
-  float: center;
-  list-style: none;
-  margin-block-start: center; 
-  margin-left: 17%;
-  position: relative;
+  display: table;
   margin-top: 170px;
-  /*
-  margin: 0 0 3em 0;
   padding: 0;
+  list-style: none;
+  /*
+  display: block;
+  padding: 0;
+  position: center;
+  float: center;
+  object-position: center;
+  display: block;
+  list-style: none;
+  margin-top: 170px;
   */
 }
 
@@ -237,25 +238,23 @@ html, body {
 }
 
 #nav li a {
-    
-    /*
-    display: block;
-    padding: 8px 15px;
-    */
-		text-decoration: none;
-		font-weight: bold;
-    border-right: 1px solid #ccc; 
-  }
+  /*
+  display: block;
+  padding: 8px 15px;
+  */
+  text-decoration: none;
+  font-weight: bold;
+  border-right: 1px solid #ccc; 
+}
 
 #nav li a {
-		display: block;
+    display: block;
 		padding: 8px 15px;
 		text-decoration: none;
 		font-weight: bold;
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc; 
   }
-
 
 /*
 #nav {
@@ -271,11 +270,11 @@ html, body {
   border-top: 1px solid #ccc; }
 
 #nav li a {
-      display: block;
-      padding: 8px 15px;
-      text-decoration: none;
-      font-weight: bold;
-      color: #069;
-      border-right: 1px solid #ccc; 
-    }
-    */
+  display: block;
+  padding: 8px 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #069;
+  border-right: 1px solid #ccc; 
+}
+*/

@@ -20,7 +20,7 @@ pointer-events: none;
 }
 
 .MainContent {
-width: 50%;
+width: 40%;
 height: auto;
 min-height: 432px;
 background-color: rgba(255, 255, 255, 0.9);
