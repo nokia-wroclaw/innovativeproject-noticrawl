@@ -1,10 +1,11 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+FROM python:3.7
+
+RUN pip install poetry
 
 WORKDIR /backend
 
-RUN pip install poetry
 COPY pyproject.toml poetry.lock ./
-RUN poetry config virtualenvs.create false && poetry install
+RUN poetry install
 
 COPY ./src ./src
 

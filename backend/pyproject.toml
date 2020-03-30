@@ -9,6 +9,8 @@ license = "MIT"
 python = "^3.7"
 fastapi = "^0.52.0"
 uvicorn = "^0.11.3"
+aiofiles = "^0.4.0"
+jinja2 = "^2.11.1"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.2.1"
