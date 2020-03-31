@@ -1,13 +1,11 @@
 import React from "react"
-import LinkInput from './LinkInput'
-import Navbar from './Navbar'
+import Navbar from './MyCrawlsNavbar.js'
 
-function MainContentLink() {
+function MyCrawlsMainContent() {
     return (
         <div>
             <center>
                 <main className="MainContent">
-                    <LinkInput />
                     <Navbar />
                 </main>
             </center>
@@ -15,4 +13,4 @@ function MainContentLink() {
     )
 }
 
-export default MainContentLink
+export default MyCrawlsMainContent
