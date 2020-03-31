@@ -16,7 +16,7 @@ jinja2 = "^2.11.1"
 taskipy = "^1.2.1"
 
 [tool.taskipy.tasks]
-dev-server = "uvicorn src.main:app --port 7777 --reload --log-level debug"
+dev-server = "uvicorn --port 8000 --reload --log-level debug src.main:app"
 
 [build-system]
 requires = ["poetry>=1.0"]
