@@ -88,16 +88,16 @@ class RegisterBox extends React.Component {
           password: Yup.string()
             .max(30, "Must be 30 characters or less")
             .required("Password required")
-            .min(8, "minimum length 8"),
+            .min(8, "Minimum length 8"),
             confirmPassword: Yup.string()
             .required("Password required")
             .oneOf([Yup.ref('password'), null], 'Passwords must match'),
           email: Yup.string()
-            .email("Invalid email addresss`")
+            .email("Invalid email address")
             .required("Email required"),
           acceptedTerms: Yup.boolean()
             .required("Required")
-            .oneOf([true], "You must accept the terms and conditions."),
+            .oneOf([true], "You must accept the terms and conditions"),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
