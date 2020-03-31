@@ -2,7 +2,7 @@ import React from "react"
 import LinkInput from './LinkInput'
 import Navbar from './Navbar'
 
-function MainContent() {
+function MainContentLink() {
     return (
         <div>
             <center>
@@ -15,4 +15,4 @@ function MainContent() {
     )
 }
 
-export default MainContent
+export default MainContentLink

@@ -1,7 +1,7 @@
 import React from "react"
 import LoginPanel from "./LoginPanel"
 
-function MainContent() {
+function MainContentLogin() {
     return (
         <div>
         <main className="MainContent">
@@ -11,4 +11,4 @@ function MainContent() {
     )
 }
 
-export default MainContent
+export default MainContentLogin

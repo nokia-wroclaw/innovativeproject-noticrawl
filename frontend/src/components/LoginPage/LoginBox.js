@@ -1,5 +1,5 @@
 import React from "react"
-import '../App.css'
+
 
 
 class LoginBox extends React.Component {
@@ -33,13 +33,23 @@ class LoginBox extends React.Component {
                 className="login-input"
                 placeholder="Password"/>
             </div>
-  
+        {/* <Router> 
+            <Link to="/home"> */}
             <button
               type="button"
               className="login-btn"
               onClick={this
               .submitLogin
               .bind(this)}>Login</button>
+           {/* </Link>
+              {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. 
+        <Switch>
+          <Route path="/home">
+            <About />
+          </Route>
+        </Switch>
+    </Router> */}
           </div>
         </div>
       );
