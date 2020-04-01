@@ -25,6 +25,7 @@ height: auto;
 min-height: 432px;
 background-color: rgba(255, 255, 255, 0.9);
 border-radius: 50px;
+align-items: center;
 /*
 stare - w razie czego:
 height: 432px;
@@ -250,45 +251,28 @@ padding-top: 30px;
 }
 
 
-#nav {
-display: block;
-width: 100%;
-float: center;
+.nav {
 list-style: none;
-margin-block-start: center; 
-margin-left: 17%;
-position: relative;
-margin-top: 170px;
-/*
-margin: 0 0 3em 0;
-padding: 0;
-*/
+position: absolute;
+width: 40%;
+min-height: 50px;
+bottom: 170px; /* zrobić dynamiczne dopasowanie navbara */
 }
 
-#nav li {
-float: left; 
-}
-
-#nav li a {
+.nav li {
+  display: block;
+  width: 138px;
+  float: left; 
+  }
   
-  /*
-  display: block;
-  padding: 8px 15px;
-  */
-  text-decoration: none;
-  font-weight: bold;
-  border-right: 1px solid #ccc; 
-}
-
-#nav li a {
-  display: block;
+.nav li a {
   padding: 8px 15px;
   text-decoration: none;
   font-weight: bold;
-  border-right: 1px solid #ccc;
-  border-left: 1px solid #ccc; 
-}
-
+  border-right: 1px solid rgb(90, 89, 89);
+  border-left: 1px solid rgb(90, 89, 89); 
+  }
+  
 
 /*
 #nav {
