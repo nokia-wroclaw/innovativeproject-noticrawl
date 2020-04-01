@@ -13,6 +13,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import Crawling from './components/ContentPages/CrawlingPage/Crawling';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={LoginMainContent} />  
               <Route path="/new-crawl" component={LinkMainContent} />
+              <Route path="/start-crawling" component={Crawling} />
               <Route path="/my-account" component={MyAccountMainContent} />
               <Route path="/my-crawls" component={MyCrawlsMainContent} />
             </Switch>

@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom";
 
 function LinkInput() {
     return (
@@ -9,7 +10,7 @@ function LinkInput() {
                 <form action="./path" method="GET">
                     <h1>Paste your link below</h1>
                     <input type="text" name="websiteLink"  pattern="https?://.+" required  />
-                    <input type="submit" value="Go to website" />
+                    <Link to="/start-crawling"><input type="submit" value="Go to website" /></Link>
                     <h5>Remember that your link should start with "http://".</h5>  
                 </form>
             </linkinput>
