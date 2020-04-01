@@ -13,13 +13,14 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import Crawling from './components/ContentPages/CrawlingPage/Crawling';
+import IndexCrawling from './components/ContentPages/CrawlingPage/IndexCrawling';
 
 
 function App() {
   return (
       <body>
         <center>
+          <div className='background'>
           <Header />
 
           {/* 
@@ -30,13 +31,14 @@ function App() {
             <Switch>
               <Route exact path="/" component={LoginMainContent} />  
               <Route path="/new-crawl" component={LinkMainContent} />
-              <Route path="/start-crawling" component={Crawling} />
+              <Route path="/start-crawling" component={IndexCrawling} />
               <Route path="/my-account" component={MyAccountMainContent} />
               <Route path="/my-crawls" component={MyCrawlsMainContent} />
             </Switch>
           </Router> 
 
           <Footer />
+          </div>
         </center>
       </body>
   );
