@@ -1,0 +1,36 @@
+
+
+.MenuCrawling {
+    background-image: url(./background.jpg);
+    height: 100%;
+    width: 100%;
+    margin-top:0;
+    padding: 1px 10px 10px;
+    
+    
+  }
+
+
+  .hovered,
+.hovered * {
+    cursor: pointer;
+    color: black;
+    background: rgba(37, 172, 131, 0.2);
+}
+  .submit{
+    padding: 5px 50px 5px;
+    margin-left: 100px;
+    margin-bottom: 9px;
+  }
+  div.elements{
+    background-image: url(./background.jpg);
+    width:50%;
+    float: left;
+    
+  }
+
+  div.Settings{
+    background-image: url(./background.jpg);
+    width:50%;
+    float: left;
+  }

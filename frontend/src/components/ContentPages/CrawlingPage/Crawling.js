@@ -1,72 +1,104 @@
 import React from 'react';
-
 import $ from 'jquery';
 
-function Menu() {
-    return (
-        <div className='empty'>
-         <p id="status">Wait for it... or enable JavaScript.</p>
 
-        <h1>Selected element: </h1>
-        <h4>aaaaaaaaaaaaaa</h4>
-        </div>
-    )
+var getElementTreeXPath = function(element) {
+  var paths = [];
+
+  // Use nodeName (instead of localName) so namespace prefix is included (if any).
+  for (; element && element.nodeType === 1; element = element.parentNode)  {
+      var index = 0;
+      // EXTRA TEST FOR ELEMENT.ID
+      if (element && element.id) {
+          paths.splice(0, 0, '/*[@id="' + element.id + '"]');
+          break;
+      }
+
+      for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling) {
+          // Ignore document type declaration.
+          if (sibling.nodeType === Node.DOCUMENT_TYPE_NODE)
+            continue;
+
+          if (sibling.nodeName === element.nodeName)
+              ++index;
+      }
+
+      var tagName = element.nodeName.toLowerCase();
+      var pathIndex = (index ? "[" + (index+1) + "]" : "");
+      paths.splice(0, 0, tagName + pathIndex);
+  }
+
+  return paths.length ? "/" + paths.join("/") : null;
+};
+
+var getElementXPath = function(element) {
+  if (element && element.id)
+      return '//*[@id="' + element.id + '"]';
+  else
+      return getElementTreeXPath(element);
+};
+var currentElement = null;
+var currentElement2 = null;
+  
+document.addEventListener('mouseover', function (e) {
+currentElement = e.target;
+
+});
+document.addEventListener('click', function (e) {
+  currentElement2 = e.target;
+});
+
+
+setInterval(function() {
+$('#status').text('The current element is: ' + (getElementXPath(currentElement)) + '.');
+}, 100);
+setInterval(function() {
+  $('#status2').text('The Selected element is: ' + (getElementXPath(currentElement2)) + '.');
+}, 100);
+
+var last,
+    bgc;
+
+document.onclick = function(e) {
+  var elem = e.target;
+
+  if (last != elem) {
+      if (last != null) {
+          last.classList.remove("hovered");
+      }
+
+      last = elem;
+      elem.classList.add("hovered");
+  }
 }
 
+function MenuCrawling() {
+  return (
+      <div className='MenuCrawling'>
+        <div className ='elements'>
+          <p id="status">Wait for it... or enable JavaScript.</p>
+          <p id="status2">Wait for it... or enable JavaScript.</p>
+          <button className='submit'>Submit</button>
+        </div>
+          <div className='Settings'>
+            Settings <br></br>
+            sddfasd<br></br>
+            sddfasdsda<br></br>
+            asdas<br></br>
+            sddfasd<br></br>asda
+          </div>
+      </div>
+  )
+}
 
 function Crawling() {
 
-    var getElementTreeXPath = function(element) {
-    var paths = [];
-  
-    // Use nodeName (instead of localName) so namespace prefix is included (if any).
-    for (; element && element.nodeType === 1; element = element.parentNode)  {
-        var index = 0;
-        // EXTRA TEST FOR ELEMENT.ID
-        if (element && element.id) {
-            paths.splice(0, 0, '/*[@id="' + element.id + '"]');
-            break;
-        }
-  
-        for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling) {
-            // Ignore document type declaration.
-            if (sibling.nodeType === Node.DOCUMENT_TYPE_NODE)
-              continue;
-  
-            if (sibling.nodeName === element.nodeName)
-                ++index;
-        }
-  
-        var tagName = element.nodeName.toLowerCase();
-        var pathIndex = (index ? "[" + (index+1) + "]" : "");
-        paths.splice(0, 0, tagName + pathIndex);
-    }
-  
-    return paths.length ? "/" + paths.join("/") : null;
-  };
-  
-  var getElementXPath = function(element) {
-    if (element && element.id)
-        return '//*[@id="' + element.id + '"]';
-    else
-        return getElementTreeXPath(element);
-  };
-  var currentElement = null;
     
-  document.addEventListener('mouseover', function (e) {
-  currentElement = e.target;
-});
-
-setInterval(function() {
-  $('#status').text('The current element is ' + (getElementXPath(currentElement)) + '.');
-}, 100);
-
     return (
         <div className='empty'>
-
-            {Menu()}
+            {MenuCrawling()}
             <div>
- 
+
             </div>
             <h1>element h1</h1>
         <h4>element dddh4</h4>
