@@ -74,26 +74,36 @@ document.onclick = function(e) {
 
 function MenuCrawling() {
   return (
-      <div className='MenuCrawling'>
-        <div className ='elements'>
-          <p id="status">Wait for it... or enable JavaScript.</p>
-          <p id="status2">Wait for it... or enable JavaScript.</p>
-          <button className='submit'>Submit</button>
+    
+      <div className='CrawlingBanner'>
+        
+        <div className='CrawlingBox'>
+          <div className ='elements'>
+            <p id="status">Wait for it... or enable JavaScript.</p>
+            <p id="status2">Wait for it... or enable JavaScript.</p>
+            <button className='submit'>Submit</button>
+          </div>
         </div>
-          <div className='Settings'>
+        
+        {/* umieścić to obok, aktualnie jest na dole
+
+        <div className='SettingsBox'>
+          <div className='elements'>
             Settings <br></br>
             sddfasd<br></br>
             sddfasdsda<br></br>
             asdas<br></br>
             sddfasd<br></br>asda
-          </div>
+          </div> 
+        </div>
+
+        */}
+
       </div>
   )
 }
 
 function Crawling() {
-
-    
     return (
         <div className='empty'>
             {MenuCrawling()}

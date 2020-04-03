@@ -7,13 +7,15 @@ import LoginMainContent from "./components/LoginPage/LoginMainContent"
 import LinkMainContent from './components/ContentPages/LinkPage/LinkMainContent';
 import MyAccountMainContent from './components/ContentPages/MyAccountPage/MyAccountMainContent';
 import MyCrawlsMainContent from './components/ContentPages/MyCrawlsPage/MyCrawlsMainContent';
+import IndexCrawling from './components/ContentPages/CrawlingPage/IndexCrawling';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-import IndexCrawling from './components/ContentPages/CrawlingPage/IndexCrawling';
+
+
 
 
 function App() {
