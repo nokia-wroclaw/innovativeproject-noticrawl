@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-
+import TopBanner from './TopBanner'
 
 var getElementTreeXPath = function(element) {
   var paths = [];
@@ -72,6 +72,10 @@ document.onclick = function(e) {
   }
 }
 
+/*
+
+PRZENIESIONE DO OSOBNEGO PLIKU 
+
 function MenuCrawling() {
   return (
     
@@ -97,19 +101,19 @@ function MenuCrawling() {
           </div> 
         </div>
 
-        */}
+        }
 
       </div>
   )
 }
+*/
 
 function Crawling() {
     return (
+      <div>
+      {<TopBanner />}
+ 
         <div className='empty'>
-            {MenuCrawling()}
-            <div>
-
-            </div>
             <h1>element h1</h1>
         <h4>element dddh4</h4>
         <h1>Welcome</h1>
@@ -135,6 +139,8 @@ function Crawling() {
                nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
                adipisci perspiciatis voluptatibus et vero nisi!</p>
         </div>
+
+    </div>
     )
 }
 

@@ -1,22 +1,91 @@
 
 .CrawlingBanner {
     background-image: url(./background.jpg);
-    height: 140px;
+    height: 70px;
     margin-top: 0;
     padding: 1px 30px 10px; 
     background-position: top center;
     width: 100%;
-    position: sticky;
+    display: block;
+    align: center;
   }
 
-  .CrawlingBox {
+  .Logo {
     margin-top: 10px;
-    width: 650px;
-    height: 130px;
+    width: fit-content;
+    height: 48px;
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 12px;
+    margin-right: 10px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
+    float: left;
+  }
+
+  .StatusBox {
+    margin-top: 10px;
+    width: fit-content;
+    height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    float: left;
+  }
+
+  .SubmitButton {
+    margin-top: 10px;
+    width: fit-content;
+    height: 44px;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    float: left;
+  }
+
+/* do uzupełnienia */
+  .Setting1 {
+    margin-top: 10px;
+    width: fit-content;
+    height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    float: left;
+  }
+
+  /* do uzupełnienia */
+  .Setting2 {
+    margin-top: 10px;
+    width: fit-content;
+    height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    float: left;
+  }
+
+  /* do usunięcia w przyszłości */
+  .xPaths {
+    margin-top: 10px;
+    width: 500px;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 60px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    float: right;
   }
 
   .hovered,
