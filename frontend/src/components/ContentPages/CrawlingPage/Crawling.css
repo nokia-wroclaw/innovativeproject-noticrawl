@@ -1,19 +1,23 @@
 
 .CrawlingBanner {
     background-image: url(./background.jpg);
+    background-size: auto;
     height: 70px;
-    margin-top: 0;
-    padding: 1px 30px 10px; 
+    margin-top: 0px;
+    padding-bottom: 10px; 
     background-position: top center;
     width: 100%;
     display: block;
-    align: center;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
   }
 
   .Logo {
     margin-top: 10px;
     width: fit-content;
     height: 48px;
+    margin-left: 20px;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 12px;
@@ -81,8 +85,8 @@
     height: 50px;
     padding-top: 10px;
     padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 60px;
+    padding-right: 10px;
+    margin-right: 40px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
     float: right;
@@ -116,4 +120,6 @@ div.elements{
     position: top;
   }
 
-
+.Content {
+  padding-top: 70px;
+}
