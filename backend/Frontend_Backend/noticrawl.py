@@ -9,7 +9,7 @@ templates = Jinja2Templates(directory="build2")
 
 #Link
 @app.get("/app/v1/link")
-def read_item(request: Request):
+def link_view(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
@@ -18,7 +18,7 @@ templates2 = Jinja2Templates(directory="build")
 
 #Login
 @app.get("/app/v1/login")
-def read_item(request: Request):
+def login_view(request: Request):
     return templates2.TemplateResponse("index.html", {"request": request})
 
 
