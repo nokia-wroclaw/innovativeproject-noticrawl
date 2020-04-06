@@ -10,3 +10,4 @@ services:
       - '8000:8000'
     volumes: 
       - './backend/src:/app/src'
+      - './frontend/build:/frontend/build'

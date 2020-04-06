@@ -11,8 +11,8 @@ class Item(BaseModel):
     name: str = None
     description: str = None
 
-app.mount("/static", StaticFiles(directory="../../build/static"), name="static")
-templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="/frontend/build/static"), name="static")
+templates = Jinja2Templates(directory="/frontend/build")
 
 @app.get("/api/v1")
 def show_statics(request: Request):
