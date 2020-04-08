@@ -1,125 +1,120 @@
 
 .CrawlingBanner {
-    background-image: url(./background.jpg);
-    background-size: auto;
-    height: 70px;
-    margin-top: 0px;
-    padding-bottom: 10px; 
-    background-position: top center;
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-  }
-
-  .Logo {
-    margin-top: 10px;
-    width: fit-content;
-    height: 48px;
-    margin-left: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 12px;
-    margin-right: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: left;
-  }
-
-  .StatusBox {
-    margin-top: 10px;
-    width: fit-content;
-    height: 60px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: left;
-  }
-
-  .SubmitButton {
-    margin-top: 10px;
-    width: fit-content;
-    height: 44px;
-    padding-top: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: left;
-  }
-
-/* do uzupełnienia */
-  .Setting1 {
-    margin-top: 10px;
-    width: fit-content;
-    height: 60px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: left;
-  }
-
-  /* do uzupełnienia */
-  .Setting2 {
-    margin-top: 10px;
-    width: fit-content;
-    height: 60px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: left;
-  }
-
-  /* do usunięcia w przyszłości */
-  .xPaths {
-    margin-top: 10px;
-    width: 500px;
-    height: 50px;
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 10px;
-    margin-right: 40px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: right;
-  }
-
-  .hovered,
-.hovered * {
-    cursor: pointer;
-    color: black;
-    background: rgba(37, 172, 131, 0.2);
+  background-image: url(./background.jpg);
+  background-size: auto;
+  height: 70px;
+  margin-top: 0px;
+  padding-bottom: 10px; 
+  background-position: top center;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
 }
 
-div.elements{
-  width:100%;
+.Logo {
+  margin-top: 10px;
+  width: fit-content;
+  height: 48px;
+  margin-left: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 12px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
   float: left;
 }
 
+.StatusBox {
+  margin-top: 10px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.SubmitButton {
+  margin-top: 10px;
+  width: fit-content;
+  height: 44px;
+  padding-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+/* do uzupełnienia */
+.Setting1 {
+  margin-top: 10px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+/* do uzupełnienia */
+.Setting2 {
+  margin-top: 10px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+/* do usunięcia w przyszłości */
+.xPaths {
+  margin-top: 10px;
+  width: 500px;
+  height: 50px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 10px;
+  margin-right: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: right;
+}
+
+
+div.elements{
+width:100%;
+float: left;
+}
+
 .submit{
-    padding: 5px 50px 5px;
-    float: right;
-  }
- 
+  padding: 5px 50px 5px;
+  float: right;
+}
+
 .SettingsBox {
-    width: 100px;
-    height: 130px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    float: top;
-    position: top;
-  }
+  width: 100px;
+  height: 130px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: top;
+  position: top;
+}
 
 .Content {
-  padding-top: 70px;
+padding-top: 80px;
 }
+
