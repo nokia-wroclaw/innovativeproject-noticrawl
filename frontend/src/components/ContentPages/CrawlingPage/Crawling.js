@@ -47,9 +47,18 @@ currentElement = e.target;});
 
 
  window.onload=function(){
-  var a = document.getElementById('11')
+  var a = document.getElementById('HerwWillBeContent')
   var b = document.getElementById('outer')
 
+  if (b) {
+    b.addEventListener('click', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      target = e.target;
+    }
+    );
+  }
+  
   if (a){
   a.addEventListener('click', function (e) {
     mouseX = e.clientX;
@@ -58,30 +67,31 @@ currentElement = e.target;});
   }
   );
 }
-  if (b) {
-    b.addEventListener('click', function (e) {
-      window.location.reload();
-    }
-    );
-  }
+
 } 
 
 
 
 var mouseX, mouseY, target, lastTarget;
 
-// in case you need to support older browsers use a requestAnimationFrame polyfill
-// e.g: https://gist.github.com/paulirish/1579671
+var box = $("<div id='outer' class='outer'  />").css({
+  display: "none", position: "absolute", 
+  zIndex: 65000, background:"rgba(37, 172, 131, 0.2)"
+}).appendTo("body");
+
+
 window.requestAnimationFrame(function frame() {
   window.requestAnimationFrame(frame);
-    if (target && target.className === "outer") {
+    if (target && target.className === "outer") 
+    {
         box.hide();
-        target = document.getElementById('test');
+        target = document.getElementById('empty');
+
+
     }
     box.show();   
 
     if (target === lastTarget) return;
-
     lastTarget = target;
     var $target = $(target);
     var offset = $target.offset();
@@ -105,18 +115,8 @@ window.requestAnimationFrame(function frame() {
 
 setInterval(function() {
 $('#status').text('The current element is: ' + (getElementXPath(currentElement)) + '.');
-}, 100);
+}, 1);
 
-
-var box = $("<div id='outer' className='outer' />").css({
-  display: "none", position: "absolute", 
-  zIndex: 65000, background:"rgba(37, 172, 131, 0.2)"
-}).appendTo("body");
-
-var mouseX, mouseY, target, lastTarget;
-
-// in case you need to support older browsers use a requestAnimationFrame polyfill
-// e.g: https://gist.github.com/paulirish/1579671
 
 
 class Crawling extends React.Component {
@@ -130,26 +130,24 @@ class Crawling extends React.Component {
 
 changeTitle = (e) => {
   this.setState({ title: getElementXPath(currentElement) });
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  target = e.target;
+
 };
 
 
       render() {
           return (
-            <div>
+            <div >
             {<TopBanner />}
+            <div id='empty'></div>
               <div className='Content'></div>
-              <div id='11'  onClick={this.changeTitle}>{this.state.title}>
+              <div id='HerwWillBeContent'  onClick={this.changeTitle}>{this.state.title}>
             
-                  <h1>element h1</h1>
+                  <h1 id='aaaaasdasdasdasd'>element h1</h1>
               <h4>element dddh4</h4>
               <h1>Welcome</h1>
       <button class="n">Click me</button>
 
       <button onClick={() => alert('Kliknięto!')}>Kliknij!</button>   
-      <div id='test'>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
 
          <div>Witaj, </div>
          <div>Elo, {getElementXPath(currentElement2)}</div>
