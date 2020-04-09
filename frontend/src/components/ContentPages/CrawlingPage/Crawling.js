@@ -38,41 +38,17 @@ var getElementXPath = function(element) {
       return getElementTreeXPath(element);
 };
 
-
-var currentElement = null;
-var currentElement2 = null;
-
 document.addEventListener('mouseover', function (e) {
-currentElement = e.target;});
+  currentElement = e.target;});
 
-
- window.onload=function(){
-  var a = document.getElementById('HerwWillBeContent')
-  var b = document.getElementById('outer')
-
-  if (b) {
-    b.addEventListener('click', function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      target = e.target;
-    }
-    );
-  }
-  
-  if (a){
-  a.addEventListener('click', function (e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    target = e.target;
-  }
-  );
-}
-
-} 
+  var currentElement = null;
+  var currentElement2 = null;
 
 
 
-var mouseX, mouseY, target, lastTarget;
+
+
+var target, lastTarget;
 
 var box = $("<div id='outer' class='outer'  />").css({
   display: "none", position: "absolute", 
@@ -125,12 +101,65 @@ class Crawling extends React.Component {
     this.state = {
       title: "Click here"
     };
+    this.changeTitle = this.changeTitle.bind(this);
+    this.handleLoad = this.handleLoad.bind(this);
 }
 
+componentDidMount() {
+  window.addEventListener('load', this.handleLoad);
+}
+
+componentWillUnmount() { 
+ window.removeEventListener('load', this.handleLoad)  
+}
+
+handleLoad() {
+  var a = document.getElementById('HereWillBeContent')
+  var b = document.getElementById('outer')
+  if (b) {
+    b.addEventListener('click', function (e) {
+
+      target = e.target;
+    }
+    );
+  }
+  if (a){
+  a.addEventListener('click', function (e) {
+    target = e.target;
+    
+    
+  }
+  );
+}}
 
 changeTitle = (e) => {
   this.setState({ title: getElementXPath(currentElement) });
+  
 
+
+
+      var a = document.getElementById('HereWillBeContent')
+      var b = document.getElementById('outer')
+     
+
+      if (b) {
+        b.addEventListener('click', function (e) {
+
+          target = e.target;
+        }
+        );
+      }
+      
+      if (a){
+      a.addEventListener('click', function (e) {
+        target = e.target;
+        
+        
+      }
+      );
+    }
+    
+    
 };
 
 
@@ -140,7 +169,7 @@ changeTitle = (e) => {
             {<TopBanner />}
             <div id='empty'></div>
               <div className='Content'></div>
-              <div id='HerwWillBeContent'  onClick={this.changeTitle}>{this.state.title}>
+              <div id='HereWillBeContent' onClick={this.changeTitle}>{this.state.title}>
             
                   <h1 id='aaaaasdasdasdasd'>element h1</h1>
               <h4>element dddh4</h4>
