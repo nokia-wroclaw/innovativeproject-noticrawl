@@ -1,66 +1,44 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
-from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import requests
 
-#FastAPI instance
+
+class PageToParse(BaseModel):
+    parsed_page = str
+
+class Selector(BaseModel):
+    name: str = "xpath_selector"
+    xpath: str
+
+def parsing(url):
+    r = requests.get(url)
+    parse_page = r.text.replace("<!DOCTYPE html>", "")
+    return parse_page
+
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str = None
-    description: str = None
+app.mount("/static", StaticFiles(directory="../../frontend/build/static"), name="static")
+templates = Jinja2Templates(directory="../../frontend/build")
 
-#GET - read data
 @app.get("/")
 def hello_world():
     return {"message": "Hello World"}
 
-#terminal:
-#uvicorn main:app --reload
-#main:app - object created inside of main
-#--reload make the server restart after code changes (only for development!)
 
-@app.get("/app/v1/{item_name}")
-def read_item(item_name: str, query: str = None):
-    return{"item_name": item_name, "myquery": query}
-
-#http://127.0.0.1:8000/get1/v1?query=somequery
-#item_name = v1 - path parameter
-#query = mytext - optional str query parameter myquery
+@app.get("/api/v1")
+def show_statics(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get("/app/v2/{your_name}")
-def read_name(your_name: str):
-    return{"Hello": your_name}
+@app.post("/ap1/v1/start-crawling/xpath")
+async def post_xpath(selector: Selector):
+    return None
 
 
-def generate_html():
-    html_content = """
-        <html>
-            <body>
-                <h1>Hello Bartuś!</h1>
-            </body>
-        </html>
-        """
-    return HTMLResponse(content=html_content, status_code=200)
-
-#GET with HTML
-@app.get("/app/v3/html", response_class=HTMLResponse)
-async def show_html():
-    return generate_html()
-
-#http://127.0.0.1:8000/docs
-#http://127.0.0.1:8000/redoc
-
-#PUT METHOD - update data
-@app.put("/app/v4/{item_id}")
-def update_item(item_id: int, item: Item):
-    return{"item_name": item.name, "item_id": item_id}
-
-#POST METHOD
-@app.post("/app/v5/post")
-async def create_item(item: Item):
-    item_dict = item.dict()
-    if True:
-        message = item.description + item.name
-        item_dict.update({"New Hello World": message})
-    return item_dict
+@app.get("/api/v1/newcrawl")
+async def get_url(link: str):
+    PageToParse.parsed_page = parsing(link)
+    parsed_page = {"parsed_page": PageToParse.parsed_page}
+    return parsed_page
