@@ -16,18 +16,17 @@ class LinkInput extends React.Component{
  
 //wersja 1
 async onSubmit(){
-  await fetch("/{cokolwiek}")
-                    .then((response) => {
-                      alert(response);
-                      return response.json();
-                    })
-                    .then((data) => {
-                      console.log(data);
-                    });
+  await fetch("/new-crawl")
+    .then(
+      response => {
+      response.json();
+      alert(response);
+    })
+    .then(data => console.log(data.link));
 } 
                   
 //wersja 2
-async getData(url = '/{cokolwiek}', data = "link") {
+async getData(url = '/new-crawl', data = "link") {
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -53,7 +52,7 @@ async getData(url = '/{cokolwiek}', data = "link") {
                 <form>
                     <h1>Paste your link below</h1>
                     <input type="text" name="link"  pattern="https?://.+" required  />
-                        <input type="submit" value="Go to website" onChange={this.getData} onSubmit={this.getData} onClick={this.getData} onClickCapture={this.getData} onBlur={this.getData} onInput={this.getData} required>
+                        <input type="submit" value="Go to website" onChange={this.onSubmit} onSubmit={this.onSubmit} onClick={this.onSubmit} onClickCapture={this.onSubmit} onBlur={this.onSubmit} onInput={this.onSubmit} required>
                           
                         </input>
                     <h5>Remember that your link should start with "http://".</h5>  
