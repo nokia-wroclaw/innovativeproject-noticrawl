@@ -8,11 +8,12 @@
     "@testing-library/user-event": "^7.2.1",
     "create-react-app": "^3.4.1",
     "formik": "^2.1.4",
+    "isomorphic-unfetch": "^3.0.0",
     "jquery": "^3.4.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
+    "react-scripts": "^3.4.0",
     "yup": "^0.28.3"
   },
   "scripts": {
@@ -35,5 +36,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "html-loader": "^1.1.0"
   }
 }

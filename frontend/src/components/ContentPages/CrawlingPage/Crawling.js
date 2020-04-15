@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import TopBanner from './TopBanner'
+import ExternalHtml from './ExternalHtml'
 
 var getElementTreeXPath = function(element) {
   var paths = [];
@@ -147,6 +148,11 @@ changeTitle = (e) => {
       <button onClick={() => alert('Kliknięto!')}>Kliknij!</button>   
 
 
+{/*  do wyświetlania obcego html (nie działa jeszcze) 
+
+      <ExternalHtml />
+
+{/* /////////////////////////////////////////////////// */}
 
 
          <div>Witaj, </div>
