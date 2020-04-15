@@ -1,4 +1,14 @@
 
+.outer
+{
+  display: "none";
+  position: absolute;
+  z-Index: 65000;
+  background: rgba(37, 172, 131, 0.2)
+}
+
+
+
 .CrawlingBanner {
   background-image: url(./background.jpg);
   background-size: auto;

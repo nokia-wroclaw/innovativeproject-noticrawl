@@ -38,61 +38,37 @@ var getElementXPath = function(element) {
       return getElementTreeXPath(element);
 };
 
+
+
+
+
+
+// TO MOŻNA POTEM USUNĄĆ \/
+var currentElement = null;
 document.addEventListener('mouseover', function (e) {
   currentElement = e.target;});
-
-  var currentElement = null;
-  var currentElement2 = null;
-
-
-
-
-
-var target, lastTarget;
-
-var box = $("<div id='outer' class='outer'  />").css({
-  display: "none", position: "absolute", 
-  zIndex: 65000, background:"rgba(37, 172, 131, 0.2)"
-}).appendTo("body");
-
-
-window.requestAnimationFrame(function frame() {
-  window.requestAnimationFrame(frame);
-    if (target && target.className === "outer") 
-    {
-        box.hide();
-        target = document.getElementById('empty');
-
-
-    }
-    box.show();   
-
-    if (target === lastTarget) return;
-    lastTarget = target;
-    var $target = $(target);
-    var offset = $target.offset();
-    box.css({
-        width:  $target.outerWidth()  - 1, 
-        height: $target.outerHeight() - 1, 
-        left:   offset.left, 
-        top:    offset.top 
-    });
-});
-
-
-
-/*document.addEventListener('click', function (e) { może się przyda potem
-  currentElement2 = e.target;
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  target = e.target;
-}); */
-
 
 setInterval(function() {
 $('#status').text('The current element is: ' + (getElementXPath(currentElement)) + '.');
 }, 1);
+// TO MOŻNA POTEM USUNĄĆ /\
 
+
+
+
+
+
+
+
+
+function HelpElements() {
+  return (
+    <div>
+            <div id='empty'></div>
+            <div id='outer' class='outer'></div>
+    </div>
+  );
+}
 
 
 class Crawling extends React.Component {
@@ -106,71 +82,63 @@ class Crawling extends React.Component {
 }
 
 componentDidMount() {
-  window.addEventListener('load', this.handleLoad);
+  window.addEventListener('click', this.handleLoad);
 }
 
 componentWillUnmount() { 
- window.removeEventListener('load', this.handleLoad)  
+ window.removeEventListener('click', this.handleLoad)  
 }
 
-handleLoad() {
-  var a = document.getElementById('HereWillBeContent')
-  var b = document.getElementById('outer')
-  if (b) {
-    b.addEventListener('click', function (e) {
-
-      target = e.target;
-    }
-    );
+handleLoad(e) {
+  var target
+  target = e.target;
+  if (target && target.className === "outer" ) 
+  {   
+      var overlay = $(document.getElementById('outer'))
+      overlay.hide();
+      target = document.getElementById('empty');
   }
-  if (a){
-  a.addEventListener('click', function (e) {
-    target = e.target;
-    
-    
-  }
-  );
-}}
+}
 
 changeTitle = (e) => {
-  this.setState({ title: getElementXPath(currentElement) });
+  var target, lastTarget;
+  var overlay = $(document.getElementById('outer'))
+  target = e.target;
+  this.setState({ title: getElementXPath(target) });
+
   
+  overlay.show();
 
+  if (target === lastTarget) return;
+  lastTarget = target;
+  var $target = $(target);
+  var offset = $target.offset();
+  overlay.css({
+      width:  $target.outerWidth()  - 1, 
+      height: $target.outerHeight() - 1, 
+      left:   offset.left, 
+      top:    offset.top 
+  });
 
-
-      var a = document.getElementById('HereWillBeContent')
-      var b = document.getElementById('outer')
-     
-
-      if (b) {
-        b.addEventListener('click', function (e) {
-
-          target = e.target;
-        }
-        );
-      }
-      
-      if (a){
-      a.addEventListener('click', function (e) {
-        target = e.target;
-        
-        
-      }
-      );
-    }
-    
-    
 };
 
 
       render() {
           return (
-            <div >
-            {<TopBanner />}
-            <div id='empty'></div>
+            <div>
+
+            <div><TopBanner /></div>
+            <div><HelpElements /></div>
+
               <div className='Content'></div>
               <div id='HereWillBeContent' onClick={this.changeTitle}>{this.state.title}>
-            
+
+
+<br></br>
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
                   <h1 id='aaaaasdasdasdasd'>element h1</h1>
               <h4>element dddh4</h4>
               <h1>Welcome</h1>
@@ -178,18 +146,19 @@ changeTitle = (e) => {
 
       <button onClick={() => alert('Kliknięto!')}>Kliknij!</button>   
 
-         <div>Witaj, </div>
-         <div>Elo, {getElementXPath(currentElement2)}</div>
-         
 
+
+
+         <div>Witaj, </div>
+         
 
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                Explicabo voluptates doloremque quisquam omnis rem fuga 
                veritatis odit! Perferendis cupiditate corporis consequuntur
-                amet ducimus quam       <button class="n">Click me</button>
+                amet ducimus quam       <button class="n">Click me1</button>
 at magni facilis debitis ut quisquam molestias
-                 maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me</button>
-</div>  <button class="n">Click me</button>
+                 maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me2</button>
+</div>  <button class="n">Click me3</button>
  minima in totam. Velit inventore
                   deserunt facilis temporibus id provident illo optio ipsa aut consequuntur 
                   sed repellat dolorem obcaecati iusto ab. Placeat 
