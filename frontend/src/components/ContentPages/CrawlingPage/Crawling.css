@@ -13,6 +13,7 @@
   background-image: url(./background.jpg);
   background-size: auto;
   height: 70px;
+  z-Index: 65001;
   margin-top: 0px;
   padding-bottom: 10px; 
   background-position: top center;
