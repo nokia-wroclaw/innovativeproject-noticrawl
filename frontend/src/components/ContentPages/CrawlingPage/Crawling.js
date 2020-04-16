@@ -148,11 +148,13 @@ changeTitle = (e) => {
       <button onClick={() => alert('Kliknięto!')}>Kliknij!</button>   
 
 
-{/*  do wyświetlania obcego html (nie działa jeszcze) 
+{/* 
 
-      <ExternalHtml />
+do wyświetlania obcego html (nie działa jeszcze) 
 
-{/* /////////////////////////////////////////////////// */}
+<ExternalHtml />
+
+*/}
 
 
          <div>Witaj, </div>

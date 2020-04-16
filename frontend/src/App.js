@@ -32,7 +32,7 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/" component={LoginMainContent} />  
-              <Route path="/new-crawl" component={LinkMainContent} />
+              <Route path="/new-crawl*" component={LinkMainContent} />
               <Route path="/start-crawling" component={IndexCrawling} />
               <Route path="/my-account" component={MyAccountMainContent} />
               <Route path="/my-crawls" component={MyCrawlsMainContent} />

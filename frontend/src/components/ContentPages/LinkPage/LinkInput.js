@@ -1,6 +1,110 @@
 import React from "react"
 import { Link } from "react-router-dom";
 
+//import { Formik, Form, Field, ErrorMessage } from "formik";
+//import * as Yup from "yup"
+
+//import fetch from 'isomorphic-unfetch'
+
+//const API = 'http://127.0.0.1:8000/new-crawl';
+//const DEFAULT_QUERY = 'redux';
+
+//const data = ""
+//const ws = new WebSocket("ws://localhost:8000/ws");
+
+export let parsedPage;
+
+class LinkInput extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      values: {
+        link: ""
+      },
+      isSubmitting: false,
+      isError: false
+    };
+  }
+
+  submitForm = async e => {
+    e.preventDefault();
+    console.log(this.state);
+    this.setState({ isSubmitting: true });
+
+    const res = await fetch("/new-crawl", {
+      method: "POST",
+      body: JSON.stringify(this.state.values),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    alert(JSON.stringify(this.state.values))
+    this.setState({ isSubmitting: false });
+    const data = await res.json();
+    !data.hasOwnProperty("error")
+      ? this.setState({ message: data.success })
+      : this.setState({ message: data.error, isError: true });
+    alert(data.parsedPage) //spróbować ewentualnie stringify
+    setTimeout(
+      () =>
+        this.setState({
+          isError: false,
+          message: "",
+          values: {link: "" }
+        }),
+      1600
+    );
+  };
+
+  handleInputChange = e =>
+    this.setState({
+      values: { ...this.state.values, [e.target.name]: e.target.value }
+    });
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.submitForm}>
+          <div className="input-group">
+            <label htmlFor="link"><h1>Paste your link below</h1></label>
+            <input
+              type="link"
+              name="link"
+              id="link"
+              value={this.state.values.link}
+              onChange={this.handleInputChange}
+              title="link"
+              required
+            />
+          </div>
+          <button type="submit">Go to website</button>
+        </form>
+        <div className={`message ${this.state.isError && "error"}`}>
+          {this.state.isSubmitting ? "Submitting..." : this.state.message}
+        </div>
+        <Link to="/start-crawling"><button>working "go to website" button</button></Link>
+      </div>
+    );
+  }
+}
+export default LinkInput
+
+
+
+
+
+
+
+
+/*
+
+///////////////////////////////////////////////////////////
+wersja 1.1:
+/////////////////////////////////////////////////////////
+
+import React from "react"
+import { Link } from "react-router-dom";
+
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup"
 
@@ -48,7 +152,7 @@ async getData(url = '/new-crawl', data = "link") {
         <div> 
             <linkinput className="LinkInput">
                 {/* eventually: formAction, formMethod inside of input element
-                action should call endpoint on backend */}
+                action should call endpoint on backend 
                 <form>
                     <h1>Paste your link below</h1>
                     <input type="text" name="link"  pattern="https?://.+" required  />
@@ -71,19 +175,9 @@ async getData(url = '/new-crawl', data = "link") {
 export default LinkInput
 
 
-
-
-
-
-
-
-/*
-formAction='http://127.0.0.1:8000/new-crawl?link=https%3A%2F%2Fwww.wp.pl%2F' formMethod='GET'
-
-
-
-
+////////////////////////////////////////////////////////////////////
 stara wersja: 
+///////////////////////////////////////////////////////////////////
 
 constructor(props) {
     super(props);
@@ -166,8 +260,9 @@ constructor(props) {
   }
 
 
-
+////////////////////////////////////////////////////////////////////////
 wersja 2:
+///////////////////////////////////////////////////////////////////////
 
 constructor(props) {
     super(props);

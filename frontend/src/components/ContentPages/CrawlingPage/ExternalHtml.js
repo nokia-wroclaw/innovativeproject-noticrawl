@@ -14,6 +14,10 @@ class ExternalHtml extends Component {
   }
   
   render() {
+
+    //test:
+    alert(parsedPage)
+    
     //const { hits } = this.state;
     return (
       parsedPage
