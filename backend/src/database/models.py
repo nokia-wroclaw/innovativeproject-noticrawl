@@ -12,36 +12,36 @@ class Users(Base):
     email = Column(VARCHAR(255), CheckConstraint('email SIMILAR TO \'%@%.%\''), unique=True, index=True, nullable=False)
     password = Column(VARCHAR(128), nullable=False) 
 
-#     user_link = relationship("Links", back_populates="Link_User")
+    user_link = relationship("Links", back_populates="Link_User")
 
-# class Links(Base):
-#     __tablename__ = "Links"
+class Links(Base):
+    __tablename__ = "Links"
 
-#     link_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-#     url = Column(VARCHAR(2048), nullable=False, index=True)
-#     description = Column(Text, index=True)
-#     user_id = Column(Integer, ForeignKey("Users.user_id"))
+    link_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    url = Column(VARCHAR(2048), nullable=False, index=True)
+    description = Column(Text, index=True)
+    user_id = Column(Integer, ForeignKey("Users.user_id"))
 
-#     Link_User = relationship("Users", back_populates="User_Link")
-#     Link_Script = relationship("Scripts", back_populates="Script_Link")
+    link_user = relationship("Users", back_populates="User_Link")
+    link_script = relationship("Scripts", back_populates="Script_Link")
 
-# class Scripts(Base):
-#     __tablename__ = "Scripts"
-#     script_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-#     instructions = Column(Text, nullable=False, index=True)
-#     link_id = Column(Integer, ForeignKey("Links.link_id"))
+class Scripts(Base):
+    __tablename__ = "Scripts"
+    script_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    instructions = Column(Text, nullable=False, index=True)
+    link_id = Column(Integer, ForeignKey("Links.link_id"))
 
-#     Script_Link = relationship("Links", back_populates="Link_Script")
-#     Script_Notification = relationship("Notifications", back_populates="Notification_Script")
+    script_link = relationship("Links", back_populates="Link_Script")
+    script_notification = relationship("Notifications", back_populates="Notification_Script")
 
-# class Notifications(Base):
-#     __tablename__ = "Notifications"
-#     notification_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-#     address = Column(VARCHAR(255), index=True)
-#     communicator = Column(Enum('email', 'slack', name='Communicators'), nullable=False)
-#     script_id = Column(Integer, ForeignKey("Scripts.script_id"))
+class Notifications(Base):
+    __tablename__ = "Notifications"
+    notification_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    address = Column(VARCHAR(255), index=True)
+    communicator = Column(Enum('email', 'slack', name='Communicators'), nullable=False)
+    script_id = Column(Integer, ForeignKey("Scripts.script_id"))
 
-#     Notification_Script = relationship("Scripts", back_populates="Script_Notification")
+    notification_script = relationship("Scripts", back_populates="Script_Notification")
 
 def create_models():
     MAX_RETRIES_NUM = 15
