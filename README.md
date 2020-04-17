@@ -1,6 +1,6 @@
 ## Running a backend app locally
 #### Using docker-compose (recommended)
-`docker-compose up`
+`sudo docker-compose up`
 #### Directly on your computer (if for whatever reason Docker is not working properly)
 `poetry run task dev-server` from /backend directory
 
