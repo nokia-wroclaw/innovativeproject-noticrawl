@@ -67,9 +67,16 @@ function HelpElements() {
     <div>
             <div id='empty'></div>
             <div id='outer' class='outer'></div>
+            <div id="selector">
+            <div id="selector-top"></div>
+            <div id="selector-left"></div>
+            <div id="selector-right"></div>
+            <div id="selector-bottom"></div>
+    </div>
     </div>
   );
 }
+
 
 class Crawling extends React.Component {
   constructor(props) {
@@ -77,48 +84,83 @@ class Crawling extends React.Component {
     this.state = {
       title: "Click here"
     };
-    this.changeTitle = this.changeTitle.bind(this);
+    this.select = this.select.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
-}
+    this.border = this.border.bind(this);
+    this.borderDel = this.borderDel.bind(this);
 
+
+}
 componentDidMount() {
   window.addEventListener('click', this.handleLoad);
+  window.addEventListener('mousemove', this.border);
+  window.addEventListener('mousewheel', this.borderDel);
 }
 
 componentWillUnmount() { 
- window.removeEventListener('click', this.handleLoad)  
+ window.removeEventListener('click', this.handleLoad)
+ window.removeEventListener('mousemove', this.border);
+ window.removeEventListener('mousewheel', this.borderDel);
 }
+borderDel(){
+  document.getElementById("selector").style.display = 'none';
+}
+border(e){
+  
+  /* zakomentuj wnętrze tej funkci jak chcesz chwilowo to wyłączyć, gdyby cie wkurzało podczas implementowania tej zewnętrznej strony  xd 
+  potem spróbuje zrobić w setting przycisk do tego wyłączania */
+  var target = e.target;
+
+  if (target.id === "selector-top" || 
+      target.id === "selector-bottom" || 
+      target.id === "selector-left" || 
+      target.id === "selector-right") return;
+
+  document.getElementById("selector").style.display = 'block';
+
+  var targetOffset = target.getBoundingClientRect(),
+      targetHeight = targetOffset.height,
+      targetWidth  = targetOffset.width;
+
+  var top = document.getElementById("selector-top").style;
+      top.width = targetWidth +"px";
+      top.left = targetOffset.left +"px";
+      top.top = targetOffset.top +"px";
+
+  var bot = document.getElementById("selector-bottom").style;
+      bot.width = targetWidth +"px";
+      bot.left = targetOffset.left +"px";
+      bot.top = targetOffset.top + targetHeight -3 +"px";
+
+  var left = document.getElementById("selector-left").style;
+      left.height = targetHeight +"px";
+      left.left = targetOffset.left +"px";
+      left.top = targetOffset.top + "px";
+
+  var right = document.getElementById("selector-right").style;
+      right.height = targetHeight +"px";
+      right.left = targetOffset.left + targetWidth +"px";
+      right.top = targetOffset.top + "px";
+    }
 
 handleLoad(e) {
-  var target
-  target = e.target;
+  var target = e.target;
   if (target && target.className === "outer" ) 
   {   
-      var overlay = $(document.getElementById('outer'))
-      overlay.hide();
-      target = document.getElementById('empty');
-  }
+      document.getElementById("outer").style.display = "none";
+      
+    }
 }
 
-changeTitle = (e) => {
-  var target, lastTarget;
-  var overlay = $(document.getElementById('outer'))
-  target = e.target;
+select = (e) => {
+  var target = e.target;
   this.setState({ title: getElementXPath(target) });
-
-  
-  overlay.show();
-
-  if (target === lastTarget) return;
-  lastTarget = target;
-  var $target = $(target);
-  var offset = $target.offset();
-  overlay.css({
-      width:  $target.outerWidth()  - 1, 
-      height: $target.outerHeight() - 1, 
-      left:   offset.left, 
-      top:    offset.top 
-  });
+  var outer = document.getElementById("outer").style
+  outer.display = "block";
+  outer.width = target.offsetWidth +"px";
+  outer.height = target.offsetHeight +"px";
+  outer.left = target.offsetLeft +"px";
+  outer.top = target.offsetTop +"px";
 
 };
 
@@ -129,9 +171,10 @@ render() {
         <TopBanner />
         <HelpElements />
 
-        {/* czy potrzebujemy obu tych divów? */}
+        {/* czy potrzebujemy obu tych divów? - Odp: W sumie to chyba nie, więc chciałem teraz usunąc, ale nie wiem dlaczego po usunięciu Content
+        górny border chyba się chowa za topbanner, bo go nie widać (po najechaniu na HereWillBeContent). Więc na razie zostawiłem jednak  */}
         <div className='Content'>
-        <div id='HereWillBeContent' onClick={this.changeTitle}>{this.state.title}>
+        <div id='HereWillBeContent' onClick={this.select}>{this.state.title}>
 
         {/* rendering page to crawl */}
         <ExternalHtml />
