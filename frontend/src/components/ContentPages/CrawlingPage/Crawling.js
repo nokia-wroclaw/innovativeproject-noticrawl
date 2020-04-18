@@ -71,7 +71,6 @@ function HelpElements() {
   );
 }
 
-
 class Crawling extends React.Component {
   constructor(props) {
     super(props);
@@ -124,162 +123,128 @@ changeTitle = (e) => {
 };
 
 
-      render() {
-          return (
-            <div>
+render() {
+    return (
+      <div>
+        <TopBanner />
+        <HelpElements />
 
-            <div><TopBanner /></div>
-            <div><HelpElements /></div>
+        {/* czy potrzebujemy obu tych divów? */}
+        <div className='Content'>
+        <div id='HereWillBeContent' onClick={this.changeTitle}>{this.state.title}>
 
-              <div className='Content'></div>
-              <div id='HereWillBeContent' onClick={this.changeTitle}>{this.state.title}>
+        {/* rendering page to crawl */}
+        <ExternalHtml />
 
 
-<br></br>
+
+
+
+
+{/* tymczasowa strona do testowania */}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+<h1 id='aaaaasdasdasdasd'>element h1</h1>
+<h4>element dddh4</h4>
+<h1>Welcome</h1>
+<button class="n">Click me</button>
 
+<button onClick={() => alert('Kliknięto!')}>Kliknij!</button>   
 
-                  <h1 id='aaaaasdasdasdasd'>element h1</h1>
-              <h4>element dddh4</h4>
-              <h1>Welcome</h1>
-      <button class="n">Click me</button>
-
-      <button onClick={() => alert('Kliknięto!')}>Kliknij!</button>   
-
-
-{/* 
-
-do wyświetlania obcego html (nie działa jeszcze) 
-
-<ExternalHtml />
-
-*/}
-
-
-         <div>Witaj, </div>
+<div>Witaj, </div>
          
 
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-               Explicabo voluptates doloremque quisquam omnis rem fuga 
-               veritatis odit! Perferendis cupiditate corporis consequuntur
-                amet ducimus quam       <button class="n">Click me1</button>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+Explicabo voluptates doloremque quisquam omnis rem fuga 
+veritatis odit! Perferendis cupiditate corporis consequuntur
+amet ducimus quam       <button class="n">Click me1</button>
 at magni facilis debitis ut quisquam molestias
-                 maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me2</button>
+maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me2</button>
 </div>  <button class="n">Click me3</button>
- minima in totam. Velit inventore
-                  deserunt facilis temporibus id provident illo optio ipsa aut consequuntur 
-                  sed repellat dolorem obcaecati iusto ab. Placeat 
-                  repellat dolores 
-                  debitis deleniti ipsum a accusamus in necessitatibus perferendis nostrum laudantium error modi 
-                     adipisci aliquam a deleniti omnis expedita quis natus. Velit placeat fugit officiis non nihil 
-                     fuga dolorum veritatis maiores fugiat eligendi iste veniam tempore deserunt.</p>
-      <button>More test buttons</button>
+minima in totam. Velit inventore
+deserunt facilis temporibus id provident illo optio ipsa aut consequuntur 
+sed repellat dolorem obcaecati iusto ab. Placeat 
+repellat dolores 
+debitis deleniti ipsum a accusamus in necessitatibus perferendis nostrum laudantium error modi 
+  adipisci aliquam a deleniti omnis expedita quis natus. Velit placeat fugit officiis non nihil 
+  fuga dolorum veritatis maiores fugiat eligendi iste veniam tempore deserunt.</p>
+<button>More test buttons</button>
+<center><h1>Przykładowy tekst do zaznaczenia</h1></center>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
+architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
+molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
+quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
+adipisci provident voluptas 
+  nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
+  adipisci perspiciatis voluptatibus et vero nisi!</p>
+
+
+
+
+
+
               
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-                   architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus 
-                   molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium 
-                   quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-                    adipisci provident voluptas 
-                     nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae 
-                     adipisci perspiciatis voluptatibus et vero nisi!</p>
-              </div>
-      
-          </div>
-          );
-      }
-    
+        </div>
+      </div>
+    </div>
+    );
+  }  
 }
 
 

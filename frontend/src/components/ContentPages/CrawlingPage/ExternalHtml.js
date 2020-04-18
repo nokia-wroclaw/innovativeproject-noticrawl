@@ -1,26 +1,27 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 
-//tutaj trzeba zaimportować zmienne z tego pliku
-import {LinkInput, parsedPage} from '../LinkPage/LinkInput'
+//importing received from backend html in LinkInput file
+import {externalPageToRender} from '../LinkPage/LinkInput'
 
-//tutaj będzie kiedyś wyświetlanie
-class ExternalHtml extends Component {
+//rendering external html
+class ExternalHtml extends React.Component {
+
+  /*
   constructor(props) {
     super(props);
     this.state = {
       hits: [],
     };
   }
+  */
   
   render() {
-
-    //test:
-    alert(parsedPage)
     
     //const { hits } = this.state;
     return (
-      parsedPage
+      externalPageToRender
+
       /*
       <ul>
         {hits.map(hit =>
@@ -30,6 +31,7 @@ class ExternalHtml extends Component {
         )}
       </ul>
       */
+
     );
   }
 
@@ -71,36 +73,6 @@ class ExternalHtml extends Component {
     );
   }
 
-}
-export default ExternalHtml;
-
-
-
-
-
-
-
-
-
-
-import React, { Component } from 'react';
-class ExternalHtml extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-    };
-  }
-  componentDidMount() {
-    fetch('https://api.mydomain.com')
-      .then(response => response.json())
-      .then(data => this.setState({ data }));
-  }
-  render(){
-      return(
-          <div>haha</div>
-      )
-  }
 }
 export default ExternalHtml;
 */
