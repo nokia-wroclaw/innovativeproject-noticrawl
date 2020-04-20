@@ -93,7 +93,7 @@ class LinkInput extends React.Component{
         </div>
 
         {/* temporary button until auto redirecting will work */}
-        <Link to="/start-crawling"><button>working "go to website" button</button></Link>
+        <Link to="/new-crawl/start-crawling"><button>working "go to website" button</button></Link>
 
       </div>
     );

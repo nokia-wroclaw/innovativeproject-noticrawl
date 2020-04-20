@@ -7,12 +7,14 @@ import LoginMainContent from "./components/LoginPage/LoginMainContent"
 import LinkMainContent from './components/ContentPages/LinkPage/LinkMainContent';
 import MyAccountMainContent from './components/ContentPages/MyAccountPage/MyAccountMainContent';
 import MyCrawlsMainContent from './components/ContentPages/MyCrawlsPage/MyCrawlsMainContent';
-import IndexCrawling from './components/ContentPages/CrawlingPage/IndexCrawling';
+import Crawling from './components/ContentPages/CrawlingPage/Crawling';
+import NotFoundPage from './components/ContentPages/NotFoundPage';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 
 
@@ -21,27 +23,21 @@ import {
 function App() {
   return (
       <body>
-        <center>
-          <div className='background'>
-          <Header />
-
           {/* 
           A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. 
           */}
           <Router>
             <Switch>
-              <Route exact path="/" component={LoginMainContent} />  
-              <Route path="/new-crawl*" component={LinkMainContent} />
-              <Route path="/start-crawling" component={IndexCrawling} />
-              <Route path="/my-account" component={MyAccountMainContent} />
-              <Route path="/my-crawls" component={MyCrawlsMainContent} />
+              <Route exact strict path="/" component={LoginMainContent} />  
+              <Route exact strict path="/new-crawl" component={LinkMainContent} />
+              <Route exact strict path="/new-crawl/start-crawling" component={Crawling} />
+              <Route exact strict path="/my-account" component={MyAccountMainContent} />
+              <Route exact strict path="/my-crawls" component={MyCrawlsMainContent} />
+              <Route exact strict path="/404" component={NotFoundPage} />
+              <Redirect to="/404" />
             </Switch>
           </Router> 
-
-          <Footer />
-          </div>
-        </center>
       </body>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import TopBanner from './TopBanner'
 import ExternalHtml from './ExternalHtml'
+import './Crawling.css';
 
 var getElementTreeXPath = function(element) {
   var paths = [];
