@@ -1,42 +1,21 @@
-
 import React from 'react';
-
-//importing received from backend html in LinkInput file
-import {externalPageToRender} from '../LinkPage/LinkInput'
+import { useLocation } from 'react-router-dom';
 
 //rendering external html
-class ExternalHtml extends React.Component {
+function ExternalHtml () {
 
-  /*
-  constructor(props) {
-    super(props);
-    this.state = {
-      hits: [],
-    };
-  }
-  */
-  
-  render() {
-    
-    //const { hits } = this.state;
+const takeExternalPageToRender =  useLocation();
+
     return (
-      externalPageToRender
-
-      /*
-      <ul>
-        {hits.map(hit =>
-          <li key={hit.objectID}>
-            <a href={hit.url}>{hit.title}</a>
-          </li>
-        )}
-      </ul>
-      */
-
+      <div>    
+        <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} />
+      </div>
     );
-  }
 
 }
 export default ExternalHtml;
+
+
 
 
 /*
@@ -75,4 +54,43 @@ class ExternalHtml extends Component {
 
 }
 export default ExternalHtml;
+
+
+
+
+
+
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
+//import{MContext, Consumer} from "../Provider";
+
+//importing received from backend html in LinkInput file
+//import {externalPageToRender} from '../LinkPage/LinkInput'
+
+//rendering external html
+function ExternalHtml () {
+
+const externalPageToRender =  useLocation();
+
+    return (
+      <div>
+
+    <h1>{html(externalPageToRender.state.externalPageToRender)}</h1>
+
+        {/*
+      <MContext.Consumer>
+        {(context) => (
+         <h1>{context.state.message}</h1>)}
+      </MContext.Consumer>
+        
+
+        </div>
+
+        );
+    
+      }
+    export default ExternalHtml;
+
+
 */
