@@ -4,11 +4,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 import requests as req
-
+#from backend.src.parse_module import parse
 
 def parse(url):
     request = req.get(url)
-    parse_page = request.text.replace("<!DOCTYPE html>", "")
+    parse_page = request.text
     return parse_page
 
 class Selector(BaseModel):
