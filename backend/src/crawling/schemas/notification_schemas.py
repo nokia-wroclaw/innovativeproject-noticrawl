@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 from ..communicators import Communicators
 
-class NotificationCreate:
+class NotificationCreate(BaseModel):
     address: str
     communicator: Communicators
     script_id: int

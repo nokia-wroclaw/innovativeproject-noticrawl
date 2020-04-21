@@ -3,7 +3,7 @@ from typing import List
 
 from .notification_schemas import Notification
 
-class ScriptCreate:
+class ScriptCreate(BaseModel):
     instructions: str
     link_id: int
 
