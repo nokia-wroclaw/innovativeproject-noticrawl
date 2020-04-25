@@ -4,8 +4,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-
-from . import settings
 from .database import models
 from .database.connection import SessionLocal
 from .user.user_controller import user_router

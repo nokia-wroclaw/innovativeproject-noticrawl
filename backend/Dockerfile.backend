@@ -7,12 +7,13 @@ EXPOSE 8000
 
 WORKDIR /app
 
-COPY ./backend/poetry.lock ./backend/pyproject.toml ./
+COPY poetry.lock pyproject.toml ./
 RUN pip install -q poetry==1.0.* && \
     poetry config virtualenvs.create false && \
     poetry install
 
-COPY ./backend/src ./src
+COPY ./src ./src
+COPY database.secrets.toml ./
 
 ENTRYPOINT ["poetry"]
 CMD ["run", "task", "dev-server"]
