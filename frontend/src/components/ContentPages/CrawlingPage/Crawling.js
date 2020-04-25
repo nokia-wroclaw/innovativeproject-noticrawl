@@ -83,24 +83,32 @@ class Crawling extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Click here"
+      title: "Click here",
     };
+    this.state = { borderState: 1 }
     this.select = this.select.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.border = this.border.bind(this);
     this.borderDel = this.borderDel.bind(this);
 
-
 }
+callbackFunction = (banner) => {
+  this.setState({borderState: banner})
+}
+
+
+
 componentDidMount() {
   window.addEventListener('click', this.handleLoad);
-  window.addEventListener('mousemove', this.border);
+  document.getElementById("HereWillBeContent").addEventListener('mousemove', this.border);
+  document.getElementById("CrawlingBanner").addEventListener('mousemove', this.borderDel);
   window.addEventListener('mousewheel', this.borderDel);
 }
 
 componentWillUnmount() { 
  window.removeEventListener('click', this.handleLoad)
- window.removeEventListener('mousemove', this.border);
+ document.getElementById("HereWillBeContent").removeEventListener('mousemove', this.border);
+ document.getElementById("CrawlingBanner").removeEventListener('mousemove', this.borderDel);
  window.removeEventListener('mousewheel', this.borderDel);
 }
 borderDel(){
@@ -108,8 +116,10 @@ borderDel(){
 }
 border(e){
   
-  /* zakomentuj wnętrze tej funkci jak chcesz chwilowo to wyłączyć, gdyby cie wkurzało podczas implementowania tej zewnętrznej strony  xd 
-  potem spróbuje zrobić w setting przycisk do tego wyłączania */
+  if (this.state.borderState == 0) 
+  {
+    return;
+  }
   var target = e.target;
 
   if (target.id === "selector-top" || 
@@ -169,9 +179,8 @@ select = (e) => {
 render() {
     return (
       <div>
-        <TopBanner />
+        <TopBanner Callback = {this.callbackFunction} borderState = {this.state.borderState} />
         <HelpElements />
-
         {/* czy potrzebujemy obu tych divów? - Odp: W sumie to chyba nie, więc chciałem teraz usunąc, ale nie wiem dlaczego po usunięciu Content
         górny border chyba się chowa za topbanner, bo go nie widać (po najechaniu na HereWillBeContent). Więc na razie zostawiłem jednak  */}
         <div className='Content'>
@@ -180,7 +189,7 @@ render() {
         {/* rendering page to crawl */}
         <ExternalHtml />
 
-
+        {this.state.borderState}
 
 
 
