@@ -211,7 +211,18 @@ version = "0.13.0"
 cli = ["click (>=5.0)"]
 
 [[package]]
-category = "dev"
+category = "main"
+description = "A streaming multipart parser for Python"
+name = "python-multipart"
+optional = false
+python-versions = "*"
+version = "0.0.5"
+
+[package.dependencies]
+six = ">=1.4.0"
+
+[[package]]
+category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
@@ -318,7 +329,7 @@ python-versions = "*"
 version = "1.11.2"
 
 [metadata]
-content-hash = "bb73fc520229597787772387a1df723c342c2d78661a2756fdb790e31142d5d0"
+content-hash = "a4009f37bdf325b7d22ef273cda3e38c59a7c6e9fdc7313b0d1e5290772213fb"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -479,6 +490,9 @@ python-box = [
 python-dotenv = [
     {file = "python-dotenv-0.13.0.tar.gz", hash = "sha256:3b9909bc96b0edc6b01586e1eed05e71174ef4e04c71da5786370cebea53ad74"},
     {file = "python_dotenv-0.13.0-py2.py3-none-any.whl", hash = "sha256:25c0ff1a3e12f4bde8d592cc254ab075cfe734fc5dd989036716fd17ee7e5ec7"},
+]
+python-multipart = [
+    {file = "python-multipart-0.0.5.tar.gz", hash = "sha256:f7bb5f611fc600d15fa47b3974c8aa16e93724513b49b5f95c81e6624c83fa43"},
 ]
 six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},

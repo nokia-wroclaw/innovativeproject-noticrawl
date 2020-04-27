@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from . import user_service
 from .user_schemas import User, UserCreate
@@ -33,3 +34,15 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@user_router.post("/api/v1/login")
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = user_service.get_user_by_email(db, form_data.username)
+    print(user)
+    if not user:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+    hashed_password = user_service.fake_hash_password(form_data.password)
+    if not hashed_password == user.password:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+    return {"access_token": user.email, "token_type": "bearer"}

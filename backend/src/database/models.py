@@ -12,7 +12,7 @@ class Users(Base):
     email = Column(VARCHAR(255), CheckConstraint('email SIMILAR TO \'%@%.%\''), unique=True, index=True, nullable=False)
     password = Column(VARCHAR(128), nullable=False) 
 
-    user_link = relationship("Links", back_populates="Link_User")
+    user_link = relationship("Links", back_populates="link_user")
 
 class Links(Base):
     __tablename__ = "Links"
@@ -22,8 +22,8 @@ class Links(Base):
     description = Column(Text, index=True)
     user_id = Column(Integer, ForeignKey("Users.user_id"))
 
-    link_user = relationship("Users", back_populates="User_Link")
-    link_script = relationship("Scripts", back_populates="Script_Link")
+    link_user = relationship("Users", back_populates="user_link")
+    link_script = relationship("Scripts", back_populates="script_link")
 
 class Scripts(Base):
     __tablename__ = "Scripts"
@@ -31,8 +31,8 @@ class Scripts(Base):
     instructions = Column(Text, nullable=False, index=True)
     link_id = Column(Integer, ForeignKey("Links.link_id"))
 
-    script_link = relationship("Links", back_populates="Link_Script")
-    script_notification = relationship("Notifications", back_populates="Notification_Script")
+    script_link = relationship("Links", back_populates="link_script")
+    script_notification = relationship("Notifications", back_populates="notification_script")
 
 class Notifications(Base):
     __tablename__ = "Notifications"
@@ -41,7 +41,7 @@ class Notifications(Base):
     communicator = Column(Enum('email', 'slack', name='Communicators'), nullable=False)
     script_id = Column(Integer, ForeignKey("Scripts.script_id"))
 
-    notification_script = relationship("Scripts", back_populates="Script_Notification")
+    notification_script = relationship("Scripts", back_populates="script_notification")
 
 def create_models():
     MAX_RETRIES_NUM = 15
