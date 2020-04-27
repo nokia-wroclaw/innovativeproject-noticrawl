@@ -42,10 +42,3 @@ async def post_xpath(selector: Selector):
     selector_xpath = selector.path
     selector_dict.update({"parsedPage": selector_xpath})
     return selector_dict
-
-
-#parsing route:
-@app.post("/api/v2/new-crawl")
-async def post_link(link):
-    parsed_page = parse(link)
-    return {"parsedPage": parsed_page}
