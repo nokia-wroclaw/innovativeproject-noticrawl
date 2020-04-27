@@ -19,8 +19,8 @@ class Data(BaseModel):
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="../../frontend/build/static"), name="static")
-templates = Jinja2Templates(directory="../../frontend/build")
+app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
+templates = Jinja2Templates(directory="../frontend/build")
 
 
 @app.get("/")
