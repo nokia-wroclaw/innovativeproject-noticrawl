@@ -13,6 +13,7 @@ RUN pip install -q poetry==1.0.* && \
     poetry install
 
 COPY ./src ./src
+COPY database.secrets.toml ./
 
 ENTRYPOINT ["poetry"]
 CMD ["run", "task", "dev-server"]

@@ -1,13 +1,35 @@
 version: '3'
 
 services: 
+
   backend:
     build:
-      context: './backend/'
-      dockerfile: Dockerfile.backend
+      context: './backend'
+      dockerfile: 'Dockerfile.backend'
     container_name: 'noticrawl_backend'
+    depends_on:
+      - database
     ports:
-      - '8000:8000'
+      - '$APP_PORT:8000'
     volumes: 
+      - './frontend/build:/frontend/build:ro'
       - './backend/src:/app/src'
-      - './frontend/build:/frontend/build'
+    environment: 
+      SETTINGS_FILE_FOR_DYNACONF: '["database.secrets.toml"]'
+
+
+  database:
+    image: postgres
+    container_name: postgres
+    restart: always
+    hostname: $DB_HOST
+    volumes:
+      - postgres-data:/var/lib/postgresql/data 
+    ports:
+      - '$DB_PORT:5432'
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+
+volumes: 
+  postgres-data:

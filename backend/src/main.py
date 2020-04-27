@@ -1,18 +1,17 @@
 from fastapi import FastAPI, Request
-from pydantic import BaseModel
-from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from .database import models
+from .database.connection import SessionLocal
+from .user.user_controller import user_router
+
+app = FastAPI()
+app.include_router(user_router)
+
+models.create_models()
 
 templates = Jinja2Templates(directory="/frontend/build/")
-#FastAPI instance
-app = FastAPI()
-
-class Item(BaseModel):
-    name: str = None
-    description: str = None
-
 app.mount("/static", StaticFiles(directory="/frontend/build/static"), name="static")
 
 
