@@ -2,3 +2,4 @@
 *settings*
 *.pyc
 *.secrets*
+.idea
