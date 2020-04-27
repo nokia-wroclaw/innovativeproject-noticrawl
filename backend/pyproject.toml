@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "noticrawl"
+version = "0.1.0"
+description = ""
+authors = ["Adrian Płatos <adiplatos@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+fastapi = "^0.52.0"
+uvicorn = "^0.11.3"
+aiofiles = "^0.4.0"
+jinja2 = "^2.11.1"
+sqlalchemy = "^1.3.15"
+
+[tool.poetry.dev-dependencies]
+taskipy = "^1.2.1"
+
+[tool.taskipy.tasks]
+dev-server = "uvicorn --port 8000 --reload --log-level debug src.main:app"
+
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"

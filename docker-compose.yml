@@ -1,0 +1,13 @@
+version: '3'
+
+services: 
+  backend:
+    build:
+      context: './backend/'
+      dockerfile: Dockerfile.backend
+    container_name: 'noticrawl_backend'
+    ports:
+      - '8000:8000'
+    volumes: 
+      - './backend/src:/app/src'
+      - './frontend/build:/frontend/build'
