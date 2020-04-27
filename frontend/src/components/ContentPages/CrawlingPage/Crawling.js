@@ -195,9 +195,10 @@ render() {
 
 
 {/* tymczasowa strona do testowania */}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-<h1 id='aaaaasdasdasdasd'>element h1</h1>
+{/*
+<h2 id='aaaaasdasdasdasd'>testowy element</h2>
+
 <h4>element dddh4</h4>
 <h1>Welcome</h1>
 <button class="n">Click me</button>
@@ -288,7 +289,7 @@ adipisci provident voluptas
   adipisci perspiciatis voluptatibus et vero nisi!</p>
 
 
-
+*/}
 
 
 

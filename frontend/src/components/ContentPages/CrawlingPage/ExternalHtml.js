@@ -4,11 +4,37 @@ import { useLocation } from 'react-router-dom';
 //rendering external html
 function ExternalHtml () {
 
+/*
+function htmlToElements(html) {
+  var template = document.createElement('template');
+  template.insertAdjacentHTML('beforeend', html);
+  return template.content.childNodes;
+}
+
+function parseHTML(html) {
+  var t = document.createElement('template');
+  t.innerHTML = html;
+  return t.content.cloneNode(true);
+}
+*/
+
 const takeExternalPageToRender =  useLocation();
 
     return (
-      <div>    
-        <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} />
+      <div>  
+        <iframe 
+        id="template" 
+        src={takeExternalPageToRender.state.externalPageToRender}
+        srcDoc={takeExternalPageToRender.state.externalPageToRender}
+        allow="fullscreen"
+        allow="payment"
+        importance="high"
+        height="650px" 
+        width="100%" 
+        referrerPolicy="origin"
+        sandbox="allow-popups"
+        /> 
+       {/*  <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} />  */} 
       </div>
     );
 
