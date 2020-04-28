@@ -100,14 +100,14 @@ callbackFunction = (banner) => {
 
 componentDidMount() {
   window.addEventListener('click', this.handleLoad);
-  document.getElementById("HereWillBeContent").addEventListener('mousemove', this.border);
+  document.getElementById("Content").addEventListener('mousemove', this.border);
   document.getElementById("CrawlingBanner").addEventListener('mousemove', this.borderDel);
   window.addEventListener('mousewheel', this.borderDel);
 }
 
 componentWillUnmount() { 
  window.removeEventListener('click', this.handleLoad)
- document.getElementById("HereWillBeContent").removeEventListener('mousemove', this.border);
+ document.getElementById("Content").removeEventListener('mousemove', this.border);
  document.getElementById("CrawlingBanner").removeEventListener('mousemove', this.borderDel);
  window.removeEventListener('mousewheel', this.borderDel);
 }
@@ -181,15 +181,14 @@ render() {
       <div>
         <TopBanner Callback = {this.callbackFunction} borderState = {this.state.borderState} />
         <HelpElements />
-        {/* czy potrzebujemy obu tych divów? - Odp: W sumie to chyba nie, więc chciałem teraz usunąc, ale nie wiem dlaczego po usunięciu Content
-        górny border chyba się chowa za topbanner, bo go nie widać (po najechaniu na HereWillBeContent). Więc na razie zostawiłem jednak  */}
-        <div className='Content'>
-        <div id='HereWillBeContent' onClick={this.select}>{this.state.title}>
+
+
+        <div id='Content' onClick={this.select}>{this.state.title}
 
         {/* rendering page to crawl */}
         <ExternalHtml />
 
-        {this.state.borderState}
+        {/*this.state.borderState*/}
 
 
 
@@ -296,7 +295,6 @@ adipisci provident voluptas
               
         </div>
       </div>
-    </div>
     );
   }  
 }

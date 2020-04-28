@@ -22,19 +22,21 @@ const takeExternalPageToRender =  useLocation();
 
     return (
       <div>  
+       
         <iframe 
-        id="template" 
+        id="pageFrame" 
         src={takeExternalPageToRender.state.externalPageToRender}
         srcDoc={takeExternalPageToRender.state.externalPageToRender}
         allow="fullscreen"
-        allow="payment"
         importance="high"
-        height="650px" 
-        width="100%" 
-        referrerPolicy="origin"
-        sandbox="allow-popups"
+        referrerPolicy="unsafe-url"
+        sandbox="allow-popups allow-scripts allow-same-origin"
+
+        frameBorder="0"
         /> 
-       {/*  <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} />  */} 
+
+      {/* <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} /> */} 
+
       </div>
     );
 

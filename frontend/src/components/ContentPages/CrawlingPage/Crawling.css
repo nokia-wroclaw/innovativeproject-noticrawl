@@ -224,11 +224,18 @@ float: left;
   position: top;
 }
 
-.Content {
-padding-top: 80px;
-}
-#HereWillBeContent{
-  padding-left: 10px;
-  padding-right: 20px;
+#Content{
+  padding-top: 80px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
+iframe {
+  position: fixed;
+  overflow: hidden;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  padding-top: 0px;
+  width: 100vw;
+  height: 100vh;
+}
