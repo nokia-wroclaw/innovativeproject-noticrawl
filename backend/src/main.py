@@ -3,11 +3,12 @@ from pydantic import BaseModel, BaseConfig
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
-import requests as req
+from requests_html import HTMLSession
 #from backend.src.parse_module import parse
 
 def parse(url):
-    request = req.get(url)
+    session = HTMLSession()
+    request = session.get(url)
     parse_page = request.text
     return parse_page
 
