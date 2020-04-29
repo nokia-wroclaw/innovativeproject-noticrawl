@@ -10,6 +10,7 @@ class LinkInput extends React.Component{
       values: {
         link: ""
       },
+      title1: "Click hereaa",  // TUTAJ DODAŁEM TO - DAWID
       parsedPageToExport: "",
       //externalPageToRender: "",
       isSubmitting: false,
@@ -44,8 +45,21 @@ submitForm = async e => {
 
     //////////////////////////////////////////////////////
     //showing what backend returns to frontend (to delete later) 
-    alert(data.parsedPage); 
-    //////////////////////////////////////////////////////
+    alert(data.parsedPage);
+
+    // TUTAJ DODAŁEM TO \/ - DAWID
+    this.setState({title1: data.parsedPage})
+    const element = document.createElement("a");
+    const file = new Blob([this.state.title1], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = "myFile.html";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+// TUTAJ DODAŁEM TO /\- DAWID
+
+
+    //////////////////////////   this.setState({ title: getElementXPath(target) });
+////////////////////////////
 
 
     //setting parsed code received from backend to the variable, which will be exported
