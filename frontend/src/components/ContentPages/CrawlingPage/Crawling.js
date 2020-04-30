@@ -164,6 +164,19 @@ handleLoad(e) {
 }
 
 select = (e) => {
+
+  var target = e.target;
+  this.setState({ title: getElementXPath(target) });
+  var targetOffset = target.getBoundingClientRect();
+  var outer = document.getElementById("outer").style;
+  outer.display = "block";
+  outer.width = targetOffset.width +"px";
+  outer.height = targetOffset.height +"px";
+  outer.left = targetOffset.left +"px";
+  outer.top = targetOffset.top +window.scrollY+"px";
+
+
+  /* old
   var target = e.target;
   this.setState({ title: getElementXPath(target) });
   var outer = document.getElementById("outer").style
@@ -172,7 +185,7 @@ select = (e) => {
   outer.height = target.offsetHeight +"px";
   outer.left = target.offsetLeft +"px";
   outer.top = target.offsetTop +"px";
-
+  */
 };
 
 
