@@ -78,10 +78,11 @@ class Crawling extends React.Component {
       title: "Click here",
     };
     this.state = { borderState: 1 };
-    this.select = this.select.bind(this);
-    // this.handleLoad = this.handleLoad.bind(this);
-    this.drawBorder = this.drawBorder.bind(this);
-    // this.deleteBorder = this.deleteBorder.bind(this);
+
+    // this.select = this.select.bind(this);
+    // // this.handleLoad = this.handleLoad.bind(this);
+    // this.drawBorder = this.drawBorder.bind(this);
+    // // this.deleteBorder = this.deleteBorder.bind(this);
   }
 
   callbackFunction = (borderSwitchState) => {
@@ -90,93 +91,93 @@ class Crawling extends React.Component {
 
 
 
-  componentDidMount() {
-    window.addEventListener('click', this.removeHighlight);
-    document.getElementById("Content").addEventListener('mousemove', this.drawBorder);
-    document.getElementById("CrawlingBanner").addEventListener('mousemove', this.deleteBorder);
-    window.addEventListener('scroll', this.deleteBorder);
-  }
+  // componentDidMount() {
+  //   window.addEventListener('click', this.removeHighlight);
+  //   document.getElementById("Content").addEventListener('mousemove', this.drawBorder);
+  //   document.getElementById("CrawlingBanner").addEventListener('mousemove', this.deleteBorder);
+  //   window.addEventListener('scroll', this.deleteBorder);
+  // }
 
-  componentWillUnmount() {
-    window.removeEventListener('click', this.removeHighlight);
-    document.getElementById("Content").removeEventListener('mousemove', this.drawBorder);
-    document.getElementById("CrawlingBanner").removeEventListener('mousemove', this.deleteBorder);
-    window.removeEventListener('scroll', this.deleteBorder);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener('click', this.removeHighlight);
+  //   document.getElementById("Content").removeEventListener('mousemove', this.drawBorder);
+  //   document.getElementById("CrawlingBanner").removeEventListener('mousemove', this.deleteBorder);
+  //   window.removeEventListener('scroll', this.deleteBorder);
+  // }
 
-  deleteBorder() {
-    document.getElementById("selector").style.display = 'none';
-  }
+  // deleteBorder() {
+  //   document.getElementById("selector").style.display = 'none';
+  // }
 
-  drawBorder(e) {
+  // drawBorder(e) {
 
-    if (this.state.borderState == 0) {
-      return;
-    }
+  //   if (this.state.borderState == 0) {
+  //     return;
+  //   }
 
-    var target = e.target;
+  //   var target = e.target;
 
-    if (target.id === "selector-top" ||
-      target.id === "selector-bottom" ||
-      target.id === "selector-left" ||
-      target.id === "selector-right") return;
+  //   if (target.id === "selector-top" ||
+  //     target.id === "selector-bottom" ||
+  //     target.id === "selector-left" ||
+  //     target.id === "selector-right") return;
 
-    document.getElementById("selector").style.display = 'block';
+  //   document.getElementById("selector").style.display = 'block';
 
-    var targetRect = target.getBoundingClientRect();
+  //   var targetRect = target.getBoundingClientRect();
 
-    var top = document.getElementById("selector-top").style;
-    top.width = targetRect.width + "px";
-    top.left = targetRect.left + "px";
-    top.top = targetRect.top + "px";
+  //   var top = document.getElementById("selector-top").style;
+  //   top.width = targetRect.width + "px";
+  //   top.left = targetRect.left + "px";
+  //   top.top = targetRect.top + "px";
 
-    var bot = document.getElementById("selector-bottom").style;
-    bot.width = targetRect.width + "px";
-    bot.left = targetRect.left + "px";
-    bot.top = targetRect.top + targetRect.height - 3 + "px";
+  //   var bot = document.getElementById("selector-bottom").style;
+  //   bot.width = targetRect.width + "px";
+  //   bot.left = targetRect.left + "px";
+  //   bot.top = targetRect.top + targetRect.height - 3 + "px";
 
-    var left = document.getElementById("selector-left").style;
-    left.height = targetRect.height + "px";
-    left.left = targetRect.left + "px";
-    left.top = targetRect.top + "px";
+  //   var left = document.getElementById("selector-left").style;
+  //   left.height = targetRect.height + "px";
+  //   left.left = targetRect.left + "px";
+  //   left.top = targetRect.top + "px";
 
-    var right = document.getElementById("selector-right").style;
-    right.height = targetRect.height + "px";
-    right.left = targetRect.left + targetRect.width + "px";
-    right.top = targetRect.top + "px";
-  }
+  //   var right = document.getElementById("selector-right").style;
+  //   right.height = targetRect.height + "px";
+  //   right.left = targetRect.left + targetRect.width + "px";
+  //   right.top = targetRect.top + "px";
+  // }
 
-  removeHighlight(e) {
-    var target = e.target;
-    if (target && target.className === "outer") {
-      document.getElementById("outer").style.display = "none";
-    }
-  }
+  // removeHighlight(e) {
+  //   var target = e.target;
+  //   if (target && target.className === "outer") {
+  //     document.getElementById("outer").style.display = "none";
+  //   }
+  // }
 
-  select = (e) => {
+  // select = (e) => {
 
-    var target = e.target;
-    this.setState({ title: getElementXPath(target) });
-    var targetRect = target.getBoundingClientRect();
-    var outer = document.getElementById("outer").style;
-    outer.display = "block";
-    outer.width = targetRect.width + "px";
-    outer.height = targetRect.height + "px";
-    outer.left = targetRect.left + "px";
-    outer.top = targetRect.top + window.scrollY + "px";
+  //   var target = e.target;
+  //   this.setState({ title: getElementXPath(target) });
+  //   var targetRect = target.getBoundingClientRect();
+  //   var outer = document.getElementById("outer").style;
+  //   outer.display = "block";
+  //   outer.width = targetRect.width + "px";
+  //   outer.height = targetRect.height + "px";
+  //   outer.left = targetRect.left + "px";
+  //   outer.top = targetRect.top + window.scrollY + "px";
 
 
-    /* old
-    var target = e.target;
-    this.setState({ title: getElementXPath(target) });
-    var outer = document.getElementById("outer").style
-    outer.display = "block";
-    outer.width = target.offsetWidth +"px";
-    outer.height = target.offsetHeight +"px";
-    outer.left = target.offsetLeft +"px";
-    outer.top = target.offsetTop +"px";
-    */
-  };
+  //   /* old
+  //   var target = e.target;
+  //   this.setState({ title: getElementXPath(target) });
+  //   var outer = document.getElementById("outer").style
+  //   outer.display = "block";
+  //   outer.width = target.offsetWidth +"px";
+  //   outer.height = target.offsetHeight +"px";
+  //   outer.left = target.offsetLeft +"px";
+  //   outer.top = target.offsetTop +"px";
+  //   */
+  // };
 
 
   render() {
@@ -185,8 +186,9 @@ class Crawling extends React.Component {
         <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} />
         <HelpElements />
 
-
-        <div id='Content' onClick={this.select}>{this.state.title}
+        <script src='script.js' />
+        {/* <div id='Content' onClick={this.select}>{this.state.title} */}
+        <div id='Content'>
 
           {/* rendering page to crawl */}
 
