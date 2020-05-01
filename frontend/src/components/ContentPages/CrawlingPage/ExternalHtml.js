@@ -42,6 +42,8 @@ function ExternalHtml() {
     maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me2</button>
       </div>  <button class="n">Click me3</button>
 
+      
+
       <div>
         <div id='empty'></div>
         <div id='outer' class='outer'></div>
@@ -67,7 +69,34 @@ function ExternalHtml() {
       // if (this.state.borderState == 0) {
       //   return;
       // }
-  
+      var selectorTop = document.getElementById('selector-top').style
+      selectorTop.background = 'blue';
+      selectorTop.position = 'fixed';
+      selectorTop.height = '3px';
+      selectorTop.zIndex = 65000000;
+      selectorTop.transition = 'all 300ms ease';
+
+      var selectorBot = document.getElementById('selector-bottom').style
+      selectorBot.background = 'blue';
+      selectorBot.position = 'fixed';
+      selectorBot.height = '3px';
+      selectorBot.zIndex = 65000000;
+      selectorBot.transition = 'all 300ms ease';
+
+      var selectorLeft = document.getElementById('selector-left').style
+      selectorLeft.background = 'blue';
+      selectorLeft.position = 'fixed';
+      selectorLeft.width = '3px';
+      selectorLeft.zIndex = 65000000;
+      selectorLeft.transition = 'all 300ms ease';
+
+      var selectorRight = document.getElementById('selector-right').style
+      selectorRight.background = 'blue';
+      selectorRight.position = 'fixed';
+      selectorRight.width = '3px';
+      selectorRight.zIndex = 65000000;
+      selectorRight.transition = 'all 300ms ease';
+
       var target = e.target;
   
       if (target.id === "selector-top" ||
@@ -109,6 +138,13 @@ function ExternalHtml() {
   
   function select(e) {
   
+
+
+    
+    document.getElementById('outer').style.background = 'rgba(37, 172, 131, 0.2)';
+    document.getElementById('outer').style.position = 'absolute';
+    document.getElementById('outer').style.zIndex = 65000000;
+
       var target = e.target;
       // this.setState({ title: getElementXPath(target) });
       var targetRect = target.getBoundingClientRect();
