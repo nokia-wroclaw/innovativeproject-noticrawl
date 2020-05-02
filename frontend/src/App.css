@@ -2,9 +2,17 @@ html, body {
   margin:0;
   padding:0;
   height:100%;
-  background-image: url(media/background.jpg);
-  background-size: cover;
 }
+
+.background {
+  background-image: url(media/background.jpg);
+  position: absolute;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+
 
 .AppHeader {
 height: 200px;

@@ -1,15 +1,21 @@
 import React from "react"
 import Navbar from './MyCrawlsNavbar.js'
+import Header from '../../Header'
+import Footer from '../../Footer'
 
 function MyCrawlsMainContent() {
     return (
         <div>
-            <center>
+        <center>
+        <div className='background'>
+            <Header />
                 <main className="MainContent">
-                    <Navbar />
+                <Navbar />
                 </main>
-            </center>
+            <Footer />
         </div>
+        </center>
+    </div>
     )
 }
 

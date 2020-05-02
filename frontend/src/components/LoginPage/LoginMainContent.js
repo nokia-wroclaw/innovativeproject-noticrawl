@@ -1,12 +1,20 @@
 import React from "react"
 import LoginPanel from "./LoginPanel"
+import Header from '../Header'
+import Footer from '../Footer'
 
 function LoginMainContent() {
     return (
         <div>
-        <main className="MainContent">
-            <LoginPanel />
-        </main>
+            <center>
+            <div className='background'>
+                <Header />
+                    <main className="MainContent">
+                    <LoginPanel />
+                    </main>
+                <Footer />
+            </div>
+            </center>
         </div>
     )
 }
