@@ -4,6 +4,22 @@ import TopBanner from './TopBanner';
 import ExternalHtml from './ExternalHtml';
 import './Crawling.css';
 
+
+
+function changeFrame(toggle)
+{
+  var x = toggle
+  alert(x)
+  var oIframe = document.getElementById('pageFrame');
+  var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
+  if (oDoc.document) oDoc = oDoc.document;
+  oDoc.getElementById("TurnOffBordering").style.backgroundColor = toggle;
+  
+  return true;
+}
+
+
+
 var getElementTreeXPath = function (element) {
   var paths = [];
 
@@ -77,16 +93,22 @@ class Crawling extends React.Component {
     this.state = {
       title: "Click here",
     };
-    this.state = { borderState: 1 };
+    this.state = { borderState: "blue" };
 
     // this.select = this.select.bind(this);
     // // this.handleLoad = this.handleLoad.bind(this);
     // this.drawBorder = this.drawBorder.bind(this);
     // // this.deleteBorder = this.deleteBorder.bind(this);
+    this.TakeXpath = this.TakeXpath.bind(this);
+
   }
 
   callbackFunction = (borderSwitchState) => {
     this.setState({ borderState: borderSwitchState });
+    var oIframe = document.getElementById('pageFrame');
+    var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
+    if (oDoc.document) oDoc = oDoc.document;
+    oDoc.getElementById("TurnOffBordering").style.backgroundColor = this.state.borderState;
   };
 
 
@@ -225,76 +247,14 @@ amet ducimus quam       <button class="n">Click me1</button>
 at magni facilis debitis ut quisquam molestias
 maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me2</button>
             </div>  <button class="n">Click me3</button>
-minima in totam. Velit inventore
-deserunt facilis temporibus id provident illo optio ipsa aut consequuntur
-sed repellat dolorem obcaecati iusto ab. Placeat
-repellat dolores
-debitis deleniti ipsum a accusamus in necessitatibus perferendis nostrum laudantium error modi
-  adipisci aliquam a deleniti omnis expedita quis natus. Velit placeat fugit officiis non nihil
-  fuga dolorum veritatis maiores fugiat eligendi iste veniam tempore deserunt.</p>
-          <button>More test buttons</button>
-          <center><h1>Przykładowy tekst do zaznaczenia</h1></center>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
+
   adipisci perspiciatis voluptatibus et vero nisi!</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
           architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
           molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
+stiae
   adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-          quo a illum optio sed at ut ad corporis asperiores eos dolorum commodi laboriosam
-          adipisci provident voluptas
+
           nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
   adipisci perspiciatis voluptatibus et vero nisi!</p> */}
 

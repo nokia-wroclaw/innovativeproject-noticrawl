@@ -53,14 +53,25 @@ submitForm = async e => {
       <div id="selector-left"></div>
       <div id="selector-right"></div>
       <div id="selector-bottom"></div>
+      <div id="TurnOffBordering"></div>
+
     </div>
   </div>
 
 
 <script type='text/javascript'>
 
+
 var xpathIframe = 5;
 function drawBorder(e) {
+
+  var element1 = document.getElementById("TurnOffBordering")
+  var style = getComputedStyle(element1)
+  var value = style.backgroundColor
+  if (value == "rgb(0, 0, 255)") {
+  document.getElementById("selector").style.display = 'none';
+    return;
+  }
 
   // if (this.state.borderState == 0) {
   //   return;
@@ -133,6 +144,17 @@ function removeHighlight(e) {
 }
 
 function select(e) {
+
+  
+  var element1 = document.getElementById("TurnOffBordering")
+  var style = getComputedStyle(element1)
+  var value = style.backgroundColor
+  if (value == "rgb(0, 0, 255)") {
+  document.getElementById("selector").style.display = 'none';
+    return;
+  }
+
+
 
 document.getElementById('outer').style.background = 'rgba(37, 172, 131, 0.2)';
 document.getElementById('outer').style.position = 'absolute';
@@ -216,7 +238,6 @@ function getElementXPath(element) {
   else
     return getElementTreeXPath(element);
 };
-
 
 
 

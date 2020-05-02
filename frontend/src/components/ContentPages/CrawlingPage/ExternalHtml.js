@@ -181,6 +181,7 @@ function ExternalHtml() {
     <div>
       <iframe
         id="pageFrame"
+        name="pageFrame"
         src={takeExternalPageToRender.state.externalPageToRender}
         srcDoc={takeExternalPageToRender.state.externalPageToRender}
         allow="fullscreen"

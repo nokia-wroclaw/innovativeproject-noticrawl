@@ -6,10 +6,10 @@ class TopBanner extends React.Component {
 
 
       sendState = () => {
-      if (this.props.borderState)
-      this.props.Callback(0);
+      if (this.props.borderState == "red")
+      this.props.Callback("blue");
       else 
-      this.props.Callback(1);
+      this.props.Callback("red");
     }
   render() {
           
