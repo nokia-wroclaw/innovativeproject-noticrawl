@@ -1,3 +1,5 @@
+from typing import List
+import logging
 from fastapi import FastAPI
 from pydantic import BaseModel, BaseConfig
 from fastapi.staticfiles import StaticFiles
@@ -7,12 +9,11 @@ from pyppeteer import launch
 #from backend.src.parse_module import parse
 
 async def parse(url):
-    browser = await launch()
+    logging.getLogger("websockets").setLevel("WARN")
+    browser = await launch(headless = True, args = ["--no-sandbox"], logLevel = "WARN")
     page = await browser.newPage()
     await page.goto(url)
     html = await page.content()
-    f = open("page_html.txt", "w+", encoding="utf-8")
-    f.write(html)
     await browser.close()
     return html
 
@@ -24,8 +25,8 @@ class Data(BaseModel):
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
-templates = Jinja2Templates(directory="../frontend/build")
+app.mount("/static", StaticFiles(directory="../../frontend/build/static"), name="static")
+templates = Jinja2Templates(directory="../../frontend/build")
 
 
 @app.get("/")
