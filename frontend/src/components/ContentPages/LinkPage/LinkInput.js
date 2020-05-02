@@ -59,7 +59,7 @@ submitForm = async e => {
 
 <script type='text/javascript'>
 
-var a=5;
+var xpathIframe = 5;
 function drawBorder(e) {
 
   // if (this.state.borderState == 0) {
@@ -134,13 +134,22 @@ function removeHighlight(e) {
 
 function select(e) {
 
-  console.log("Działa!111111111111111111111111111111");
-
 document.getElementById('outer').style.background = 'rgba(37, 172, 131, 0.2)';
 document.getElementById('outer').style.position = 'absolute';
 document.getElementById('outer').style.zIndex = 65000000;
 
+
   var target = e.target;
+
+
+  if (target.id == "outer" || 
+  target.id == "selector-top" ||
+  target.id == "selector-bottom" ||
+  target.id == "selector-left" ||
+  target.id == "selector-right") return;
+
+  getElementXPath(e);
+
   // this.setState({ title: getElementXPath(target) });
   var targetRect = target.getBoundingClientRect();
   var outer = document.getElementById("outer").style;
@@ -154,44 +163,55 @@ document.getElementById('outer').style.zIndex = 65000000;
 
 function getElementTreeXPath(element) {
   var paths = [];
-  console.log(paths);
+  console.log("start drugiej funkcji");
+  var target = element.target;
+  console.log("druga funkcja target: " + target);
+  console.log("target.nodeType: " + target.nodeType);
+  console.log("target.parentNode: " + target.parentNode);
 
-  for (; element && element.nodeType === 1; element = element.parentNode) {
+
+  for (; target && target.nodeType === 1; target = target.parentNode) {
     var index = 0;
-    console.log(index);
+    console.log("index w pętli: " + index);
 
-    // EXTRA TEST FOR ELEMENT.ID
-    if (element && element.id) {
-      paths.splice(0, 0, '/*[@id="' + element.id + '"]');
+    // EXTRA TEST FOR target.ID
+    if (target && target.id) {
+      paths.splice(0, 0, '/*[@id="' + target.id + '"]');
       break;
     }
 
-    for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling) {
+    for (var sibling = target.previousSibling; sibling; sibling = sibling.previousSibling) {
       // Ignore document type declaration.
       if (sibling.nodeType === Node.DOCUMENT_TYPE_NODE)
         continue;
 
-      if (sibling.nodeName === element.nodeName)
+      if (sibling.nodeName === target.nodeName)
         ++index;
 
     }
 
-    var tagName = element.nodeName.toLowerCase();
+    var tagName = target.nodeName.toLowerCase();
     var pathIndex = (index ? "[" + (index + 1) + "]" : "");
     paths.splice(0, 0, tagName + pathIndex);
   }
 
-  a = paths.length ? "/" + paths.join("/") : null;
-  console.log("drugi"+a);
+  xpathIframe = paths.length ? "/" + paths.join("/") : null;
+  console.log("druga funckja końcówka i jego xpathIframe: "+ xpathIframe);
 
   return paths.length ? "/" + paths.join("/") : null;
 };
 
 function getElementXPath(element) {
-  if (element && element.id){
-    console.log("pierwszy");
-    a = '//*[@id="' + element.id + '"]'
-    return '//*[@id="' + element.id + '"]';
+  var target = element.target;
+  console.log("pierwsza funkcja target: " + target);
+  console.log("target.id: " + target.id);
+
+
+  if (target && target.id){
+    xpathIframe = '//*[@id="' + target.id + '"]'
+    console.log("pierwsza funkcja xpathIframe: " + xpathIframe);
+
+    return '//*[@id="' + target.id + '"]';
   }
   else
     return getElementTreeXPath(element);
@@ -204,7 +224,6 @@ function getElementXPath(element) {
   window.addEventListener('click', removeHighlight);
   window.addEventListener('mousemove', drawBorder);
   window.addEventListener('click', select);
-  window.addEventListener('click', getElementXPath);
 
 
 </script>`

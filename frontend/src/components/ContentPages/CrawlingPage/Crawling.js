@@ -181,8 +181,8 @@ class Crawling extends React.Component {
 
 
   TakeXpath (){
-    var check = document.getElementById("pageFrame").contentWindow.a;
-    alert(check);
+    var xpath = document.getElementById("pageFrame").contentWindow.xpathIframe;
+    alert(xpath);
   }
 
   render() {
@@ -193,7 +193,7 @@ class Crawling extends React.Component {
 
         {/* <div id='Content' onClick={this.select}>{this.state.title} */}
         <div id='Content'>
-        <button onClick={this.TakeXpath}>Sprawdx xPath!</button>
+        <button onClick={this.TakeXpath}>Check xPath!</button>
 
           {/* rendering page to crawl */}
 
