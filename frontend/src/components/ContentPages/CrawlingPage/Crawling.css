@@ -109,9 +109,9 @@
 
 
 #CrawlingBanner {
-  background-image: url(./background.jpg);
+  background-image: url(./background2.png);
   background-size: auto;
-  height: 70px;
+  height: 80px;
   z-Index: 65001000;
   margin-top: 0px;
   padding-bottom: 10px; 
@@ -124,25 +124,66 @@
 }
 
 .Logo {
-  margin-top: 10px;
+  margin-top: 12px;
   width: fit-content;
   height: 48px;
-  margin-left: 20px;
+  margin-left: 10px;
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 12px;
+  padding-top: 15px;
+  padding-bottom: 2px;
   margin-right: 10px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
   float: left;
 }
 
-.StatusBox {
-  margin-top: 10px;
+.Status {
+  margin-top: 12px;
   width: fit-content;
   height: 60px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.Bordering {
+  margin-top: 12px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.EmailInput {
+  margin-top: 12px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.NotificationFreq {
+  margin-top: 12px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 5px;
   margin-right: 10px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
@@ -150,68 +191,39 @@
 }
 
 .SubmitButton {
-  margin-top: 10px;
+  margin-top: 12px;
   width: fit-content;
   height: 44px;
   padding-top: 15px;
   padding-left: 20px;
   padding-right: 20px;
   margin-right: 10px;
+  padding-bottom: 5px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
-  float: left;
-}
-
-/* do uzupełnienia */
-.Setting1 {
-  margin-top: 10px;
-  width: fit-content;
-  height: 60px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-right: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  float: left;
-}
-
-/* do uzupełnienia */
-.Setting2 {
-  margin-top: 10px;
-  width: fit-content;
-  height: 60px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-right: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  float: left;
+  float: right;
 }
 
 /* do usunięcia w przyszłości */
 .xPaths {
-  margin-top: 10px;
+  margin-top: 12px;
   width: 500px;
   height: 50px;
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 10px;
+  padding-bottom: 5px;
   margin-right: 40px;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
   float: right;
 }
 
-
-div.elements{
-width:100%;
-float: left;
-}
-
-.submit{
-  padding: 5px 50px 5px;
-  float: right;
-}
+.elements{
+  width:100%;
+  float: left;
+  height: 60px;
+  }
 
 .SettingsBox {
   width: 100px;
@@ -225,7 +237,7 @@ float: left;
 }
 
 #Content{
-  padding-top: 80px;
+  padding-top: 90px;
   padding-left: 0px;
   padding-right: 0px;
 }

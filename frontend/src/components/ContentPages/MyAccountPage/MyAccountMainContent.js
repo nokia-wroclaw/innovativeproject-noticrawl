@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from './MyAccountNavbar.js'
 import Header from '../../Header'
 import Footer from '../../Footer'
+import MyAccount from "./MyAccount.js"
 
 function LinkMainContent() {
     return (
@@ -10,7 +11,8 @@ function LinkMainContent() {
         <div className='background'>
             <Header />
                 <main className="MainContent">
-                <Navbar />
+                    <MyAccount />
+                    <Navbar />
                 </main>
             <Footer />
         </div>

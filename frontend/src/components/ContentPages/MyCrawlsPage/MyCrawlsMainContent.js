@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from './MyCrawlsNavbar.js'
 import Header from '../../Header'
 import Footer from '../../Footer'
+import MyCrawls from "./MyCrawls.js"
 
 function MyCrawlsMainContent() {
     return (
@@ -10,7 +11,8 @@ function MyCrawlsMainContent() {
         <div className='background'>
             <Header />
                 <main className="MainContent">
-                <Navbar />
+                    <MyCrawls />
+                    <Navbar />
                 </main>
             <Footer />
         </div>

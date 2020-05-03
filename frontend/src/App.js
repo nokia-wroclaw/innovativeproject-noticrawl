@@ -8,16 +8,12 @@ import MyCrawlsMainContent from './components/ContentPages/MyCrawlsPage/MyCrawls
 import Crawling from './components/ContentPages/CrawlingPage/Crawling';
 import NotFoundPage from './components/ContentPages/NotFoundPage';
 
-import Provider from './components/ContentPages/Provider';
-
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-
-
 
 
 function App() {
@@ -27,19 +23,17 @@ function App() {
           A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. 
           */}
-          <Provider>
-            <Router>
-              <Switch>
-                <Route exact strict path="/" component={LoginMainContent} />  
-                <Route exact strict path="/new-crawl" component={LinkMainContent} />
-                <Route exact strict path="/new-crawl/start-crawling" component={Crawling} />
-                <Route exact strict path="/my-account" component={MyAccountMainContent} />
-                <Route exact strict path="/my-crawls" component={MyCrawlsMainContent} />
-                <Route exact strict path="/404" component={NotFoundPage} />
-                <Redirect to="/404" />
-              </Switch>
-            </Router> 
-          </Provider>
+          <Router>
+            <Switch>
+              <Route exact strict path="/" component={LoginMainContent} />  
+              <Route exact strict path="/new-crawl" component={LinkMainContent} />
+              <Route exact strict path="/new-crawl/start-crawling" component={Crawling} />
+              <Route exact strict path="/my-account" component={MyAccountMainContent} />
+              <Route exact strict path="/my-crawls" component={MyCrawlsMainContent} />
+              <Route exact strict path="/404" component={NotFoundPage} />
+              <Redirect to="/404" />
+            </Switch>
+          </Router> 
       </body>
   );
 }

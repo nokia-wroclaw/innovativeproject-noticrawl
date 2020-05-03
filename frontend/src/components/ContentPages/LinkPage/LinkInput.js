@@ -1,8 +1,17 @@
-import React from "react"
+import React, {Component} from "react"
 import { Link } from "react-router-dom";
+import Button from '@material-ui/core/Button';
+//import TextField from '@material-ui/core/TextField';
+//import FilledInput from '@material-ui/core/FilledInput';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+//import Input from '@material-ui/core/Input';
+//import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 //import { MContext, Consumer } from "../Provider";
 
-class LinkInput extends React.Component{
+
+class LinkInput extends Component{
 
   constructor(props) {
     super(props);
@@ -10,9 +19,8 @@ class LinkInput extends React.Component{
       values: {
         link: ""
       },
-      title1: "Click hereaa",  // TUTAJ DODAŁEM TO - DAWID
+      //title1: "Click hereaa",  // TUTAJ DODAŁEM TO - DAWID
       parsedPageToExport: "",
-      //externalPageToRender: "",
       isSubmitting: false,
       isError: false
     };
@@ -32,6 +40,7 @@ submitForm = async e => {
       },
     });
 
+
     //////////////////////////////////////////////////////
     //showing what frontend send to backend (to delete later)
     alert(JSON.stringify(this.state.values))
@@ -45,6 +54,12 @@ submitForm = async e => {
 
     //////////////////////////////////////////////////////
     //showing what backend returns to frontend (to delete later)
+    alert(data.parsedPage);
+    //////////////////////////////////////////////////////
+
+
+
+
     var AddingScripts = `<div>
     <div id='empty'></div>
     <div id='outer' class='outer'></div>
@@ -248,17 +263,12 @@ function getElementXPath(element) {
 
 
 </script>`
+
     var x = data.parsedPage;
     x = x.slice(0,-14)
     data.parsedPage = x;
 
     data.parsedPage = data.parsedPage + AddingScripts + "</body></html>";
-    alert(data.parsedPage);
-
-    
-
-
-
 
 
     // TUTAJ DODAŁEM TO \/ - DAWID
@@ -273,15 +283,31 @@ function getElementXPath(element) {
 
 // TUTAJ DODAŁEM TO /\- DAWID
 
+//////////////////////////   this.setState({ title: getElementXPath(target) });
 
-    //////////////////////////   this.setState({ title: getElementXPath(target) });
-////////////////////////////
 
 
     //setting parsed code received from backend to the variable, which will be exported
     this.setState({parsedPageToExport: data.parsedPage}) 
 
   
+/* powinno działać gdy będzie gotowy fallback
+
+    const redirect = () => {
+      return(
+        <Link to={{
+          pathname: "/new-crawl/start-crawling",
+          state: {
+            externalPageToRender: this.state.parsedPageToExport,
+          }
+        }}>
+          {window.location.replace("./new-crawl/start-crawling")}
+        </Link>
+      );
+    }  
+    redirect();
+*/
+
     setTimeout(
       () => {
         this.setState({
@@ -289,11 +315,10 @@ function getElementXPath(element) {
           message: "",
           values: {link: "" }
         })
-        window.location.replace = "/start-crawling"; //other version: link location href
       },
       1600
     );
-    //return parsedPageToExport = data.parsedPage; //potem zmienić na JSON.stringify(data.parsedPage)
+
   };
 
   handleInputChange = e =>
@@ -304,22 +329,57 @@ function getElementXPath(element) {
   render() {
     return (
       <div>
-      <div className="LinkInput">
+      <div className="PageContent">
         <form onSubmit={this.submitForm}>
-          <div className="input-group">
+            <h1>Paste your link below</h1>
+            <FormControl style={{ width: '50ch', alignContent: 'center'}} variant="outlined">
+              <OutlinedInput
+                type="text"
+                name="link"
+                id="linkInput"
+                value={this.state.values.link}
+                onChange={this.handleInputChange}
+                pattern="https?://.+"
+                required
+              />
+              <FormHelperText id="helper-text">
+                   Remember, that your link should start with "http://" or "https://".
+              </FormHelperText>
+            </FormControl>
+          
+            {/* alternative version
+            <TextField 
+            style={{ width: '50ch' }} 
+            id="filled-link" 
+            label="Your link" 
+            type="link" 
+            variant="filled" 
+            helperText='Remember, that your link should start with "http://" or "https://".'
+            value={this.state.values.link}
+            required/>
+            */}
+
+            {/* classic version
             <label htmlFor="link"><h1>Paste your link below</h1></label>
             <input
-              type="link"
+              type="text"
               name="link"
               id="link"
               value={this.state.values.link}
               onChange={this.handleInputChange}
-              title="link"
+              title="http://yourlink.com or https://yourlink.com"
+              pattern="https?://.+"
               required
             />
-          </div>
-          <button type="submit">Go to website</button>
+            <button type="submit">Go to website</button>
+            */}
+
+            <div>
+            <Button variant="contained" color="primary" type="submit" id="linkSubmit">Go to website</Button>
+            </div> 
+      
         </form>
+
         <div className={`message ${this.state.isError && "error"}`}>
           {this.state.isSubmitting ? "Submitting..." : this.state.message}
         </div>
@@ -331,8 +391,10 @@ function getElementXPath(element) {
             externalPageToRender: this.state.parsedPageToExport,
           }
         }}>
-          <button>working "go to website" button</button>
+          <Button variant="outlined" color="primary" disableElevation >working button</Button>
         </Link>
+
+
       </div>
       </div>
     );

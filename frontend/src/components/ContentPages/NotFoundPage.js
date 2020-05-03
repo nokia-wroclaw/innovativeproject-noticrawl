@@ -12,7 +12,7 @@ function MyCrawlsMainContent() {
         <div className='background'>
             <Header />
                 <main className="MainContent">
-                <div className="LinkInput">
+                <div className="PageContent">
                     <h2>I'm really sorry, but this page doesn't exist</h2>
                     <img src={error} height="170px" width="150px" alt="how dare you?" />
                     <h4>Go back to the right path by clicking button below...</h4>

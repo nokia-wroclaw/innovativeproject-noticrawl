@@ -12,8 +12,6 @@ html, body {
   width: 100%;
 }
 
-
-
 .AppHeader {
 height: 200px;
 display: flex;
@@ -29,19 +27,9 @@ pointer-events: none;
 
 .MainContent {
 width: 40%;
-height: auto;
-min-height: 432px;
+height: 432px;
 background-color: rgba(255, 255, 255, 0.9);
 border-radius: 50px;
-align-items: center;
-/*
-stare - w razie czego:
-height: 432px;
-width: 578px;
-background-image: url(media/loginpanelbg.png) ;
-background-repeat: no-repeat;
-background-position-x: center;
-*/
 }
 
 .LoginPanel {
@@ -253,18 +241,17 @@ background-color: #2ecc71;
 visibility: visible;
 }
 
-.LinkInput {
+.PageContent {
 display : block;
+position: center;
 padding-top: 30px;
+height: 320px;
 }
-
 
 .nav {
 list-style: none;
-position: absolute;
-width: 40%;
+position: relative;
 min-height: 50px;
-bottom: 170px; /* zrobić dynamiczne dopasowanie navbara */
 }
 
 .nav li {
@@ -281,26 +268,17 @@ bottom: 170px; /* zrobić dynamiczne dopasowanie navbara */
   border-left: 1px solid rgb(90, 89, 89); 
   }
   
+#linkInput {
+  position: relative;
+  display: block;
+  width: 300px;
+}
 
-/*
-#nav {
-display : block;
-margin-top: 25%;
-margin-bottom: 30px;
-width: 90%;
-float: center;
-padding: 0;
-list-style: none;
-background-color: #f2f2f2;
-border-bottom: 1px solid #ccc; 
-border-top: 1px solid #ccc; }
+#linkSubmit {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
 
-#nav li a {
-    display: block;
-    padding: 8px 15px;
-    text-decoration: none;
-    font-weight: bold;
-    color: #069;
-    border-right: 1px solid #ccc; 
-  }
-  */
+#helper-text {
+  padding-left: 20px;
+}
