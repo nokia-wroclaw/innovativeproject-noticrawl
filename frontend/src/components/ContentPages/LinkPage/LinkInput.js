@@ -283,12 +283,12 @@ function getElementXPath(element) {
 
 // TUTAJ DODAŁEM TO /\- DAWID
 
-//////////////////////////   this.setState({ title: getElementXPath(target) });
+// this.setState({ title: getElementXPath(target) });
 
 
 
-    //setting parsed code received from backend to the variable, which will be exported
-    this.setState({parsedPageToExport: data.parsedPage}) 
+//setting parsed code received from backend to the variable, which will be exported
+this.setState({parsedPageToExport: data.parsedPage}) 
 
   
 /* powinno działać gdy będzie gotowy fallback
@@ -333,18 +333,20 @@ function getElementXPath(element) {
         <form onSubmit={this.submitForm}>
             <h1>Paste your link below</h1>
             <FormControl style={{ width: '50ch', alignContent: 'center'}} variant="outlined">
+              <input value={this.state.values.link} pattern="https?://.+" hidden="true"></input>
               <OutlinedInput
                 type="text"
                 name="link"
                 id="linkInput"
                 value={this.state.values.link}
                 onChange={this.handleInputChange}
-                pattern="https?://.+"
+                style={{ marginBottom: '0px' }}  
                 required
               />
-              <FormHelperText id="helper-text">
-                   Remember, that your link should start with "http://" or "https://".
-              </FormHelperText>
+                <FormHelperText id="helper-text">
+                    Remember, that your link should start with "http://" or "https://".
+                </FormHelperText> 
+
             </FormControl>
           
             {/* alternative version
