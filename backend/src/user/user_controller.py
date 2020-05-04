@@ -37,12 +37,5 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @user_router.post("/api/v1/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = user_service.get_user_by_email(db, form_data.username)
-    print(user)
-    if not user:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-    hashed_password = user_service.fake_hash_password(form_data.password)
-    if not hashed_password == user.password:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-
-    return {"access_token": user.email, "token_type": "bearer"}
+    user_service.authenticate_user(db, form_data.username, form_data.password)
+    return {"access_token": form_data.username, "token_type": "bearer"}
