@@ -1,12 +1,21 @@
 from typing import List
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel, BaseConfig
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 from pyppeteer import launch
 #from backend.src.parse_module import parse
+
+from .database import models
+from .database.connection import SessionLocal
+from .user.user_controller import user_router
+
+app = FastAPI()
+app.include_router(user_router)
+
+models.create_models()
 
 async def parse(url):
     logging.getLogger("websockets").setLevel("WARN")
@@ -49,3 +58,7 @@ async def post_xpath(selector: Selector):
     selector_xpath = selector.path
     selector_dict.update({"parsedPage": selector_xpath})
     return selector_dict
+
+@app.get("/hello")
+def hello_world():
+    return {"message": "Hello World"}
