@@ -4,20 +4,6 @@ import { useLocation } from 'react-router-dom';
 //rendering external html
 function ExternalHtml() {
 
-  /*
-  function htmlToElements(html) {
-    var template = document.createElement('template');
-    template.insertAdjacentHTML('beforeend', html);
-    return template.content.childNodes;
-  }
-  
-  function parseHTML(html) {
-    var t = document.createElement('template');
-    t.innerHTML = html;
-    return t.content.cloneNode(true);
-  }
-  */
-
   // const externalPageToRender =  useLocation().state.externalPageToRender;
   const takeExternalPageToRender =  useLocation();
 
@@ -186,12 +172,10 @@ function ExternalHtml() {
         srcDoc={takeExternalPageToRender.state.externalPageToRender}
         allow="fullscreen"
         importance="high"
-        referrerPolicy="unsafe-url"
-        sandbox="allow-popups allow-scripts allow-same-origin"
+        sandbox="allow-popups allow-scripts allow-same-origin allow-forms allow-modals allow-pointer-lock allow-popups-to-escape-sandbox"
         frameBorder="100"
-
-      >
-      </iframe>
+        referrerPolicy="no-referrer-when-downgrade"
+      />
 
       {/* <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} /> */}
 
