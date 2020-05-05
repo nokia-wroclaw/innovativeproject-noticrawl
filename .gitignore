@@ -4,3 +4,4 @@
 *.secrets*
 .idea
 *.config*
+*log*
