@@ -3,7 +3,7 @@ const fs = require('fs');
 
 (async () => {
     console.time("Page parsing");
-    const browser = await puppeteer.launch(headless = false, args = ["--headless", "--no-sandbox"]);
+    const browser = await puppeteer.launch(headless = true, args = ["--no-sandbox"]);
     const page = await browser.newPage();
     await page.goto("https://www.onet.pl/", {waitUntil: 'networkidle0'});
     html = await page.content()
