@@ -1,26 +1,61 @@
-from requests_html import HTMLSession
-from pyppeteer import launch
+import pyppeteer
+import logging
 import asyncio
 
-async def parse_pup(url):
-    browser = await launch({"headless": False})
+
+#Parse page
+async def parse(url):
+    logging.getLogger("websockets").setLevel("WARN")
+    browser = await pyppeteer.launch(headless = True, args = ["--no-sandbox"], logLevel = "WARN")
     page = await browser.newPage()
     await page.goto(url)
-    html_content = await page.content()
-    f = open("page.txt", "w+")
-    f.write(html_content)
-    f = open("page.txt", "r")
-    parse_page = f.read()
+    page_title = await page.title()
+    html = await page.content()
     await browser.close()
-    return parse_page
-
-print(asyncio.get_event_loop().run_until_complete(parse_pup("https://miyakogi.github.io/pyppeteer/")))
+    return html, page_title
 
 
-def html(url):
-    session = HTMLSession()
-    r = session.get(url)
-    parse_page = r.text
-    return parse_page
+#CSS selector
+async def css_selector(url):
+    logging.getLogger("websockets").setLevel("WARN")
+    browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")
+    page = await browser.newPage()
+    await page.goto(url, waitUntil='networkidle2')
+    element = await page.querySelector('.bTbEzd > div:nth-child(2) > a:nth-child(2)')
+    title = await page.evaluate('(element) => element.textContent', element)
+    await page.close()
+    await browser.close()
+    return title
 
-print(html("https://www.wp.pl/"))
+#print(asyncio.get_event_loop().run_until_complete(css_selector("https://www.youtube.com/")))
+
+
+#no sandbox problem
+#websocket 8.0 -> 6.0
+async def xpath_selector(url):
+    logging.getLogger("websockets").setLevel("WARN")
+    browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")
+    page = await browser.newPage()
+    await page.goto(url, waitUntil='networkidle2', timeout=100000)
+    await page.waitForXPath('/html/body/div[4]/main/div[3]/div/ul/li/img')
+    xpath = await page.xpath('/html/body/div[4]/main/div[3]/div/ul/li/img')
+    text = await page.evaluate('(xpath) => xpath.textContent', xpath[0])
+    await page.close()
+    await browser.close()
+    return text
+
+# print(asyncio.get_event_loop().run_until_complete(xpath_selector("https://github.com/")))
+
+
+#data_selector
+async def data_selector(url, xpath):
+    logging.getLogger("websockets").setLevel("WARN")
+    browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")
+    page = await browser.newPage()
+    await page.goto(url, waitUntil='networkidle2', timeout=100000)
+    await page.waitForXPath(xpath)
+    xpath_content = await page.xpath(xpath)
+    text_content = await page.evaluate('(xpath_content) => xpath_content.textContent', xpath_content[0])
+    await page.close()
+    await browser.close()
+    return text_content
