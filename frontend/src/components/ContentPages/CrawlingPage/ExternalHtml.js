@@ -172,9 +172,9 @@ function ExternalHtml() {
         srcDoc={takeExternalPageToRender.state.externalPageToRender}
         allow="fullscreen"
         importance="high"
-        sandbox="allow-popups allow-scripts allow-same-origin allow-forms allow-modals allow-pointer-lock allow-popups-to-escape-sandbox"
+        referrerPolicy="unsafe-url"
+        sandbox="allow-popups allow-scripts allow-same-origin"
         frameBorder="100"
-        referrerPolicy="no-referrer-when-downgrade"
       />
 
       {/* <div dangerouslySetInnerHTML={{ __html: takeExternalPageToRender.state.externalPageToRender }} /> */}
