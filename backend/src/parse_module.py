@@ -1,12 +1,13 @@
-import pyppeteer
-import logging
 import asyncio
+import logging
+
+import pyppeteer
 
 
-#Parse page
+# Parse page
 async def parse(url):
     logging.getLogger("websockets").setLevel("WARN")
-    browser = await pyppeteer.launch(headless = True, args = ["--no-sandbox"], logLevel = "WARN")
+    browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")
     page = await browser.newPage()
     await page.goto(url)
     page_title = await page.title()
@@ -15,7 +16,7 @@ async def parse(url):
     return html, page_title
 
 
-#CSS selector
+# CSS selector
 async def css_selector(url):
     logging.getLogger("websockets").setLevel("WARN")
     browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")
@@ -27,11 +28,11 @@ async def css_selector(url):
     await browser.close()
     return title
 
-#print(asyncio.get_event_loop().run_until_complete(css_selector("https://www.youtube.com/")))
+# print(asyncio.get_event_loop().run_until_complete(css_selector("https://www.youtube.com/")))
 
 
-#no sandbox problem
-#websocket 8.0 -> 6.0
+# no sandbox problem
+# websocket 8.0 -> 6.0
 async def xpath_selector(url):
     logging.getLogger("websockets").setLevel("WARN")
     browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")
@@ -47,7 +48,7 @@ async def xpath_selector(url):
 # print(asyncio.get_event_loop().run_until_complete(xpath_selector("https://github.com/")))
 
 
-#data_selector
+# data_selector
 async def data_selector(url, xpath):
     logging.getLogger("websockets").setLevel("WARN")
     browser = await pyppeteer.launch(headless=True, args=["--no-sandbox"], logLevel="WARN")

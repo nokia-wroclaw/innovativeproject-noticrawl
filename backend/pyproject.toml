@@ -21,6 +21,7 @@ pyppeteer = "^0.0.25"
 [tool.poetry.dev-dependencies]
 taskipy = "^1.2.1"
 pylint = "^2.4.4"
+autopep8 = "^1.5.2"
 
 [tool.taskipy.tasks]
 dev-server = "uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug "
