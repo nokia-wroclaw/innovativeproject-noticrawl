@@ -28,11 +28,7 @@ app.include_router(user_router)
 models.create_models()
 app = FastAPI()
 
-app.mount(
-    "/static",
-    StaticFiles(
-        directory="../frontend/build/static"),
-    name="static")
+app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
 templates = Jinja2Templates(directory="../frontend/build")
 
 
@@ -51,16 +47,15 @@ async def post_link(url: Data):
     url_dict.update({"parsedPage": parsed_page})
     return url_dict
 
+
 # change url
 @app.post("api/v1/crawling-data")
 async def post_crawling_data(crawling_data: CrawlingData):
     crawling_data_dict = crawling_data.dict()
     email = crawling_data.email
     time = crawling_data.time
-    xpath_value = data_selector(
-        "http://www.mojapogoda.com/", crawling_data.xpath)
-    crawling_data_dict.update(
-        {"email": email, "xpath": xpath_value, "time": time})
+    xpath_value = data_selector("http://www.mojapogoda.com/", crawling_data.xpath)
+    crawling_data_dict.update({"email": email, "xpath": xpath_value, "time": time})
     return {"Status": "WOW"}
 
 
