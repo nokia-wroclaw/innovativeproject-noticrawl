@@ -11,7 +11,7 @@ async def parse(url):
         headless=True, args=["--no-sandbox"], logLevel="WARN"
     )
     page = await browser.newPage()
-    await page.goto(url)
+    await page.goto(url, waitUntil="networkidle0")
     page_title = await page.title()
     html = await page.content()
     await browser.close()

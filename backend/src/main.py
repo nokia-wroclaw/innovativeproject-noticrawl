@@ -1,3 +1,6 @@
+from timeit import default_timer as timer
+import logging
+
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -9,8 +12,7 @@ from .database import models
 from .parse_module import data_selector, parse
 from .user.user_controller import user_router
 
-# change class name:
-
+logger = logging.getLogger("Noticrawl")
 
 class Data(BaseModel):
     link: str
@@ -39,12 +41,14 @@ def show_statics(request: Request):
 
 @app.post("/api/v1/new-crawl")
 async def post_link(url: Data):
+    start = timer()
     url_dict = url.dict()
     parsed_page, page_title = await parse(url.link)
-    # logger = logging.getLogger("Noticrawl")
-    # logger.log(level=logging._nameToLevel["DEBUG"], msg=parsed_page)
-    save_to_html(data=parsed_page, filename=page_title)
+    # save_to_html(data=parsed_page, filename=page_title)
     url_dict.update({"parsedPage": parsed_page})
+    end = timer()
+    time = (end-start).__str__()
+    logger.log(level=10, msg="post_crawling_data exec time: " + time)
     return url_dict
 
 
