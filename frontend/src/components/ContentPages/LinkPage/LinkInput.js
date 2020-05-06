@@ -42,7 +42,7 @@ submitForm = async e => {
 
     //////////////////////////////////////////////////////
     //showing what frontend send to backend (to delete later)
-    alert(JSON.stringify(this.state.values))
+    // alert(JSON.stringify(this.state.values))
     //////////////////////////////////////////////////////
 
     this.setState({ isSubmitting: false });
@@ -59,64 +59,84 @@ submitForm = async e => {
 
 
 
-    var AddingScripts = `<div>
-    <div id='empty'></div>
-    <div id='outer' class='outer'></div>
-    <div id="selector">
-      <div id="selector-top"></div>
-      <div id="selector-left"></div>
-      <div id="selector-right"></div>
-      <div id="selector-bottom"></div>
-      <div id="TurnOffBordering"></div>
-
-    </div>
-  </div>
-
-
+    var AddingScripts = `
 <script type='text/javascript'>
+
+var outer = document.createElement("div");
+outer.setAttribute("id", "outer");
+outer.setAttribute("class", "outer");
+document.body.appendChild(outer);
+outer.style.background = 'rgba(37, 172, 131, 0.2)';
+outer.style.position = 'absolute';
+outer.style.zIndex = 65000000;
+
+
+var selector = document.createElement("div");
+selector.setAttribute("id", "selector");
+document.body.appendChild(selector);
+
+
+var TurnOffBordering = document.createElement("div");
+TurnOffBordering.setAttribute("id", "TurnOffBordering");
+document.body.appendChild(TurnOffBordering);
+
+
+var topSelector = document.createElement("div");
+topSelector.setAttribute("id", "selector-top");
+selector.appendChild(topSelector);
+topSelector.style.background = 'blue';
+topSelector.style.position = 'absolute';
+topSelector.style.height = '3px';
+topSelector.style.zIndex = 65000000;
+topSelector.style.transition = 'all 300ms ease';
+
+
+var leftSelector = document.createElement("div");
+leftSelector.setAttribute("id", "selector-left");
+selector.appendChild(leftSelector);
+leftSelector.style.background = 'blue';
+leftSelector.style.position = 'absolute';
+leftSelector.style.width = '3px';
+leftSelector.style.zIndex = 65000000;
+leftSelector.style.transition = 'all 300ms ease';
+
+
+var rightSelector = document.createElement("div");
+rightSelector.setAttribute("id", "selector-right");
+selector.appendChild(rightSelector);
+rightSelector.style.background = 'blue';
+rightSelector.style.position = 'absolute';
+rightSelector.style.width = '3px';
+rightSelector.style.zIndex = 65000000;
+rightSelector.style.transition = 'all 300ms ease';
+
+
+var bottomSelector = document.createElement("div");
+bottomSelector.setAttribute("id", "selector-bottom");
+selector.appendChild(bottomSelector);
+bottomSelector.style.background = 'blue';
+bottomSelector.style.position = 'absolute';
+bottomSelector.style.height = '3px';
+bottomSelector.style.zIndex = 65000000;
+bottomSelector.style.transition = 'all 300ms ease';
+
+
+
 
 
 var xpathIframe = 5;
 function drawBorder(e) {
 
-  var element1 = document.getElementById("TurnOffBordering")
-  var style = getComputedStyle(element1)
+  var style = getComputedStyle(TurnOffBordering)
   var value = style.backgroundColor
   if (value == "rgb(0, 0, 255)") {
-  document.getElementById("selector").style.display = 'none';
+    selector.style.display = 'none';
     return;
   }
 
   // if (this.state.borderState == 0) {
   //   return;
   // }
-  var selectorTop = document.getElementById('selector-top').style
-  selectorTop.background = 'blue';
-  selectorTop.position = 'absolute';
-  selectorTop.height = '3px';
-  selectorTop.zIndex = 65000000;
-  selectorTop.transition = 'all 300ms ease';
-
-  var selectorBot = document.getElementById('selector-bottom').style
-  selectorBot.background = 'blue';
-  selectorBot.position = 'absolute';
-  selectorBot.height = '3px';
-  selectorBot.zIndex = 65000000;
-  selectorBot.transition = 'all 300ms ease';
-
-  var selectorLeft = document.getElementById('selector-left').style
-  selectorLeft.background = 'blue';
-  selectorLeft.position = 'absolute';
-  selectorLeft.width = '3px';
-  selectorLeft.zIndex = 65000000;
-  selectorLeft.transition = 'all 300ms ease';
-
-  var selectorRight = document.getElementById('selector-right').style
-  selectorRight.background = 'blue';
-  selectorRight.position = 'absolute';
-  selectorRight.width = '3px';
-  selectorRight.zIndex = 65000000;
-  selectorRight.transition = 'all 300ms ease';
 
   var target = e.target;
 
@@ -125,58 +145,45 @@ function drawBorder(e) {
       target.id === "selector-left" ||
       target.id === "selector-right") return;
 
-  document.getElementById("selector").style.display = 'block';
+      selector.style.display = 'block';
 
   var targetRect = target.getBoundingClientRect();
-  console.log("Działa!");
-  var top = document.getElementById("selector-top").style;
-  top.width = targetRect.width + "px";
-  top.left = targetRect.left + "px";
-  top.top = targetRect.top + window.scrollY + "px";
+  
+  topSelector.style.width = targetRect.width + "px";
+  topSelector.style.left = targetRect.left + "px";
+  topSelector.style.top = targetRect.top + window.scrollY + "px";
 
-  var bot = document.getElementById("selector-bottom").style;
-  bot.width = targetRect.width + "px";
-  bot.left = targetRect.left + "px";
-  bot.top = targetRect.top + targetRect.height - 3 + window.scrollY + "px";
+  bottomSelector.style.width = targetRect.width + "px";
+  bottomSelector.style.left = targetRect.left + "px";
+  bottomSelector.style.top = targetRect.top + targetRect.height - 3 + window.scrollY + "px";
 
-  var left = document.getElementById("selector-left").style;
-  left.height = targetRect.height + "px";
-  left.left = targetRect.left + "px";
-  left.top = targetRect.top + window.scrollY + "px";
+  leftSelector.style.height = targetRect.height + "px";
+  leftSelector.style.left = targetRect.left + "px";
+  leftSelector.style.top = targetRect.top + window.scrollY + "px";
 
-  var right = document.getElementById("selector-right").style;
-  right.height = targetRect.height + "px";
-  right.left = targetRect.left + targetRect.width + "px";
-  right.top = targetRect.top + window.scrollY + "px";
+  rightSelector.style.height = targetRect.height + "px";
+  rightSelector.style.left = targetRect.left + targetRect.width + "px";
+  rightSelector.style.top = targetRect.top + window.scrollY + "px";
 }
 
 function removeHighlight(e) {
   var target = e.target;
   if (target && target.className === "outer") {
-      document.getElementById("outer").style.display = "none";
+    outer.style.display = "none";
   }
 }
 
 function select(e) {
 
   
-  var element1 = document.getElementById("TurnOffBordering")
-  var style = getComputedStyle(element1)
+  var style = getComputedStyle(TurnOffBordering)
   var value = style.backgroundColor
   if (value == "rgb(0, 0, 255)") {
-  document.getElementById("selector").style.display = 'none';
+    selector.style.display = 'none';
     return;
   }
 
-
-
-document.getElementById('outer').style.background = 'rgba(37, 172, 131, 0.2)';
-document.getElementById('outer').style.position = 'absolute';
-document.getElementById('outer').style.zIndex = 65000000;
-
-
   var target = e.target;
-
 
   if (target.id == "outer" || 
   target.id == "selector-top" ||
@@ -188,28 +195,21 @@ document.getElementById('outer').style.zIndex = 65000000;
 
   // this.setState({ title: getElementXPath(target) });
   var targetRect = target.getBoundingClientRect();
-  var outer = document.getElementById("outer").style;
-  outer.display = "block";
-  outer.width = targetRect.width + "px";
-  outer.height = targetRect.height + "px";
-  outer.left = targetRect.left + "px";
-  outer.top = targetRect.top + window.scrollY + "px";
+
+  outer.style.display = "block";
+  outer.style.width = targetRect.width + "px";
+  outer.style.height = targetRect.height + "px";
+  outer.style.left = targetRect.left + "px";
+  outer.style.top = targetRect.top + window.scrollY + "px";
 
 }
 
 function getElementTreeXPath(element) {
   var paths = [];
-  console.log("start drugiej funkcji");
   var target = element.target;
-  console.log("druga funkcja target: " + target);
-  console.log("target.nodeType: " + target.nodeType);
-  console.log("target.parentNode: " + target.parentNode);
-
 
   for (; target && target.nodeType === 1; target = target.parentNode) {
     var index = 0;
-    console.log("index w pętli: " + index);
-
     // EXTRA TEST FOR target.ID
     if (target && target.id) {
       paths.splice(0, 0, '/*[@id="' + target.id + '"]');
@@ -232,28 +232,19 @@ function getElementTreeXPath(element) {
   }
 
   xpathIframe = paths.length ? "/" + paths.join("/") : null;
-  console.log("druga funckja końcówka i jego xpathIframe: "+ xpathIframe);
-
   return paths.length ? "/" + paths.join("/") : null;
 };
 
 function getElementXPath(element) {
   var target = element.target;
-  console.log("pierwsza funkcja target: " + target);
-  console.log("target.id: " + target.id);
-
 
   if (target && target.id){
     xpathIframe = '//*[@id="' + target.id + '"]'
-    console.log("pierwsza funkcja xpathIframe: " + xpathIframe);
-
     return '//*[@id="' + target.id + '"]';
   }
   else
     return getElementTreeXPath(element);
 };
-
-
 
 
   window.addEventListener('click', removeHighlight);
@@ -263,11 +254,9 @@ function getElementXPath(element) {
 
 </script>`
 
-    var x = data.parsedPage;
-    x = x.slice(0,-14)
-    data.parsedPage = x;
+ 
 
-    data.parsedPage = data.parsedPage + AddingScripts + "</body></html>";
+    data.parsedPage = data.parsedPage + AddingScripts 
 
 
     // TUTAJ DODAŁEM TO \/ - DAWID
