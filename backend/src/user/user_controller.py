@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from starlette.responses import Response
 
 from . import user_service
 from .user_schemas import User, UserCreate
@@ -38,4 +40,50 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @user_router.post("/api/v1/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user_service.authenticate_user(db, form_data.username, form_data.password)
-    return {"access_token": form_data.username, "token_type": "bearer"}
+
+    response = Response(status_code=200)
+
+    response.set_cookie(
+        key="refresh_token",
+        value=jsonable_encoder(
+            user_service.create_token(
+                data={"sub": form_data.username}, lifetime=user_service.REFRESH_TOKEN_LIFETIME
+            )
+        ),
+        httponly=True,
+        expires=user_service.REFRESH_TOKEN_LIFETIME
+    )
+    response.set_cookie(
+        key="access_token",
+        value=jsonable_encoder(
+            user_service.create_token(
+                data={"sub": form_data.username}, lifetime=user_service.ACCESS_TOKEN_LIFETIME
+            )
+        ),
+        httponly=True,
+        expires=user_service.ACCESS_TOKEN_LIFETIME,
+    )
+    response.set_cookie(
+        key="username",
+        value=form_data.username.encode("latin-1", errors="ignore"),
+        expires=user_service.REFRESH_TOKEN_LIFETIME,
+    )
+    return response
+
+#####
+# @auth_router.get("/get-access-token")
+# async def get_acces_token(request: Request) -> Response:
+#     try:
+#         username = verify_cookies(request.cookies, "refresh_token")
+#     except CookieVerificationError:
+#         raise HTTPException(status_code=HTTP_400_BAD_REQUEST)
+#     response = Response()
+#     response.set_cookie(
+#         key="access_token",
+#         value=jsonable_encoder(
+#             create_token(data={"sub": username}, lifetime=ACCESS_TOKEN_LIFETIME)
+#         ),
+#         httponly=True,
+#         expires=ACCESS_TOKEN_LIFETIME,
+#     )
+#     return response

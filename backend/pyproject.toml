@@ -16,6 +16,7 @@ psycopg2 = "^2.8.5"
 dynaconf = "^2.2.3"
 python-multipart = "^0.0.5"
 passlib = {extras = ["bcrypt"], version = "^1.7.2"}
+jwt = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.2.1"

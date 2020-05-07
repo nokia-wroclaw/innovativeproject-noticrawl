@@ -1,12 +1,21 @@
+from datetime import datetime, timedelta
+
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
+import jwt
 
 from . import user_schemas
 from src.database.models import Users
 
 PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
+SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+
+ALGORITHM = "HS256"
+
+REFRESH_TOKEN_LIFETIME = 604800
+ACCESS_TOKEN_LIFETIME = 604800
 
 def get_user(db: Session, user_id: int):
     return db.query(Users).filter(Users.id == user_id).first()
@@ -36,6 +45,11 @@ def authenticate_user(db: Session, email: str, password: str) -> None:
     user = get_user_by_email(db, email)
     if user is None or not verify_password(password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+def create_token(*, data: dict, lifetime: int) -> jwt:
+    to_encode = data.copy()
+    to_encode.update({"exp": datetime.utcnow() + timedelta(minutes=lifetime)})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 # oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
 # def get_user(db, username: str):
