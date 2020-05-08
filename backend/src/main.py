@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from src.helpers.debug import save_to_html
 
 from .database import models
-from .parse_module import data_selector, parse
+from .parse_module import data_selector, parse,update_parsed_page
 from .user.user_controller import user_router
 
 # change class name:
@@ -43,8 +43,9 @@ async def post_link(url: Data):
     parsed_page, page_title = await parse(url.link)
     # logger = logging.getLogger("Noticrawl")
     # logger.log(level=logging._nameToLevel["DEBUG"], msg=parsed_page)
-    save_to_html(data=parsed_page, filename=page_title)
-    url_dict.update({"parsedPage": parsed_page})
+    updated_parsed_page=update_parsed_page(parsed_page,url.link)
+    save_to_html(data=updated_parsed_page, filename=page_title)
+    url_dict.update({"parsedPage": updated_parsed_page})
     return url_dict
 
 
