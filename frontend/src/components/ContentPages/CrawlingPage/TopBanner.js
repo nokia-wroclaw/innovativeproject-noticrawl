@@ -24,10 +24,10 @@ class TopBanner extends React.Component {
   }
 
   sendState = () => {
-    if (this.props.borderState === "red")
-    this.props.Callback("blue");
+    if (this.props.borderState)
+    this.props.Callback(0);
     else 
-    this.props.Callback("red");
+    this.props.Callback(1);
   }
 
   handleInputChange = e =>

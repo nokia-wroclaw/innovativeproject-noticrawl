@@ -76,11 +76,6 @@ selector.setAttribute("id", "selector");
 document.body.appendChild(selector);
 
 
-var TurnOffBordering = document.createElement("div");
-TurnOffBordering.setAttribute("id", "TurnOffBordering");
-document.body.appendChild(TurnOffBordering);
-
-
 var topSelector = document.createElement("div");
 topSelector.setAttribute("id", "selector-top");
 selector.appendChild(topSelector);
@@ -122,15 +117,12 @@ bottomSelector.style.transition = 'all 300ms ease';
 
 
 
-
+var TurnOffBordering = 1;
 
 var xpathIframe = 5;
 function drawBorder(e) {
 
-  var style = getComputedStyle(TurnOffBordering)
-  var value = style.backgroundColor
-  if (value == "rgb(0, 0, 255)") {
-    selector.style.display = 'none';
+  if (TurnOffBordering == 0) {
     return;
   }
 
@@ -166,6 +158,11 @@ function drawBorder(e) {
   rightSelector.style.top = targetRect.top + window.scrollY + "px";
 }
 
+function UpdateBorders() {
+  selector.style.display = 'none';
+  outer.style.display = "none";
+}
+
 function removeHighlight(e) {
   var target = e.target;
   if (target && target.className === "outer") {
@@ -175,11 +172,7 @@ function removeHighlight(e) {
 
 function select(e) {
 
-  
-  var style = getComputedStyle(TurnOffBordering)
-  var value = style.backgroundColor
-  if (value == "rgb(0, 0, 255)") {
-    selector.style.display = 'none';
+  if (TurnOffBordering == 0) {
     return;
   }
 
