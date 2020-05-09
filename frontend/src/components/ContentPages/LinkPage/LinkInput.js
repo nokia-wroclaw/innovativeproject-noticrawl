@@ -57,7 +57,7 @@ submitForm = async e => {
     //////////////////////////////////////////////////////
 
 
-
+// document.getElementById("d").style.pointerEvents
 
     var AddingScripts = `
 <script type='text/javascript'>
@@ -74,88 +74,97 @@ outer.style.zIndex = 65000000;
 var selector = document.createElement("div");
 selector.setAttribute("id", "selector");
 document.body.appendChild(selector);
+selector.style.borderStyle  = "solid";
+selector.style.borderWidth  = "3px";
+selector.style.borderColor  = "blue";
+selector.style.position = 'absolute';
+selector.style.zIndex = 65000000;
+selector.style.pointerEvents = "none";
+selector.style.transition = 'all 300ms ease';
 
 
-var topSelector = document.createElement("div");
-topSelector.setAttribute("id", "selector-top");
-selector.appendChild(topSelector);
-topSelector.style.background = 'blue';
-topSelector.style.position = 'absolute';
-topSelector.style.height = '3px';
-topSelector.style.zIndex = 65000000;
-topSelector.style.transition = 'all 300ms ease';
+// var topSelector = document.createElement("div");
+// topSelector.setAttribute("id", "selector-top");
+// selector.appendChild(topSelector);
+// topSelector.style.background = 'blue';
+// topSelector.style.position = 'absolute';
+// topSelector.style.height = '3px';
+// topSelector.style.zIndex = 65000000;
+// topSelector.style.transition = 'all 300ms ease';
 
 
-var leftSelector = document.createElement("div");
-leftSelector.setAttribute("id", "selector-left");
-selector.appendChild(leftSelector);
-leftSelector.style.background = 'blue';
-leftSelector.style.position = 'absolute';
-leftSelector.style.width = '3px';
-leftSelector.style.zIndex = 65000000;
-leftSelector.style.transition = 'all 300ms ease';
+// var leftSelector = document.createElement("div");
+// leftSelector.setAttribute("id", "selector-left");
+// selector.appendChild(leftSelector);
+// leftSelector.style.background = 'blue';
+// leftSelector.style.position = 'absolute';
+// leftSelector.style.width = '3px';
+// leftSelector.style.zIndex = 65000000;
+// leftSelector.style.transition = 'all 300ms ease';
 
 
-var rightSelector = document.createElement("div");
-rightSelector.setAttribute("id", "selector-right");
-selector.appendChild(rightSelector);
-rightSelector.style.background = 'blue';
-rightSelector.style.position = 'absolute';
-rightSelector.style.width = '3px';
-rightSelector.style.zIndex = 65000000;
-rightSelector.style.transition = 'all 300ms ease';
+// var rightSelector = document.createElement("div");
+// rightSelector.setAttribute("id", "selector-right");
+// selector.appendChild(rightSelector);
+// rightSelector.style.background = 'blue';
+// rightSelector.style.position = 'absolute';
+// rightSelector.style.width = '3px';
+// rightSelector.style.zIndex = 65000000;
+// rightSelector.style.transition = 'all 300ms ease';
 
 
-var bottomSelector = document.createElement("div");
-bottomSelector.setAttribute("id", "selector-bottom");
-selector.appendChild(bottomSelector);
-bottomSelector.style.background = 'blue';
-bottomSelector.style.position = 'absolute';
-bottomSelector.style.height = '3px';
-bottomSelector.style.zIndex = 65000000;
-bottomSelector.style.transition = 'all 300ms ease';
+// var bottomSelector = document.createElement("div");
+// bottomSelector.setAttribute("id", "selector-bottom");
+// selector.appendChild(bottomSelector);
+// bottomSelector.style.background = 'blue';
+// bottomSelector.style.position = 'absolute';
+// bottomSelector.style.height = '3px';
+// bottomSelector.style.zIndex = 65000000;
+// bottomSelector.style.transition = 'all 300ms ease';
 
 
 
 var TurnOffBordering = 1;
 
 var xpathIframe = 5;
+
 function drawBorder(e) {
 
   if (TurnOffBordering == 0) {
     return;
   }
 
-  // if (this.state.borderState == 0) {
-  //   return;
-  // }
 
   var target = e.target;
 
-  if (target.id === "selector-top" ||
-      target.id === "selector-bottom" ||
-      target.id === "selector-left" ||
-      target.id === "selector-right") return;
+  if (target.id === "selector" ) return;
 
       selector.style.display = 'block';
 
   var targetRect = target.getBoundingClientRect();
-  
-  topSelector.style.width = targetRect.width + "px";
-  topSelector.style.left = targetRect.left + "px";
-  topSelector.style.top = targetRect.top + window.scrollY + "px";
 
-  bottomSelector.style.width = targetRect.width + "px";
-  bottomSelector.style.left = targetRect.left + "px";
-  bottomSelector.style.top = targetRect.top + targetRect.height - 3 + window.scrollY + "px";
+  selector.style.display = "block";
+  selector.style.width = targetRect.width + "px";
+  selector.style.height = targetRect.height + "px";
+  selector.style.left = targetRect.left + "px";
+  selector.style.top = targetRect.top + window.scrollY + "px";
 
-  leftSelector.style.height = targetRect.height + "px";
-  leftSelector.style.left = targetRect.left + "px";
-  leftSelector.style.top = targetRect.top + window.scrollY + "px";
 
-  rightSelector.style.height = targetRect.height + "px";
-  rightSelector.style.left = targetRect.left + targetRect.width + "px";
-  rightSelector.style.top = targetRect.top + window.scrollY + "px";
+  // topSelector.style.width = targetRect.width + "px";
+  // topSelector.style.left = targetRect.left + "px";
+  // topSelector.style.top = targetRect.top + window.scrollY + "px";
+
+  // bottomSelector.style.width = targetRect.width + "px";
+  // bottomSelector.style.left = targetRect.left + "px";
+  // bottomSelector.style.top = targetRect.top + targetRect.height - 3 + window.scrollY + "px";
+
+  // leftSelector.style.height = targetRect.height + "px";
+  // leftSelector.style.left = targetRect.left + "px";
+  // leftSelector.style.top = targetRect.top + window.scrollY + "px";
+
+  // rightSelector.style.height = targetRect.height + "px";
+  // rightSelector.style.left = targetRect.left + targetRect.width + "px";
+  // rightSelector.style.top = targetRect.top + window.scrollY + "px";
 }
 
 function UpdateBorders() {
@@ -171,7 +180,7 @@ function removeHighlight(e) {
 }
 
 function select(e) {
-
+  
   if (TurnOffBordering == 0) {
     return;
   }
@@ -179,14 +188,10 @@ function select(e) {
   var target = e.target;
 
   if (target.id == "outer" || 
-  target.id == "selector-top" ||
-  target.id == "selector-bottom" ||
-  target.id == "selector-left" ||
-  target.id == "selector-right") return;
+  target.id == "selector") return;
 
   getElementXPath(e);
 
-  // this.setState({ title: getElementXPath(target) });
   var targetRect = target.getBoundingClientRect();
 
   outer.style.display = "block";
@@ -195,6 +200,7 @@ function select(e) {
   outer.style.left = targetRect.left + "px";
   outer.style.top = targetRect.top + window.scrollY + "px";
 
+  console.log("xpath: "+ xpathIframe)
 }
 
 function getElementTreeXPath(element) {
