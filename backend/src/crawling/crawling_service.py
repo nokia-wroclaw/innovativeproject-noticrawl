@@ -1,4 +1,5 @@
 import logging
+import re
 
 import pyppeteer
 
@@ -31,3 +32,10 @@ async def data_selector(url, xpath):
     await page.close()
     await browser.close()
     return text_content
+
+
+# add_base_href_to_html
+def update_parsed_page(html_page: str, url: str):
+    updated_url = re.search("(?P<url>https?://[/\w+$]+.[/\w+$][^/]*)", url).group("url")
+    base_href_add = '<base href="' + updated_url + '">'
+    return base_href_add + "\n" + html_page
