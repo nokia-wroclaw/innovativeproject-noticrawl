@@ -16,14 +16,14 @@ class LinkInput extends Component{
     super(props);
     this.state = {
       values: {
-        link: ""
+        link: "",
       },
-      //title1: "Click hereaa",  // TUTAJ DODAŁEM TO - DAWID
       parsedPageToExport: "",
       isSubmitting: false,
       isError: false
     };
   }
+
 
 submitForm = async e => {
     e.preventDefault();
@@ -53,7 +53,7 @@ submitForm = async e => {
 
     //////////////////////////////////////////////////////
     //showing what backend returns to frontend (to delete later)
-    alert(data.parsedPage);
+    //alert(data.parsedPage);
     //////////////////////////////////////////////////////
 
 
@@ -277,9 +277,8 @@ function getElementXPath(element) {
 //setting parsed code received from backend to the variable, which will be exported
 this.setState({parsedPageToExport: data.parsedPage}) 
 
-  
-/* powinno działać gdy będzie gotowy fallback
 
+/* automatyczne przenoszenie - potrzebny fallback
     const redirect = () => {
       return(
         <Link to={{
@@ -292,7 +291,6 @@ this.setState({parsedPageToExport: data.parsedPage})
         </Link>
       );
     }  
-    redirect();
 */
 
     setTimeout(
@@ -302,8 +300,9 @@ this.setState({parsedPageToExport: data.parsedPage})
           message: "",
           values: {link: "" }
         })
+        //redirect();
       },
-      1600
+      1000
     );
 
   };
@@ -318,8 +317,8 @@ this.setState({parsedPageToExport: data.parsedPage})
       <div>
       <div className="PageContent">
         <form onSubmit={this.submitForm}>
-            <h1>Paste your link below</h1>
-            <FormControl style={{ width: '50ch', alignContent: 'center'}} variant="outlined">
+            <h2>Paste your link below</h2>
+            <FormControl style={{ width: '40ch'}} variant="outlined">
               <input value={this.state.values.link} pattern="https?://.+" hidden="true"></input>
               <OutlinedInput
                 type="text"
@@ -330,7 +329,7 @@ this.setState({parsedPageToExport: data.parsedPage})
                 style={{ marginBottom: '0px' }}  
                 required
               />
-                <FormHelperText id="helper-text">
+                <FormHelperText style={{ marginLeft: "-25px", width: '500px'}} id="helper-text">
                     Remember, that your link should start with "http://" or "https://".
                 </FormHelperText> 
 

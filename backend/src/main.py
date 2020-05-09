@@ -37,6 +37,19 @@ def show_statics(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+### just for testing purpose ################
+
+@app.get("/{cokolwiek}")
+def show_statics(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/new-crawl/start-crawling")
+def show_statics(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+##################################################
+
 @app.post("/api/v1/new-crawl")
 async def post_link(url: Data):
     url_dict = url.dict()

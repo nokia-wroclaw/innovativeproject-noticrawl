@@ -38,28 +38,18 @@ text-align: center;
 }
 
 .Footer {
-position: absolute;
+position: fixed;
 bottom:0;
 width:100%;
 text-align: center;
 padding-top: 15px;
 padding-bottom: 15px;
-/*
-border-top: 2px solid #d9d9d9;
-height: 40px;
-box-sizing: border-box;
-vertical-align: bottom;
-display: block;
-margin-top: 20px;
-#a9a9a9
-*/
 }
 
 .Footer-text {
 font-size: 12px;
 font-style: bold;
 color: #a9a9a9;
-margin-right: 30px;
 }
 
 .root-container {

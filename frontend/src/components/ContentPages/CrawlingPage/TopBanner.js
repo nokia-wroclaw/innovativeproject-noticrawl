@@ -4,24 +4,29 @@ import logo from './logo.png'
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+//import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+//import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 class TopBanner extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       values: {
         email: "",
-        notificationFrequency: "",
-        xpath: ""
+        time: "",
+        xpath: this.props.xpathFromParent
       },
-    }
+      isSubmitting: false,
+      isError: false
+    };
   }
+
+
 
   sendState = () => {
     if (this.props.borderState)
@@ -30,10 +35,51 @@ class TopBanner extends React.Component {
     this.props.Callback(1);
   }
 
+
+
   handleInputChange = e =>
     this.setState({
       values: { ...this.state.values, [e.target.name]: e.target.value }
     });
+
+
+
+  submitForm = async e => {
+    e.preventDefault();
+    console.log(this.state);
+    this.setState({ isSubmitting: true });
+
+    //communication with backend
+    const res = await fetch("/api/v1/crawling-data", {
+      method: "POST",
+      body: JSON.stringify(this.state.values),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+
+//////////////
+    alert(JSON.stringify(this.state.values))
+//////////////
+
+    this.setState({ isSubmitting: false });
+
+    const data = await res.json();
+    !data.hasOwnProperty("error")
+      ? this.setState({ message: data.success })
+      : this.setState({ message: data.error, isError: true });
+
+    setTimeout(
+      () => {
+        this.setState({
+          isError: false,
+        })
+      },
+      1600
+    );
+
+
+  }
 
 
   render() {
@@ -75,17 +121,23 @@ class TopBanner extends React.Component {
       </div>
       </div>
 
+
+
+<form onSubmit={this.submitForm}>
+
       <div className='EmailInput'>
         <div className ='elements'>
-        <FormControl style={{ width:'30ch', paddingTop:'8px'}} >
+        <FormControl id="crawlingForm" style={{ width:'30ch', paddingTop:'8px'}} onSubmit={this.submitForm} >
+
           <TextField 
             size="small"
             id="filled-email" 
             label="E-mail" 
             type="text" 
+            name="email"
             variant="filled" 
             onChange={this.handleInputChange}
-            value={this.state.email}
+            value={this.state.values.email}
             required
           />
         </FormControl>  
@@ -94,17 +146,20 @@ class TopBanner extends React.Component {
 
       <div className='NotificationFreq'>
         <div className ='elements'>
-        <FormControl variant="filled" id="simple-select-outlined-label" style={{ width: '25ch', paddingTop:'8px', zIndex: '999999 !important'}} size="small">
+        <FormControl variant="filled" id="crawlingForm" style={{ width: '25ch', paddingTop:'8px'}} size="small">
           <InputLabel id="simple-select-outlined-label" style={{  paddingTop:'8px' }}>Notification frequency</InputLabel>
+   
             <Select
               labelId="simple-select-outlined-label"
               id="simple-select-outlined"
-              value={this.state.notificationFrequency}
+              name="time"
+              value={this.state.values.time}
               onChange={this.handleInputChange}
-              label="notificationFrequency"
+              label="time"
+              required
             >
               <MenuItem value="">
-                <em>None</em>
+                <em>Choose one...</em>
               </MenuItem>
               <MenuItem value={1/360}>10sec</MenuItem>
               <MenuItem value={1/60}>1min</MenuItem>
@@ -121,16 +176,22 @@ class TopBanner extends React.Component {
 
       <div className='SubmitButton'>
         <div className ='elements'>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<CloudUploadIcon />}
-          >
-            Submit
-          </Button>
+          <FormControl id="crawlingForm">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CloudUploadIcon />}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </FormControl>
         </div>
       </div>
       
+</form>  
+
+
       {/*
       <div className='xPaths'>
         <div className ='elements'>
