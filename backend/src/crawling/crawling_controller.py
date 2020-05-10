@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.helpers.database import get_db
@@ -29,4 +29,4 @@ async def get_page(url: Url):
 @crawling_router.post("/api/v1/crawl")
 def add_crawl(crawl_data: CrawlData):
     crawling_service.add_crawl_to_fake_db(crawl_data)
-
+    raise HTTPException(status_code=200, detail="Crawl saved")
