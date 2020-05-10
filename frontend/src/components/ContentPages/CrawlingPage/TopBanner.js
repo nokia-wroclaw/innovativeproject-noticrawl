@@ -10,9 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 //import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {useLocation} from "react-router-dom"
 
-const takeLink =  useLocation();
 class TopBanner extends React.Component {
 
   constructor(props) {
@@ -20,10 +18,8 @@ class TopBanner extends React.Component {
     this.state = {
       values: {
         email: "",
-        period: "",
+        time: "",
         xpath: "",
-        link: takeLink.state.link,
-        value: "test"
       },
       isSubmitting: false,
       isError: false
@@ -162,10 +158,10 @@ class TopBanner extends React.Component {
             <Select
               labelId="simple-select-outlined-label"
               id="simple-select-outlined"
-              name="period"
-              value={this.state.values.period}
+              name="time"
+              value={this.state.values.time}
               onChange={this.handleInputChange}
-              label="period"
+              label="time"
               required
             >
               <MenuItem value="">
