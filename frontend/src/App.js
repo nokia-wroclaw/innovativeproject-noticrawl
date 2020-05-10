@@ -27,7 +27,7 @@ function App() {
             <Switch>
               <Route exact strict path="/" component={LoginMainContent} />  
               <Route exact strict path="/new-crawl" component={LinkMainContent} />
-              <Route exact strict path="/new-crawl/start-crawling" component={Crawling} />
+              <Route path="/new-crawl/start-crawling" component={Crawling} />
               <Route exact strict path="/my-account" component={MyAccountMainContent} />
               <Route exact strict path="/my-crawls" component={MyCrawlsMainContent} />
               <Route exact strict path="/404" component={NotFoundPage} />

@@ -6,17 +6,17 @@ import './Crawling.css';
 
 
 
-function changeFrame(toggle)
-{
-  var x = toggle
-  alert(x)
-  var oIframe = document.getElementById('pageFrame');
-  var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
-  if (oDoc.document) oDoc = oDoc.document;
-  oDoc.getElementById("TurnOffBordering").style.backgroundColor = toggle;
+// function changeFrame(toggle)
+// {
+//   var x = toggle
+//   alert(x)
+//   var oIframe = document.getElementById('pageFrame');
+//   var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
+//   if (oDoc.document) oDoc = oDoc.document;
+//   oDoc.TurnOffBordering2 = toggle;
   
-  return true;
-}
+//   return true;
+// }
 
 
 
@@ -92,8 +92,9 @@ class Crawling extends React.Component {
     super(props);
     this.state = {
       title: "Click here",
+      xpath: ""
     };
-    this.state = { borderState: "blue" };
+    this.state = { borderState: 0 };
 
     // this.select = this.select.bind(this);
     // // this.handleLoad = this.handleLoad.bind(this);
@@ -103,13 +104,7 @@ class Crawling extends React.Component {
 
   }
 
-  callbackFunction = (borderSwitchState) => {
-    this.setState({ borderState: borderSwitchState });
-    var oIframe = document.getElementById('pageFrame');
-    var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
-    if (oDoc.document) oDoc = oDoc.document;
-    oDoc.getElementById("TurnOffBordering").style.backgroundColor = this.state.borderState;
-  };
+
 
 
 
@@ -201,21 +196,27 @@ class Crawling extends React.Component {
   //   */
   // };
 
+  callbackFunction = (borderSwitchState) => {
+    this.setState({ borderState: borderSwitchState });
+    console.log(this.state.borderState)
+    document.getElementById("pageFrame").contentWindow.TurnOffBordering = this.state.borderState;
+    document.getElementById("pageFrame").contentWindow.UpdateBorders();
+  };
 
   TakeXpath (){
-    var xpath = document.getElementById("pageFrame").contentWindow.xpathIframe;
-    alert(xpath);
+    let takeXpath = document.getElementById("pageFrame").contentWindow.xpathIframe;
+    this.setState({ xpath: takeXpath });
   }
 
   render() {
     return (
       <div>
-        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} />
+        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.state.xpath} />
         <HelpElements />
 
         {/* <div id='Content' onClick={this.select}>{this.state.title} */}
         <div id='Content'>
-        <button onClick={this.TakeXpath}>Check xPath!</button>
+        {/* <button onClick={this.TakeXpath}>Check xPath!</button> */}
 
           {/* rendering page to crawl */}
 

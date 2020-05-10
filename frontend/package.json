@@ -13,11 +13,13 @@
     "formik": "^2.1.4",
     "isomorphic-unfetch": "^3.0.0",
     "jquery": "^3.4.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.0",
+    "semantic-ui-react": "^0.88.2",
     "typeface-roboto": "0.0.75",
     "yup": "^0.28.3"
   },
