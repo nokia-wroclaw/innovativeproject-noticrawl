@@ -19,7 +19,7 @@ class TopBanner extends React.Component {
       values: {
         email: "",
         time: "",
-        xpath: this.props.xpathFromParent
+        xpath: "",
       },
       isSubmitting: false,
       isError: false
@@ -46,8 +46,13 @@ class TopBanner extends React.Component {
 
   submitForm = async e => {
     e.preventDefault();
-    console.log(this.state);
+    var x = this.props.xpathFromParent();
+    console.log("Wysyłany xpath: "+ x);
+    this.setState({ xpath: x });
+    this.setState({
+      values: { ...this.state.values, xpath: x }})
     this.setState({ isSubmitting: true });
+    console.log(JSON.stringify(this.state.values))
 
     //communication with backend
     const res = await fetch("/api/v1/crawling-data", {
@@ -61,6 +66,7 @@ class TopBanner extends React.Component {
 //////////////
     alert(JSON.stringify(this.state.values))
 //////////////
+    console.log(JSON.stringify(this.state.values))
 
     this.setState({ isSubmitting: false });
 

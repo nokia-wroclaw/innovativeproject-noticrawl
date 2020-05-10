@@ -100,7 +100,7 @@ class Crawling extends React.Component {
     // // this.handleLoad = this.handleLoad.bind(this);
     // this.drawBorder = this.drawBorder.bind(this);
     // // this.deleteBorder = this.deleteBorder.bind(this);
-    this.TakeXpath = this.TakeXpath.bind(this);
+    // this.TakeXpath = this.TakeXpath.bind(this);
 
   }
 
@@ -205,13 +205,13 @@ class Crawling extends React.Component {
 
   TakeXpath (){
     let takeXpath = document.getElementById("pageFrame").contentWindow.xpathIframe;
-    this.setState({ xpath: takeXpath });
+    return takeXpath
   }
 
   render() {
     return (
       <div>
-        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.state.xpath} />
+        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} />
         <HelpElements />
 
         {/* <div id='Content' onClick={this.select}>{this.state.title} */}
