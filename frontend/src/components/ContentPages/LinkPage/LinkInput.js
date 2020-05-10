@@ -375,13 +375,13 @@ this.setState({parsedPageToExport: data.parsedPage})
             */}
 
             <div>
-            <Button variant="contained" color="primary" type="submit" id="linkSubmit">Go to website</Button>
+            <Button variant="contained" color="primary" type="submit" id="linkSubmit">STEP 1: Submit website</Button>
             </div> 
       
         </form>
 
         <div className={`message ${this.state.isError && "error"}`}>
-          {this.state.isSubmitting ? "Submitting..." : this.state.message}
+          {this.state.isSubmitting ? "Please wait..." : this.state.message}
         </div>
 
         {/* temporary button until auto redirecting will work */}
@@ -391,7 +391,7 @@ this.setState({parsedPageToExport: data.parsedPage})
             externalPageToRender: this.state.parsedPageToExport,
           }
         }}>
-          <Button variant="outlined" color="primary" disableElevation >working button</Button>
+          <Button variant="contained" color="primary" disableElevation >STEP 2: Go to website</Button>
         </Link>
 
 
