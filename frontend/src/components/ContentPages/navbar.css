@@ -23,9 +23,10 @@
     display: -ms-flexbox;
     display: flex;
     margin: 1rem 0em;
-    font-family: 'Roboto';
-    background: #FFFFFF;
+    font-family: 'Arial', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: normal;
+    background: transparent;
+    font-size: 20px;
     border: 1px solid rgba(34, 36, 38, 0.15);
     -webkit-box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
             box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
@@ -240,7 +241,7 @@
     background: transparent !important;
     color: rgba(0, 0, 0, 0.87) !important;
     text-transform: none !important;
-    font-weight: normal !important;
+    font-weight: bold !important;
     -webkit-box-shadow: none !important;
             box-shadow: none !important;
     -webkit-transition: none !important;
@@ -442,7 +443,7 @@
   .ui.menu .active.item {
     background: rgba(0, 0, 0, 0.05);
     color: rgba(0, 0, 0, 0.95);
-    font-weight: normal;
+    font-weight: bold;
     -webkit-box-shadow: none;
             box-shadow: none;
   }
@@ -1068,7 +1069,7 @@
         align-self: center;
     margin: 0em 0em;
     padding: 0.35714286em 0.5em;
-    font-weight: normal;
+    font-weight: bold;
     color: rgba(0, 0, 0, 0.6);
     -webkit-transition: opacity 0.1s ease;
     transition: opacity 0.1s ease;
@@ -1148,7 +1149,7 @@
     border: none;
     -webkit-box-shadow: none;
             box-shadow: none;
-    font-weight: normal;
+    font-weight: bold;
     color: rgba(0, 0, 0, 0.95);
   }
   

@@ -322,7 +322,7 @@ this.setState({parsedPageToExport: data.parsedPage})
       <div>
       <div className="PageContent">
         <form onSubmit={this.submitForm}>
-            <h2>Paste your link below</h2>
+            <h1>Paste your link below</h1>
             <FormControl style={{ width: '40ch'}} variant="outlined">
               <input value={this.state.values.link} pattern="https?://.+" hidden="true"></input>
               <OutlinedInput
