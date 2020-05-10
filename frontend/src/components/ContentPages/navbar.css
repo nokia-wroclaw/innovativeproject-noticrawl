@@ -25,7 +25,7 @@
     margin: 1rem 0em;
     font-family: 'Arial', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: normal;
-    background: transparent;
+    background: white;
     font-size: 20px;
     border: 1px solid rgba(34, 36, 38, 0.15);
     -webkit-box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
@@ -88,8 +88,8 @@
     background: none;
     padding: 0.92857143em 1.14285714em;
     text-transform: none;
-    color: rgba(0, 0, 0, 0.87);
-    font-weight: normal;
+    color: rgba(114, 113, 113, 0.87);
+    font-weight: bold;
     -webkit-transition: background 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease;
     transition: background 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease;
     transition: background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
