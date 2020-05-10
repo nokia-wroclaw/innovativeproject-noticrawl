@@ -389,6 +389,7 @@ this.setState({parsedPageToExport: data.parsedPage})
           pathname: "/new-crawl/start-crawling",
           state: {
             externalPageToRender: this.state.parsedPageToExport,
+            link: this.state.values.link
           }
         }}>
           <Button variant="contained" color="primary" disableElevation >STEP 2: Go to website</Button>
