@@ -21,15 +21,6 @@ app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="st
 templates = Jinja2Templates(directory="../frontend/build")
 
 
-### just for testing purpose ################
-@app.get("/")
-@app.get("/{cokolwiek}")
-@app.get("/new-crawl/start-crawling")
+@app.get("/.*")
 def show_statics(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
-#################################################
-
-
-@app.get("/hello")
-def hello_world():
-    return {"message": "Hello World"}
