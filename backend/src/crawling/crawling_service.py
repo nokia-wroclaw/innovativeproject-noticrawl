@@ -35,7 +35,7 @@ async def data_selector(url, xpath):
 
 
 # add_base_href_to_html
-def update_parsed_page(html_page: str, url: str):
-    updated_url = re.search("(?P<url>https?://[/\w+$]+.[/\w+$][^/]*)", url).group("url")
-    base_href_add = '<base href="' + updated_url + '">'
-    return base_href_add + "\n" + html_page
+def fix_relative_paths(html: str, url: str):
+    base_url = re.search(r"(?P<url>https?://[/\w+$]+.[/\w+$][^/]*)", url).group("url")
+    base_href = '<base href="' + base_url + '">'
+    return base_href + "\n" + html

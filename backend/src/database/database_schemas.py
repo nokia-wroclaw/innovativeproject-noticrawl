@@ -43,7 +43,7 @@ class Notifications(Base):
 
     notification_script = relationship("Scripts", back_populates="Script_Notification")
 
-def create_models():
+def create():
     MAX_RETRIES_NUM = 15
     retry_num = 1
     executed_successfully = False

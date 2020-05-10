@@ -1,38 +1,31 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+import logging
 
-from src.database import models
+from src.helpers.database import get_db
 from src.helpers.debug import save_to_html
-from .crawling_service import parse, data_selector, update_parsed_page
+
+from .crawling_service import data_selector, fix_relative_paths, parse
+from .models.url_model import Url
+from .models.page_model import Page
+from .models.crawl_data_model import CrawlData
 
 crawling_router = APIRouter()
 
+logger = logging.getLogger("Noticrawl")
 
-class Data(BaseModel):
-    link: str
-
-
-class CrawlingData(BaseModel):
-    email: str
-    xpath: str
-    time: int
-
-
-@crawling_router.post("/api/v1/new-crawl")
-async def post_link(url: Data):
-    url_dict = url.dict()
-    parsed_page, page_title = await parse(url.link)
-    # logger = logging.getLogger("Noticrawl")
-    # logger.log(level=logging._nameToLevel["DEBUG"], msg=parsed_page)
-    updated_parsed_page=update_parsed_page(parsed_page,url.link)
-    save_to_html(data=updated_parsed_page, filename=page_title)
-    url_dict.update({"parsedPage": updated_parsed_page})
-    return url_dict
+@crawling_router.post("/api/v1/page", response_model=Page)
+async def get_page(url: Url):
+    # logger.log(level=logging.DEBUG, msg="GET /api/v1/page url:" + url.url)
+    page_url = url.url
+    html, page_title = await parse(page_url)
+    html = fix_relative_paths(html, page_url)
+    # save_to_html(data=html, filename=page_title)
+    return Page(url=page_url, html=html)
 
 
 # change url
 @crawling_router.post("api/v1/crawling-data")
-async def post_crawling_data(crawling_data: CrawlingData):
+async def post_crawling_data(crawling_data: CrawlData):
     crawling_data_dict = crawling_data.dict()
     email = crawling_data.email
     time = crawling_data.time
