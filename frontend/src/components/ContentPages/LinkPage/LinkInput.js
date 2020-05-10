@@ -31,9 +31,12 @@ submitForm = async e => {
     this.setState({ isSubmitting: true });
 
     //communication with backend
-    const res = await fetch("/api/v1/new-crawl", {
+    const url = {
+      url: this.state.values.link.toString()
+    };
+    const res = await fetch("/api/v1/page", {
       method: "POST",
-      body: JSON.stringify(this.state.values),
+      body: JSON.stringify(url),
       headers: {
         "Content-Type": "application/json"
       },
@@ -46,11 +49,13 @@ submitForm = async e => {
     //////////////////////////////////////////////////////
 
     this.setState({ isSubmitting: false });
-    const data = await res.json();
+    let data = await res.json();
     !data.hasOwnProperty("error")
       ? this.setState({ message: data.success })
       : this.setState({ message: data.error, isError: true });
-
+    data = {
+      parsedPage: data.html
+    };
     //////////////////////////////////////////////////////
     //showing what backend returns to frontend (to delete later)
     alert(data.parsedPage);
