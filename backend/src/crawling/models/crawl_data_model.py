@@ -6,8 +6,9 @@ from pydantic import BaseModel, validator
 class CrawlData(BaseModel):
     url: str
     xpath: str
-    period: int
+    period: int = 10
     email: str
+    element_value: str
 
     # @validator("url")
     # def if_url(cls, url):
