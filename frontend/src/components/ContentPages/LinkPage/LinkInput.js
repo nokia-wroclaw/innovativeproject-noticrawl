@@ -67,6 +67,13 @@ submitForm = async e => {
     var AddingScripts = `
 <script type='text/javascript'>
 
+window.onload=function() {
+  var anchors = document.getElementsByTagName('a');
+  for(var i=anchors.length-1;i>=0;i--){
+  anchors[i].onclick=function() { return false }
+  }}
+
+  
 var outer = document.createElement("div");
 outer.setAttribute("id", "outer");
 outer.setAttribute("class", "outer");
