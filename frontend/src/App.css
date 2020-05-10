@@ -238,25 +238,9 @@ padding-top: 30px;
 height: 320px;
 }
 
-.nav {
-list-style: none;
-position: relative;
-min-height: 50px;
+.navbar {
+  width: 90%;
 }
-
-.nav li {
-  display: block;
-  width: 138px;
-  float: left; 
-  }
-  
-.nav li a {
-  padding: 8px 15px;
-  text-decoration: none;
-  font-weight: bold;
-  border-right: 1px solid rgb(90, 89, 89);
-  border-left: 1px solid rgb(90, 89, 89); 
-  }
   
 #linkInput {
   position: relative;
