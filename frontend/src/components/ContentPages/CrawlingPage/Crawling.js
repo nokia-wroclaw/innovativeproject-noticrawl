@@ -3,8 +3,9 @@ import $ from 'jquery';
 import TopBanner from './TopBanner';
 import ExternalHtml from './ExternalHtml';
 import './Crawling.css';
+import {useLocation} from "react-router-dom"
 
-
+const takeLink =  useLocation();
 
 // function changeFrame(toggle)
 // {
@@ -211,7 +212,7 @@ class Crawling extends React.Component {
   render() {
     return (
       <div>
-        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} />
+        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} linkFromParent={takeLink.state.link}/>
         <HelpElements />
 
         {/* <div id='Content' onClick={this.select}>{this.state.title} */}
