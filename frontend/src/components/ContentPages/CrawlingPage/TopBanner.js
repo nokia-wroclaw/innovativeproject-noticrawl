@@ -11,8 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {useLocation} from "react-router-dom"
-import { ThemeProvider } from '@material-ui/core';
 
+const takeLink =  useLocation();
 class TopBanner extends React.Component {
 
   constructor(props) {
@@ -22,7 +22,7 @@ class TopBanner extends React.Component {
         email: "",
         period: "",
         xpath: "",
-        link: this.props.linkFromParent,
+        link: takeLink.state.link,
         value: "test"
       },
       isSubmitting: false,
@@ -47,27 +47,19 @@ class TopBanner extends React.Component {
     });
 
 
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  } 
 
   submitForm = async e => {
     e.preventDefault();
     var x = this.props.xpathFromParent();
     console.log("Wysyłany xpath: "+ x);
-
+    this.setState({ xpath: x });
     this.setState({
-      values: { ...this.state.values, xpath: x }
-    })
-
+      values: { ...this.state.values, xpath: x }})
     this.setState({ isSubmitting: true });
-
-    await this.sleep(2000)
-
     console.log(JSON.stringify(this.state.values))
 
     //communication with backend
-    const res = await fetch("/api/v1/crawl", {
+    const res = await fetch("/api/v1/crawling-data", {
       method: "POST",
       body: JSON.stringify(this.state.values),
       headers: {
