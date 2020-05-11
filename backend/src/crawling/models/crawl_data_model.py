@@ -8,7 +8,7 @@ class CrawlData(BaseModel):
     xpath: str
     period: int = 10 #seconds
     email: str
-    element_value: str = "1"
+    value: str = "1"
 
     # @validator("url")
     # def if_url(cls, url):
