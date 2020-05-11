@@ -1,13 +1,9 @@
 import React, {Component} from "react"
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
-//import FilledInput from '@material-ui/core/FilledInput';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-//import Input from '@material-ui/core/Input';
-//import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-//import { MContext, Consumer } from "../Provider";
 
 
 class LinkInput extends Component{
@@ -270,27 +266,13 @@ function getElementXPath(element) {
     data.parsedPage = data.parsedPage + AddingScripts 
 
 
-    // TUTAJ DODAŁEM TO \/ - DAWID
-
-    // this.setState({title1: data.parsedPage})
-    // const element = document.createElement("a");
-    // const file = new Blob([this.state.title1], {type: 'text/plain'});
-    // element.href = URL.createObjectURL(file);
-    // element.download = "myFile.html";
-    // document.body.appendChild(element); // Required for this to work in FireFox
-    // element.click();
-
-// TUTAJ DODAŁEM TO /\- DAWID
-
-// this.setState({ title: getElementXPath(target) });
-
 
 
 //setting parsed code received from backend to the variable, which will be exported
 this.setState({parsedPageToExport: data.parsedPage}) 
 
 
-/* automatyczne przenoszenie - potrzebny fallback
+/* automatic redirecting - not work
     const redirect = () => {
       return(
         <Link to={{
@@ -310,7 +292,6 @@ this.setState({parsedPageToExport: data.parsedPage})
         this.setState({
           isError: false,
           message: "",
-          values: {link: "" }
         })
         //redirect();
       },
@@ -384,12 +365,11 @@ this.setState({parsedPageToExport: data.parsedPage})
           {this.state.isSubmitting ? "Please wait..." : this.state.message}
         </div>
 
-        {/* temporary button until auto redirecting will work */}
         <Link to={{
           pathname: "/new-crawl/start-crawling",
           state: {
             externalPageToRender: this.state.parsedPageToExport,
-            link: this.state.values.link
+            url: this.state.values.link
           }
         }}>
           <Button variant="contained" color="primary" disableElevation >STEP 2: Go to website</Button>

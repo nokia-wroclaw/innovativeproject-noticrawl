@@ -1,17 +1,12 @@
 import React from 'react';
 import logo from './logo.png'
-
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import TextField from '@material-ui/core/TextField';
-//import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-//import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {useLocation} from "react-router-dom"
-import { ThemeProvider } from '@material-ui/core';
 
 class TopBanner extends React.Component {
 
@@ -22,15 +17,13 @@ class TopBanner extends React.Component {
         email: "",
         period: "",
         xpath: "",
-        link: this.props.linkFromParent,
-        value: "test"
+        value: "not supported",
+        url: this.props.url
       },
       isSubmitting: false,
       isError: false
     };
   }
-
-
 
   sendState = () => {
     if (this.props.borderState)
@@ -39,35 +32,36 @@ class TopBanner extends React.Component {
     this.props.Callback(1);
   }
 
-
-
-  handleInputChange = e =>
+  handleInputChange = e => {
     this.setState({
       values: { ...this.state.values, [e.target.name]: e.target.value }
     });
-
+  }
 
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  } 
+  }
 
   submitForm = async e => {
     e.preventDefault();
+
+    //setting xpath
     var x = this.props.xpathFromParent();
     console.log("Wysyłany xpath: "+ x);
-
     this.setState({
       values: { ...this.state.values, xpath: x }
     })
 
     this.setState({ isSubmitting: true });
 
-    await this.sleep(2000)
+    await this.sleep(2000);
 
+    ///////////// what will be send to backend
     console.log(JSON.stringify(this.state.values))
+    /////////////
 
-    //communication with backend
-    const res = await fetch("/api/v1/crawl", {
+    //start communication with backend
+    const res = await fetch("/api/v1/crawling-data", {
       method: "POST",
       body: JSON.stringify(this.state.values),
       headers: {
@@ -75,10 +69,9 @@ class TopBanner extends React.Component {
       },
     });
 
-//////////////
-    alert(JSON.stringify(this.state.values))
-//////////////
+    ////////////// what has been sent to backend 
     console.log(JSON.stringify(this.state.values))
+    //////////////
 
     this.setState({ isSubmitting: false });
 
@@ -86,6 +79,7 @@ class TopBanner extends React.Component {
     !data.hasOwnProperty("error")
       ? this.setState({ message: data.success })
       : this.setState({ message: data.error, isError: true });
+
 
     setTimeout(
       () => {
@@ -95,12 +89,10 @@ class TopBanner extends React.Component {
       },
       1600
     );
-
-
   }
 
-
   render() {
+
     return(
       <div id='CrawlingBanner' >
           
@@ -174,7 +166,7 @@ class TopBanner extends React.Component {
               value={this.state.values.period}
               onChange={this.handleInputChange}
               label="period"
-              required
+              required="true"
             >
               <MenuItem value="">
                 <em>Choose one...</em>
