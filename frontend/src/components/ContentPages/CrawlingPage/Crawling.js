@@ -3,6 +3,7 @@ import $ from 'jquery';
 import TopBanner from './TopBanner';
 import ExternalHtml from './ExternalHtml';
 import './Crawling.css';
+import RenderBanner from './RenderBanner';
 
 
 
@@ -211,56 +212,17 @@ class Crawling extends React.Component {
   render() {
     return (
       <div>
-        <TopBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} />
+        <RenderBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} />
         <HelpElements />
 
-        {/* <div id='Content' onClick={this.select}>{this.state.title} */}
         <div id='Content'>
-        {/* <button onClick={this.TakeXpath}>Check xPath!</button> */}
+          {/* <button onClick={this.TakeXpath}>Check xPath!</button> */}
 
           {/* rendering page to crawl */}
-
           <ExternalHtml />
 
           {/*this.state.borderState*/}
-
-
-
-
-          {/* tymczasowa strona do testowania */}
-
-{/* 
-          <h2 id='aaaaasdasdasdasd'>testowy element</h2>
-
-          <h4>element dddh4</h4>
-          <h1>Welcome</h1>
-          <button class="n">Click me</button>
-
-          <button onClick={() => alert('Kliknięto!')}>Kliknij!</button>
-
-          <div>Witaj, </div>
-
-
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Explicabo voluptates doloremque quisquam omnis rem fuga
-          veritatis odit! Perferendis cupiditate corporis consequuntur
-amet ducimus quam       <button class="n">Click me1</button>
-at magni facilis debitis ut quisquam molestias
-maxime voluptatibus voluptatum    <div>     sadasdsasadasdsa <button class="n">Click me2</button>
-            </div>  <button class="n">Click me3</button>
-
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam voluptatem a
-          architecto nihil ullam. Non dolores optio ea dolorem accusantium a delectus
-          molestias quam nulla fugit voluptas iste ipsum! Molestias id quaerat praesentium
-stiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p>
-
-          nemo soluta voluptas molestias similique ex. Praesentium sequi natus molestiae
-  adipisci perspiciatis voluptatibus et vero nisi!</p> */}
-
-  {/* koniec tymczasowej strony do testowania */}
-
+          
         </div>
       </div>
     
