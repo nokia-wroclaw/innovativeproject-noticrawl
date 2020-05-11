@@ -1,13 +1,10 @@
 import React from 'react';
 import logo from './logo.png'
-
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import TextField from '@material-ui/core/TextField';
-//import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-//import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -18,15 +15,15 @@ class TopBanner extends React.Component {
     this.state = {
       values: {
         email: "",
-        time: "",
+        period: "",
         xpath: "",
+        value: "test",
+        url: "test"
       },
       isSubmitting: false,
       isError: false
     };
   }
-
-
 
   sendState = () => {
     if (this.props.borderState)
@@ -35,24 +32,33 @@ class TopBanner extends React.Component {
     this.props.Callback(1);
   }
 
-
-
-  handleInputChange = e =>
+  handleInputChange = e => {
     this.setState({
       values: { ...this.state.values, [e.target.name]: e.target.value }
     });
+  }
 
-
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   submitForm = async e => {
     e.preventDefault();
+
     var x = this.props.xpathFromParent();
     console.log("Wysyłany xpath: "+ x);
-    this.setState({ xpath: x });
+
     this.setState({
-      values: { ...this.state.values, xpath: x }})
+      values: { ...this.state.values, xpath: x }
+    })
+
     this.setState({ isSubmitting: true });
+
+    await this.sleep(2000);
+
+    /////////////
     console.log(JSON.stringify(this.state.values))
+    /////////////
 
     //communication with backend
     const res = await fetch("/api/v1/crawling-data", {
@@ -63,10 +69,9 @@ class TopBanner extends React.Component {
       },
     });
 
-//////////////
-    alert(JSON.stringify(this.state.values))
-//////////////
+    //////////////
     console.log(JSON.stringify(this.state.values))
+    //////////////
 
     this.setState({ isSubmitting: false });
 
@@ -74,6 +79,7 @@ class TopBanner extends React.Component {
     !data.hasOwnProperty("error")
       ? this.setState({ message: data.success })
       : this.setState({ message: data.error, isError: true });
+
 
     setTimeout(
       () => {
@@ -83,10 +89,7 @@ class TopBanner extends React.Component {
       },
       1600
     );
-
-
   }
-
 
   render() {
     return(
@@ -158,11 +161,11 @@ class TopBanner extends React.Component {
             <Select
               labelId="simple-select-outlined-label"
               id="simple-select-outlined"
-              name="time"
-              value={this.state.values.time}
+              name="period"
+              value={this.state.values.period}
               onChange={this.handleInputChange}
-              label="time"
-              required
+              label="period"
+              required="true"
             >
               <MenuItem value="">
                 <em>Choose one...</em>
