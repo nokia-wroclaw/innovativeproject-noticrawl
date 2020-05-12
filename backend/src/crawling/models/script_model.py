@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from .notification_schemas import Notification
+from .notification_model import Notification
 
 class ScriptCreate(BaseModel):
     instructions: str

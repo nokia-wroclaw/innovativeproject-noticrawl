@@ -1,0 +1,276 @@
+.toggle-switch {
+  position: relative;
+  width: 75px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  text-align: left;
+}
+.toggle-switch-checkbox {
+  display: none;
+}
+.toggle-switch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0 solid #ccc;
+  border-radius: 20px;
+  margin: 0;
+}
+.toggle-switch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.toggle-switch-inner::before, .toggle-switch-inner::after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 34px;
+  padding: 0;
+  line-height: 34px;
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+.toggle-switch-inner:before {
+  content: "Yes";
+  text-transform: uppercase;
+  padding-left: 10px;
+  background-color: rgb(0, 255, 136);
+  color: #fff;
+}
+.toggle-switch-disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.toggle-switch-disabled::before {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.toggle-switch-inner::after {
+  content: "No";
+  text-transform: uppercase;
+  padding-right: 10px;
+  background-color: #ccc;
+  color: #fff;
+  text-align: right;
+}
+.toggle-switch-switch {
+  display: block;
+  width: 24px;
+  margin: 5px;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 40px;
+  border: 0 solid #ccc;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+.toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-inner {
+  margin-left: 0;
+}
+.toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-switch {
+  right: 0px;
+}
+
+
+
+#selector-top, #selector-bottom {
+  z-Index: 65000000;
+	background: blue;
+	height:3px;
+	position: fixed;
+	transition:all 300ms ease;
+}
+#selector-left, #selector-right {
+  z-Index: 65000000;
+	background: blue;
+	width:3px;
+	position: fixed;
+	transition:all 300ms ease;
+}
+
+
+.outer
+{
+  display: "none";
+  position: absolute;
+  z-Index: 65000000;
+  background: rgba(37, 172, 131, 0.2);
+}
+
+
+
+#CrawlingBanner {
+  background-image: url(./background.jpg);
+  background-size: auto;
+  height: 80px;
+  margin-top: 0px;
+  padding-bottom: 10px; 
+  background-position: top center;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+}
+
+.Logo {
+  margin-top: 12px;
+  width: fit-content;
+  height: 48px;
+  margin-left: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  padding-bottom: 2px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.Status {
+  margin-top: 12px;
+  width: fit-content;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 5px;
+  padding-top: 20px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.textLeft {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: large;
+  font-weight: bold;
+}
+
+.textRight {
+  color: ForestGreen;
+  font-size: large;
+  font-weight: bolder;
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.Bordering {
+  margin-top: 12px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.EmailInput {
+  margin-top: 12px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.NotificationFreq {
+  margin-top: 12px;
+  width: fit-content;
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: left;
+}
+
+.SubmitButton {
+  margin-top: 12px;
+  width: fit-content;
+  height: 44px;
+  padding-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 10px;
+  padding-bottom: 5px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: right;
+}
+
+#Content{
+  padding-top: 90px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+iframe {
+  position: fixed;
+  overflow: hidden;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  padding-top: 0px;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* do usunięcia w przyszłości */
+
+.xPaths {
+  margin-top: 12px;
+  width: 500px;
+  height: 50px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  margin-right: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: right;
+}
+
+.elements{
+  width:100%;
+  float: left;
+  height: 60px;
+  }
+
+.SettingsBox {
+  width: 100px;
+  height: 130px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  float: top;
+  position: top;
+}
+
+/*////////////////////////////////////////////////////*/
+

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from src.crawling.schemas.link_schemas import Link
+from src.crawling.models.link_model import Link
 
 class UserBase(BaseModel):
     email: str
