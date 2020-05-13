@@ -1,24 +1,24 @@
 import React from "react"
-import Navbar from './MyAccountNavbar.js'
+import Navbar from './MyCrawlsNavbar.js'
 import Header from '../../Header'
 import Footer from '../../Footer'
-import MyAccount from "./MyAccount.js"
+import MyCrawls from "./MyCrawls.js"
 
-function LinkMainContent() {
+function MyCrawlsContentBox() {
     return (
         <div>
         <center>
         <div className='background'>
             <Header />
                 <main className="MainContent">
-                    <MyAccount />
+                    <MyCrawls />
                     <Navbar />
                 </main>
             <Footer />
         </div>
         </center>
     </div>
-)
+    )
 }
 
-export default LinkMainContent
+export default MyCrawlsContentBox

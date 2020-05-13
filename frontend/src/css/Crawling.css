@@ -109,7 +109,7 @@
 
 
 #CrawlingBanner {
-  background-image: url(./background.jpg);
+  background-image: url(../media/crawling-banner-background.jpg);
   background-size: auto;
   height: 80px;
   margin-top: 0px;
@@ -239,38 +239,4 @@ iframe {
   height: 100vh;
 }
 
-/* do usunięcia w przyszłości */
-
-.xPaths {
-  margin-top: 12px;
-  width: 500px;
-  height: 50px;
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 10px;
-  padding-bottom: 5px;
-  margin-right: 40px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  float: right;
-}
-
-.elements{
-  width:100%;
-  float: left;
-  height: 60px;
-  }
-
-.SettingsBox {
-  width: 100px;
-  height: 130px;
-  padding-left: 20px;
-  padding-right: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  float: top;
-  position: top;
-}
-
-/*////////////////////////////////////////////////////*/
 

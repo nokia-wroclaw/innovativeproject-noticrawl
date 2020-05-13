@@ -1,10 +1,8 @@
 import React from "react"
+import Login from "./Login"
+import Register from "./Register"
 
-
-import LoginBox from "./LoginBox"
-import RegisterBox from "./RegisterBox"
-
-class LoginPanel extends React.Component {
+class Panel extends React.Component {
 
     constructor(props) {
         super(props);
@@ -46,8 +44,8 @@ class LoginPanel extends React.Component {
                       </div>
                   </div>
                   <div className="box-container">
-                  {this.state.isLoginOpen && <LoginBox />}
-                  {this.state.isRegisterOpen && <RegisterBox />}
+                  {this.state.isLoginOpen && <Login />}
+                  {this.state.isRegisterOpen && <Register />}
                   </div>
               </div>
             );
@@ -55,4 +53,4 @@ class LoginPanel extends React.Component {
       
 }
 
-export default LoginPanel  
+export default Panel  

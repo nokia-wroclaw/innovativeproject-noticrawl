@@ -1,7 +1,6 @@
 import React from 'react';
-import TopBanner from './TopBanner';
 import ExternalHtml from './ExternalHtml';
-import './Crawling.css';
+import '../../../css/Crawling.css';
 import RenderBanner from './RenderBanner';
 
 
@@ -32,11 +31,8 @@ class Crawling extends React.Component {
     return (
       <div>
         <RenderBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} />
-
         <div id='Content'>
           {/* <button onClick={this.TakeXpath}>Check xPath!</button> */}
-
-          {/* rendering page to crawl */}
           <ExternalHtml />          
         </div>
       </div>

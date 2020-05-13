@@ -1,19 +1,19 @@
 import React from "react"
-import LinkInput from './LinkInput'
-import Navbar from './LinkNavbar'
+import NewCrawl from './NewCrawl'
+import Navbar from './NewCrawlNavbar'
 import Header from '../../Header'
 import Footer from '../../Footer'
 
 
 
-function LinkContent() {
+function NewCrawlContentBox() {
     return (
         <div>
             <center>
             <div className='background'>
                 <Header />
                     <main className="MainContent">
-                    <LinkInput />
+                    <NewCrawl/>
                     <Navbar />
                     </main>
                 <Footer />
@@ -23,4 +23,4 @@ function LinkContent() {
     )
 }
 
-export default LinkContent
+export default NewCrawlContentBox

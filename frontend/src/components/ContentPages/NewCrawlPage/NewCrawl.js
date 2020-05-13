@@ -4,11 +4,10 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { AddingScripts } from "./AddingScrpits.js"
+import { AddingScripts } from "./AddingScripts.js"
 
 
-
-class LinkInput extends Component{
+class NewCrawl extends Component{
 
   constructor(props) {
     super(props);
@@ -21,7 +20,6 @@ class LinkInput extends Component{
       isError: false
     };
   }
-
 
 submitForm = async e => {
     e.preventDefault();
@@ -40,12 +38,6 @@ submitForm = async e => {
       },
     });
 
-
-    //////////////////////////////////////////////////////
-    //showing what frontend send to backend (to delete later)
-    // alert(JSON.stringify(this.state.values))
-    //////////////////////////////////////////////////////
-
     this.setState({ isSubmitting: false });
     let data = await res.json();
     !data.hasOwnProperty("error")
@@ -54,22 +46,13 @@ submitForm = async e => {
     data = {
       parsedPage: data.html
     };
-    //////////////////////////////////////////////////////
-    //showing what backend returns to frontend (to delete later)
-    //alert(data.parsedPage);
-    //////////////////////////////////////////////////////
-
 
     data.parsedPage = data.parsedPage + AddingScripts 
-
-
-
 
 //setting parsed code received from backend to the variable, which will be exported
 this.setState({parsedPageToExport: data.parsedPage}) 
 
-
-/* automatic redirecting - not work
+/* automatic redirecting - not work yet
     const redirect = () => {
       return(
         <Link to={{
@@ -124,33 +107,6 @@ this.setState({parsedPageToExport: data.parsedPage})
                 </FormHelperText> 
 
             </FormControl>
-          
-            {/* alternative version
-            <TextField 
-            style={{ width: '50ch' }} 
-            id="filled-link" 
-            label="Your link" 
-            type="link" 
-            variant="filled" 
-            helperText='Remember, that your link should start with "http://" or "https://".'
-            value={this.state.values.link}
-            required/>
-            */}
-
-            {/* classic version
-            <label htmlFor="link"><h1>Paste your link below</h1></label>
-            <input
-              type="text"
-              name="link"
-              id="link"
-              value={this.state.values.link}
-              onChange={this.handleInputChange}
-              title="http://yourlink.com or https://yourlink.com"
-              pattern="https?://.+"
-              required
-            />
-            <button type="submit">Go to website</button>
-            */}
 
             <div>
             <Button variant="contained" color="primary" type="submit" id="linkSubmit">STEP 1: Submit website</Button>
@@ -171,17 +127,10 @@ this.setState({parsedPageToExport: data.parsedPage})
         }}>
           <Button variant="contained" color="primary" disableElevation >STEP 2: Go to website</Button>
         </Link>
-
-
       </div>
       </div>
     );
   }
 }
 
-export default LinkInput
-
-/*
-const sendMessage = () => <MContext.Consumer>{(context) => (context.setMessage("New Arrival"))}</MContext.Consumer>    
-sendMessage();
-*/
+export default NewCrawl
