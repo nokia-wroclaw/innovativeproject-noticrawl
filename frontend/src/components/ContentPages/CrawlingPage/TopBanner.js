@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.png'
+import logo from '../../../media/logo.png'
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import TextField from '@material-ui/core/TextField';

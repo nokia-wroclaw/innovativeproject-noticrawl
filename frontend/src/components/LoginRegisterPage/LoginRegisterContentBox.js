@@ -1,16 +1,16 @@
 import React from "react"
-import LoginPanel from "./LoginPanel"
+import LoginRegisterPanel from "./LoginRegisterPanel"
 import Header from '../Header'
 import Footer from '../Footer'
 
-function LoginMainContent() {
+function LoginContentBox() {
     return (
         <div>
             <center>
             <div className='background'>
                 <Header />
                     <main className="MainContent">
-                    <LoginPanel />
+                    <LoginRegisterPanel />
                     </main>
                 <Footer />
             </div>
@@ -19,4 +19,4 @@ function LoginMainContent() {
     )
 }
 
-export default LoginMainContent
+export default LoginContentBox

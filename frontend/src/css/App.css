@@ -5,7 +5,7 @@ html, body {
 }
 
 .background {
-  background-image: url(media/background.jpg);
+  background-image: url(../media/background.jpg);
   position: absolute;
   background-size: cover;
   height: 100%;
