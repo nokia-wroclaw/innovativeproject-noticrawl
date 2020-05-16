@@ -9,10 +9,8 @@ class Crawling extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Click here",
-      xpath: ""
+      borderState: 0
     };
-    this.state = { borderState: 0 };
   }
 
   callbackFunction = (borderSwitchState) => {
@@ -32,7 +30,6 @@ class Crawling extends React.Component {
       <div>
         <RenderBanner Callback={this.callbackFunction} borderState={this.state.borderState} xpathFromParent={this.TakeXpath} />
         <div id='Content'>
-          {/* <button onClick={this.TakeXpath}>Check xPath!</button> */}
           <ExternalHtml />          
         </div>
       </div>

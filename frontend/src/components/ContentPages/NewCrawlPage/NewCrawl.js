@@ -6,7 +6,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { AddingScripts } from "./AddingScripts.js"
 
-
 class NewCrawl extends Component{
 
   constructor(props) {
@@ -52,31 +51,18 @@ submitForm = async e => {
 //setting parsed code received from backend to the variable, which will be exported
 this.setState({parsedPageToExport: data.parsedPage}) 
 
-/* automatic redirecting - not work yet
-    const redirect = () => {
-      return(
-        <Link to={{
-          pathname: "/new-crawl/start-crawling",
-          state: {
-            externalPageToRender: this.state.parsedPageToExport,
-          }
-        }}>
-          {window.location.replace("./new-crawl/start-crawling")}
-        </Link>
-      );
-    }  
-*/
-
+    
     setTimeout(
       () => {
         this.setState({
           isError: false,
           message: "",
         })
-        //redirect();
+        document.getElementById("sendCrawlData").click()
       },
-      1000
+      500
     );
+
 
   };
 
@@ -109,7 +95,7 @@ this.setState({parsedPageToExport: data.parsedPage})
             </FormControl>
 
             <div>
-            <Button variant="contained" color="primary" type="submit" id="linkSubmit">STEP 1: Submit website</Button>
+            <Button variant="contained" color="primary" type="submit" id="linkSubmit">Go to website</Button>
             </div> 
       
         </form>
@@ -125,12 +111,12 @@ this.setState({parsedPageToExport: data.parsedPage})
             url: this.state.values.link
           }
         }}>
-          <Button variant="contained" color="primary" disableElevation >STEP 2: Go to website</Button>
+          <button id="sendCrawlData" hidden="true"/>
         </Link>
       </div>
       </div>
     );
   }
-}
 
+}
 export default NewCrawl
