@@ -6,7 +6,7 @@ authors = ["Adrian Płatos <adiplatos@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8.2"
 fastapi = "^0.52.0"
 uvicorn = "^0.11.3"
 aiofiles = "^0.4.0"

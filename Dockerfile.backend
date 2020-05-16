@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.8.3
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -11,16 +11,24 @@ libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 \
 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation \
 libappindicator1 libnss3 lsb-release xdg-utils wget
 
-WORKDIR /app
+RUN apt-get update && apt-get install -y nodejs
 
-COPY poetry.lock pyproject.toml ./
+WORKDIR /app/backend
+
+COPY ./backend/poetry.lock ./backend/pyproject.toml ./
 RUN pip install -q poetry==1.0.* && \
     poetry config virtualenvs.create false && \
     poetry install
 RUN pyppeteer-install
 
-COPY ./src ./src
-COPY database.secrets.toml ./
+COPY ./backend/src ./src
+COPY ./backend/database.secrets.toml ./
+
+WORKDIR /app/frontend
+COPY ./frontend ./
+RUN npm build
+
+WORKDIR /app/backend
 
 EXPOSE 8000
 

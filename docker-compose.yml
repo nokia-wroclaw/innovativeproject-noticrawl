@@ -4,7 +4,7 @@ services:
 
   backend:
     build:
-      context: './backend'
+      context: './'
       dockerfile: 'Dockerfile.backend'
     container_name: 'noticrawl_backend'
     depends_on:
@@ -12,8 +12,7 @@ services:
     ports:
       - '$APP_PORT:8000'
     volumes: 
-      - './frontend/build:/frontend/build:ro'
-      - './backend/src:/app/src'
+      - './backend/src:/app/backend/src'
       - './logs:/app/logs'
     environment: 
       SETTINGS_FILE_FOR_DYNACONF: '["database.secrets.toml"]'
