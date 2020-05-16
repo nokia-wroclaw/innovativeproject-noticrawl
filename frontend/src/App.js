@@ -1,9 +1,9 @@
 import React from 'react';
 import './css/App.css';
-import LoginRegisterContentBox from "./components/LoginRegisterPage/LoginRegisterContentBox"
-import NewCrawlContentBox from './components/ContentPages/NewCrawlPage/NewCrawlContentBox';
-import MyAccountContentBox from './components/ContentPages/MyAccountPage/MyAccountContentBox';
-import MyCrawlsContentBox from './components/ContentPages/MyCrawlsPage/MyCrawlsContentBox';
+import LoginRegister from "./components/LoginRegisterPage/LoginRegister"
+import NewCrawl from './components/ContentPages/NewCrawlPage/NewCrawl';
+import MyAccount from './components/ContentPages/MyAccountPage/MyAccount';
+import MyCrawls from './components/ContentPages/MyCrawlsPage/MyCrawls';
 import Crawling from './components/ContentPages/CrawlingPage/Crawling';
 import NotFoundPage from './components/ContentPages/NotFoundPage';
 import {
@@ -23,10 +23,10 @@ function App() {
           */}
           <Router>
             <Switch>
-              <Route exact strict path="/" component={LoginRegisterContentBox} />  
-              <Route exact strict path="/my-account" component={MyAccountContentBox} />
-              <Route exact strict path="/my-crawls" component={MyCrawlsContentBox} />
-              <Route exact strict path="/new-crawl" component={NewCrawlContentBox} />
+              <Route exact strict path="/" component={LoginRegister} />  
+              <Route exact strict path="/my-account" component={MyAccount} />
+              <Route exact strict path="/my-crawls" component={MyCrawls} />
+              <Route exact strict path="/new-crawl" component={NewCrawl} />
               <Route path="/new-crawl/start-crawling" component={Crawling} />
               <Route exact strict path="/404" component={NotFoundPage} />
               <Redirect to="/404" />
