@@ -1,20 +1,16 @@
 import React from "react"
-import NewCrawl from './NewCrawl'
-import Navbar from './NewCrawlNavbar'
-import Header from '../../Header'
-import Footer from '../../Footer'
+import LoginRegisterContent from "./LoginRegisterContent"
+import Header from '../Header'
+import Footer from '../Footer'
 
-
-
-function NewCrawlContentBox() {
+function LoginRegister() {
     return (
         <div>
             <center>
             <div className='background'>
                 <Header />
                     <main className="MainContent">
-                    <NewCrawl/>
-                    <Navbar />
+                        <LoginRegisterContent />
                     </main>
                 <Footer />
             </div>
@@ -23,4 +19,4 @@ function NewCrawlContentBox() {
     )
 }
 
-export default NewCrawlContentBox
+export default LoginRegister

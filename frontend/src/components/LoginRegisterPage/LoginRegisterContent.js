@@ -2,7 +2,7 @@ import React from "react"
 import Login from "./Login"
 import Register from "./Register"
 
-class Panel extends React.Component {
+class LoginRegisterContent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -53,4 +53,4 @@ class Panel extends React.Component {
       
 }
 
-export default Panel  
+export default LoginRegisterContent  
