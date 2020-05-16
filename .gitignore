@@ -1,5 +1,7 @@
-*.env
-*.secrets*
+*.env*
 *settings*
-*.config*
 *.pyc
+*.secrets*
+.idea
+*.config*
+*log*

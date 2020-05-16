@@ -16,11 +16,14 @@ psycopg2 = "^2.8.5"
 dynaconf = "^2.2.3"
 python-multipart = "^0.0.5"
 passlib = {extras = ["bcrypt"], version = "^1.7.2"}
-jwt = "^1.0.0"
+pylint = "^2.5.0"
+pyppeteer = "^0.0.25"
+PyJWT = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.2.1"
 pylint = "^2.4.4"
+black = "^19.10b0"
 
 [tool.taskipy.tasks]
 dev-server = "uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug "
