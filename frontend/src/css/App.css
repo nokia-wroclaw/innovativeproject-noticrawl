@@ -100,7 +100,6 @@ min-width: 21em;
 
 
 .box {
-display: flex;
 flex-direction: column;
 justify-content: center;
 }
