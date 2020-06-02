@@ -2,6 +2,7 @@ import smtplib
 import imghdr
 from backend.src.notifications.email_config import EMAIL_ADDRESS, EMAIL_PASSWORD
 from email.message import EmailMessage
+from fastapi import HTTPException
 
 def send_email(send_to, image):
     with open(image, 'rb') as f:
@@ -30,9 +31,6 @@ def send_email(send_to, image):
         server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         server.send_message(msg)
         server.quit()
-        return "Success: Email sent!"
-    except:
-        return "Email failed to send."
-
-screenshot = "pepe.png" #/app/logs/sreenshots?
-print(send_email(["jasiankowa@gmail.com"], screenshot))
+        raise HTTPException(status_code=200, detail="Success: Email sent!")
+    except ValueError:
+        raise HTTPException(status_code=500, detail="Error: Email failed to send.")
