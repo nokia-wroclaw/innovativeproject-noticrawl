@@ -1,6 +1,6 @@
 import smtplib
 import imghdr
-from backend.src.notifications.email_config import EMAIL_ADDRESS, EMAIL_PASSWORD
+from dynaconf import settings
 from email.message import EmailMessage
 from fastapi import HTTPException
 
@@ -10,6 +10,9 @@ def send_email(send_to, screenshot, subject, email_text):
         file_data = f.read()
         file_type = imghdr.what(f.name)
         file_name = f.name
+
+    email_address = settings.EMAIL
+    email_password = settings.PASSWORD
 
     msg = EmailMessage()
     msg["Subject"] = subject
