@@ -1,4 +1,3 @@
-from dynaconf import settings
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -6,11 +5,9 @@ from sqlalchemy.orm import Session
 from src.helpers.database import get_db
 from src.user import user_service
 from src.user.user_model import UserCreate
+from src.helpers.oauth2_scheme import oauth2_scheme
 
 from . import auth_service
-
-REFRESH_TOKEN_LIFETIME = settings.as_int("REFRESH_TOKEN_LIFETIME")
-ACCESS_TOKEN_LIFETIME = settings.as_int("ACCESS_TOKEN_LIFETIME")
 
 auth_router = APIRouter()
 
@@ -19,14 +16,16 @@ auth_router = APIRouter()
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     if user.password != user.re_password:
         raise HTTPException(status_code=400, detail="Passwords are not the same.")
+
     db_user = user_service.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="User with this email already exists.")
+    
     user_service.create_user(db, user)
     return auth_service.generate_cookies(user.email)
 
 @auth_router.post("/api/v1/login")
-async def login(
+def login(
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_db)
     ):
