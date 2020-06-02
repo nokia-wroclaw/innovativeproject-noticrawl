@@ -2,12 +2,14 @@ from pydantic import BaseModel
 from typing import List
 
 from src.crawling.models.link_model import Link
+from src.database.database_schemas import Users
 
 class UserBase(BaseModel):
     email: str
 
 class UserCreate(UserBase):
     password: str
+    re_password: str
 
 class User(UserBase):
     user_id: int
