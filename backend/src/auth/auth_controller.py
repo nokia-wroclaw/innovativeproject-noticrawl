@@ -1,15 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException
+import asyncio
+
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from src.helpers.database import get_db
+from src.helpers.oauth2_scheme import oauth2_scheme
 from src.user import user_service
 from src.user.user_model import UserCreate
-from src.helpers.oauth2_scheme import oauth2_scheme
 
 from . import auth_service
 
 auth_router = APIRouter()
+
+asyncio.create_task(
+    auth_service.remove_expired_tokens(sec_frequency=5, db=next(get_db()))
+)
 
 
 @auth_router.post("/api/v1/register")
@@ -19,34 +25,27 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
     db_user = user_service.get_user_by_email(db, email=user.email)
     if db_user:
-        raise HTTPException(status_code=400, detail="User with this email already exists.")
-    
+        raise HTTPException(
+            status_code=400, detail="User with this email already exists."
+        )
+
     user_service.create_user(db, user)
     return auth_service.generate_cookies(user.email)
 
+
 @auth_router.post("/api/v1/login")
 def login(
-        form_data: OAuth2PasswordRequestForm = Depends(),
-        db: Session = Depends(get_db)
+        form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
     ):
     user_service.authenticate_user(db, form_data.username, form_data.password)
 
     return auth_service.generate_cookies(form_data.username)
 
-#####
-# @auth_router.get("/get-access-token")
-# async def get_acces_token(request: Request) -> Response:
-#     try:
-#         username = verify_cookies(request.cookies, "refresh_token")
-#     except CookieVerificationError:
-#         raise HTTPException(status_code=HTTP_400_BAD_REQUEST)
-#     response = Response()
-#     response.set_cookie(
-#         key="access_token",
-#         value=jsonable_encoder(
-#             create_token(data={"sub": username}, lifetime=ACCESS_TOKEN_LIFETIME)
-#         ),
-#         httponly=True,
-#         expires=ACCESS_TOKEN_LIFETIME,
-#     )
-#     return response
+
+@auth_router.post("/api/v1/logout")
+def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
+    auth_service.save_revoked_token(token, db)
+
+    response = Response()
+    response.delete_cookie("access_token")
+    return response
