@@ -32,5 +32,5 @@ async def add_crawl(crawl_data: CrawlData):
         crawl_data.url, crawl_data.xpath
     )
     crawling_service.add_crawl_to_fake_db(crawl_data)
-    logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
+    # logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
     raise HTTPException(status_code=200, detail="Crawl saved")
