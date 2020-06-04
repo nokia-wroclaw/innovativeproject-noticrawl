@@ -20,15 +20,17 @@ class NewCrawlContent extends Component{
     };
   }
 
+
 submitForm = async e => {
     e.preventDefault();
-    console.log(this.state);
-    this.setState({ isSubmitting: true });
 
-    //communication with backend
     const url = {
       url: this.state.values.link.toString()
     };
+    
+    this.setState({ isSubmitting: true });
+
+    //communication with backend
     const res = await fetch("/api/v1/page", {
       method: "POST",
       body: JSON.stringify(url),
@@ -38,19 +40,21 @@ submitForm = async e => {
     });
 
     this.setState({ isSubmitting: false });
+
     let data = await res.json();
+
     !data.hasOwnProperty("error")
       ? this.setState({ message: data.success })
       : this.setState({ message: data.error, isError: true });
+
     data = {
       parsedPage: data.html
     };
 
     data.parsedPage = data.parsedPage + AddingScripts 
 
-//setting parsed code received from backend to the variable, which will be exported
-this.setState({parsedPageToExport: data.parsedPage}) 
-
+    //setting parsed code received from backend to the variable, which will be exported
+    this.setState({parsedPageToExport: data.parsedPage}) 
     
     setTimeout(
       () => {
@@ -62,14 +66,16 @@ this.setState({parsedPageToExport: data.parsedPage})
       },
       500
     );
-
-
   };
+
+
 
   handleInputChange = e =>
     this.setState({
       values: { ...this.state.values, [e.target.name]: e.target.value }
     });
+
+
 
   render() {
     return (
