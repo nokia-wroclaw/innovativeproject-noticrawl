@@ -86,6 +86,36 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlData):
     return
 
 
+def update_crawl_in_db(db: Session, crawl_data: CrawlData, crawl_id: int):
+    link_id = (
+        db.query(Scripts)
+            .filter(Scripts.script_id == crawl_id)
+            .first()
+    ).link_id
+    db.query(Links)\
+        .filter(Links.link_id == link_id)\
+        .update({Links.url: crawl_data.url},
+                synchronize_session=False)
+
+    db.query(Scripts)\
+        .filter(Scripts.script_id == crawl_id)\
+        .update({Scripts.name: crawl_data.name,
+                 Scripts.instructions: crawl_data.xpath,
+                 Scripts.period: crawl_data.period},
+                synchronize_session=False)
+
+    db.query(Notifications)\
+        .filter(Notifications.script_id == crawl_id)\
+        .update({Notifications.address: crawl_data.email},
+                synchronize_session=False)
+
+    db.flush()
+    db.commit()
+
+    crawl = db.query(Scripts).filter(Scripts.script_id == crawl_id).first()
+    return crawl  # todo
+
+
 async def data_selector(url, xpath):
     logging.getLogger("websockets").setLevel("WARN")
     browser = await pyppeteer.launch(

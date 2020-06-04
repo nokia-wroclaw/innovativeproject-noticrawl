@@ -35,6 +35,14 @@ async def add_crawl(crawl_data: CrawlData, db: Session = Depends(get_db)):
     return
 
 
+@crawling_router.patch("/api/v1/crawling-data/{crawl_id}", dependencies=[Depends(verify_token)])
+async def update_crawl(
+            crawl_data: CrawlData,
+            crawl_id: int,
+            db: Session = Depends(get_db)
+        ):
+    db_crawl = crawling_service.update_crawl_in_db(db, crawl_data, crawl_id)
+    return db_crawl
 
 
 @crawling_router.get("/api/v1/crawling-data/{user_id}")
