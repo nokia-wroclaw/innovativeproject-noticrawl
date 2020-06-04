@@ -37,6 +37,17 @@ def fix_relative_paths(html: str, url: str):
     return base_href + "\n" + html
 
 
+def get_crawls_by_user(db: Session, user_id: int):
+    #todo zmienić na listę
+    links = (
+        db.query(Links)
+        .filter(Links.user_id == user_id)
+        .all()
+    )
+    return db.query(Scripts).filter(Scripts.link_id == link_id).first() #todo pętle po skryptach z link_id albo mappowanie
+
+
+# todo wywalić
 def add_crawl_to_fake_db(crawl_data: CrawlData):
     fake_db.crawls.append(crawl_data)
 
