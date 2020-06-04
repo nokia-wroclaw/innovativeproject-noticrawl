@@ -3,6 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from src.auth.auth_service import verify_token
 from src.helpers.database import get_db
 
 from . import crawling_service
@@ -15,7 +16,8 @@ logger = logging.getLogger("Noticrawl")
 crawling_router = APIRouter()
 
 
-@crawling_router.post("/api/v1/page", response_model=Page)
+
+@crawling_router.post("/api/v1/page", dependencies=[Depends(verify_token)], response_model=Page)
 async def get_page(url: Url):
     # logger.log(level=logging.DEBUG, msg="GET /api/v1/page url:" + url.url)
     page_url = url.url
@@ -25,7 +27,7 @@ async def get_page(url: Url):
     return Page(url=page_url, html=html)
 
 
-@crawling_router.post("/api/v1/crawling-data", response_model=CrawlData)
+@crawling_router.post("/api/v1/crawling-data", dependencies=[Depends(verify_token)], response_model=CrawlData)
 async def add_crawl(crawl_data: CrawlData, db: Session = Depends(get_db)):
     crawl_data.value = await crawling_service.data_selector(crawl_data.url, crawl_data.xpath)
     crawling_service.add_crawl_to_db(db, crawl_data)
