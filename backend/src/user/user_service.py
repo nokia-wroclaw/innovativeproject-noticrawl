@@ -1,9 +1,8 @@
 import logging
 
-from fastapi import Depends, HTTPException
+from fastapi import HTTPException
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-
 from src.database.database_schemas import Users
 
 from .user_model import User, UserCreate
