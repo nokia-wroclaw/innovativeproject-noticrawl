@@ -1,18 +1,21 @@
-#model - refer to these classes and instances that interact with the database
-from sqlalchemy import Column, ForeignKey, Integer, VARCHAR, Text, Enum, CheckConstraint, exc
-from sqlalchemy.orm import relationship
+# model - refer to these classes and instances that interact with the database
 from time import sleep
 
+from sqlalchemy import Column, ForeignKey, Integer, VARCHAR, Text, Enum, CheckConstraint, exc
+from sqlalchemy.orm import relationship
+
 from .connection import Base, engine
+
 
 class Users(Base):
     __tablename__ = "Users"
 
     user_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     email = Column(VARCHAR(255), CheckConstraint('email SIMILAR TO \'%@%.%\''), unique=True, index=True, nullable=False)
-    password = Column(VARCHAR(128), nullable=False) 
+    password = Column(VARCHAR(128), nullable=False)
 
     user_link = relationship("Links", back_populates="Link_User")
+
 
 class Links(Base):
     __tablename__ = "Links"
@@ -22,17 +25,22 @@ class Links(Base):
     description = Column(Text, index=True)
     user_id = Column(Integer, ForeignKey("Users.user_id"))
 
-    link_user = relationship("Users", back_populates="User_Link")
-    link_script = relationship("Scripts", back_populates="Script_Link")
+    link_user = relationship("Users", back_populates="user_link")
+    link_script = relationship("Scripts", back_populates="script_link")
+
 
 class Scripts(Base):
     __tablename__ = "Scripts"
     script_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    script_name = Column(Text, nullable=False, index=True)
     instructions = Column(Text, nullable=False, index=True)
+    element_value = Column(Text, nullable=False, index=True)
+    period = Column(Integer, index=True)
     link_id = Column(Integer, ForeignKey("Links.link_id"))
 
-    script_link = relationship("Links", back_populates="Link_Script")
-    script_notification = relationship("Notifications", back_populates="Notification_Script")
+    script_link = relationship("Links", back_populates="link_script")
+    script_notification = relationship("Notifications", back_populates="notification_script")
+
 
 class Notifications(Base):
     __tablename__ = "Notifications"
@@ -41,7 +49,8 @@ class Notifications(Base):
     communicator = Column(Enum('email', 'slack', name='Communicators'), nullable=False)
     script_id = Column(Integer, ForeignKey("Scripts.script_id"))
 
-    notification_script = relationship("Scripts", back_populates="Script_Notification")
+    notification_script = relationship("Scripts", back_populates="script_notification")
+
 
 def create():
     MAX_RETRIES_NUM = 15

@@ -26,9 +26,22 @@ async def get_page(url: Url):
     return Page(url=page_url, html=html)
 
 
-@crawling_router.post("/api/v1/crawling-data")
-async def add_crawl(crawl_data: CrawlData):
+@crawling_router.post("/api/v1/crawling-data", response_model=CrawlData)
+async def add_crawl(crawl_data: CrawlData, db: Session = Depends(get_db)):
     crawl_data.value = await crawling_service.data_selector(crawl_data.url, crawl_data.xpath)
-    crawling_service.add_crawl_to_fake_db(crawl_data)
+    crawling_service.add_crawl_to_db(db, crawl_data)
     logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
-    raise HTTPException(status_code=200, detail="Crawl saved")
+    return
+
+@crawling_router.patch("/api/v1/crawling-data/{crawl_id}")  # todo
+async def update_crawl(): # todo jak post tylko modyfikacja zamiast dodawania
+    return # zwracać po aktualizacji (join linków skryptów i notyfikacji)
+
+
+@crawling_router.get("/api/v1/crawling-data/{user_id}") # todo brać z tokena
+async def read_crawls(user_id: int,  db: Session = Depends(get_db)):
+    db_crawls = crawling_service.get_crawls_by_user(db, user_id=user_id)
+    if db_crawls is None:
+        raise HTTPException(status_code=404, detail="Crawls not found")
+    return db_crawls
+

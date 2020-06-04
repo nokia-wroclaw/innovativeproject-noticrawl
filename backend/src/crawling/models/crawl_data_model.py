@@ -4,11 +4,12 @@ from pydantic import BaseModel, validator
 
 
 class CrawlData(BaseModel):
+    name: str
     url: str
     xpath: str
-    period: int = 10 #seconds
+    period: int = 10  # seconds
     email: str
-    value: str = "1"
+    value: str
 
     # @validator("url")
     # def if_url(cls, url):
