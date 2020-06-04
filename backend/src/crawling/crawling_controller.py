@@ -4,7 +4,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.helpers.database import get_db
-from src.helpers.debug import save_to_html
 
 from . import crawling_service
 from .models.crawl_data_model import CrawlData
@@ -33,15 +32,15 @@ async def add_crawl(crawl_data: CrawlData, db: Session = Depends(get_db)):
     logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
     return
 
-@crawling_router.patch("/api/v1/crawling-data/{crawl_id}")  # todo
-async def update_crawl(): # todo jak post tylko modyfikacja zamiast dodawania
-    return # zwracać po aktualizacji (join linków skryptów i notyfikacji)
 
 
-@crawling_router.get("/api/v1/crawling-data/{user_id}") # todo brać z tokena
-async def read_crawls(user_id: int,  db: Session = Depends(get_db)):
-    db_crawls = crawling_service.get_crawls_by_user(db, user_id=user_id)
+
+@crawling_router.get("/api/v1/crawling-data/{user_id}")
+async def read_crawls(
+            user_email: str = Depends(verify_token),
+            db: Session = Depends(get_db)
+        ):
+    db_crawls = crawling_service.get_crawls_by_user(db, user_email=user_email)
     if db_crawls is None:
         raise HTTPException(status_code=404, detail="Crawls not found")
     return db_crawls
-

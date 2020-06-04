@@ -5,11 +5,9 @@ from datetime import datetime
 
 import pyppeteer
 from sqlalchemy.orm import Session
-
-from src.user.user_model import User
-from src.database.database_schemas import Users, Links, Scripts
-from src.database import fake_db
 from src.crawling.communicators import Communicators
+from src.database import fake_db
+from src.database.database_schemas import Users, Links, Scripts, Notifications
 
 from .models.crawl_data_model import CrawlData
 from .models.link_model import LinkCreate
@@ -37,14 +35,21 @@ def fix_relative_paths(html: str, url: str):
     return base_href + "\n" + html
 
 
-def get_crawls_by_user(db: Session, user_id: int):
-    #todo zmienić na listę
-    links = (
-        db.query(Links)
-        .filter(Links.user_id == user_id)
-        .all()
-    )
-    return db.query(Scripts).filter(Scripts.link_id == link_id).first() #todo pętle po skryptach z link_id albo mappowanie
+def get_crawls_by_user(db: Session, user_email: str):
+    crawls = []
+    user_id = db.query(Users)\
+        .filter(Users.email == user_email)\
+        .first()
+
+    for link in db.query(Links)\
+            .filter(Links.user_id == user_id)\
+            .all():
+
+        crawls.append(db.query(Scripts)
+                      .filter(Scripts.link_id == link)
+                      .first()
+                      )
+    return crawls #todo
 
 
 # todo wywalić
