@@ -1,20 +1,33 @@
-# model - refer to these classes and instances that interact with the database
 from time import sleep
 
-from sqlalchemy import Column, ForeignKey, Integer, VARCHAR, Text, Enum, CheckConstraint, exc
+from sqlalchemy import (
+    VARCHAR,
+    CheckConstraint,
+    Column,
+    Enum,
+    ForeignKey,
+    Integer,
+    Text,
+    exc,
+)
 from sqlalchemy.orm import relationship
 
 from .connection import Base, engine
-
 
 class Users(Base):
     __tablename__ = "Users"
 
     user_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-    email = Column(VARCHAR(255), CheckConstraint('email SIMILAR TO \'%@%.%\''), unique=True, index=True, nullable=False)
+    email = Column(
+        VARCHAR(255),
+        CheckConstraint("email SIMILAR TO '%@%.%'"),
+        unique=True,
+        index=True,
+        nullable=False,
+    )
     password = Column(VARCHAR(128), nullable=False)
 
-    user_link = relationship("Links", back_populates="Link_User")
+    user_link = relationship("Links", back_populates="link_user")
 
 
 class Links(Base):
@@ -39,17 +52,26 @@ class Scripts(Base):
     link_id = Column(Integer, ForeignKey("Links.link_id"))
 
     script_link = relationship("Links", back_populates="link_script")
-    script_notification = relationship("Notifications", back_populates="notification_script")
+    script_notification = relationship(
+        "Notifications", back_populates="notification_script"
+    )
 
 
 class Notifications(Base):
     __tablename__ = "Notifications"
     notification_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     address = Column(VARCHAR(255), index=True)
-    communicator = Column(Enum('email', 'slack', name='Communicators'), nullable=False)
+    communicator = Column(Enum("email", "slack", name="Communicators"), nullable=False)
     script_id = Column(Integer, ForeignKey("Scripts.script_id"))
 
     notification_script = relationship("Scripts", back_populates="script_notification")
+
+
+class RevokedTokens(Base):
+    __tablename__ = "Revoked Tokens"
+    token_id = Column(Integer, autoincrement=True, primary_key=True)
+    signature = Column(VARCHAR(1023))
+    expiry_date = Column(Integer, nullable=False)
 
 
 def create():
@@ -63,18 +85,18 @@ def create():
             executed_successfully = True
 
         except exc.OperationalError as e:
-            if 'could not connect to server: Connection refused' in str(e):
+            if "could not connect to server: Connection refused" in str(e):
                 print(
-                    'DATABASE EXCEPTION: Database is not yet accepting connections. ',
-                    'Sleeping for 2 seconds...',
+                    "DATABASE EXCEPTION: Database is not yet accepting connections. ",
+                    "Sleeping for 2 seconds...",
                 )
-            elif 'the database system is starting up' in str(e):
+            elif "the database system is starting up" in str(e):
                 print(
-                    'DATABASE EXCEPTION: Database is starting up. ',
-                    'Sleeping for 2 seconds...',
+                    "DATABASE EXCEPTION: Database is starting up. ",
+                    "Sleeping for 2 seconds...",
                 )
             else:
-                print('WARNING! Unhandled <sqlalchemy.exc.OperationalError>!')
+                print("WARNING! Unhandled <sqlalchemy.exc.OperationalError>!")
                 raise
             sleep(2)
             retry_num += 1
