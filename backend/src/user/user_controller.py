@@ -26,7 +26,7 @@ def read_users(
 
 @user_router.get("/api/v1/user/me", response_model=User)
 def read_user(
-        user_email: dict = Depends(verify_token),
+        user_email: str = Depends(verify_token),
         db: Session = Depends(get_db)
     ):
     db_user = user_service.get_user_by_email(db, user_email)
