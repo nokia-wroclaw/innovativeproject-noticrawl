@@ -200,17 +200,6 @@ class TopBanner extends React.Component {
       </div>
       
 </form>  
-
-
-      {/*
-      <div className='xPaths'>
-        <div className ='elements'>
-          <text id="status">Wait for it... or enable JavaScript.</text>
-          <br /><text id="status2">Wait for it... or enable JavaScript.</text>
-        </div>
-      </div>
-      */}
-
     </div>
     )
   }

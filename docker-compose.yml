@@ -15,7 +15,7 @@ services:
       - './backend/src:/app/backend/src'
       - './logs:/app/logs'
     environment: 
-      SETTINGS_FILE_FOR_DYNACONF: '["database.secrets.toml"]'
+      SETTINGS_FILE_FOR_DYNACONF: '["database.secrets.toml", "auth.secrets.toml"]'
 
 
   database:

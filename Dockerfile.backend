@@ -22,7 +22,7 @@ RUN pip install -q poetry==1.0.* && \
 RUN pyppeteer-install
 
 COPY ./backend/src ./src
-COPY ./backend/database.secrets.toml ./
+COPY ./backend/database.secrets.toml ./backend/auth.secrets.toml ./
 
 WORKDIR /app/frontend
 COPY ./frontend ./

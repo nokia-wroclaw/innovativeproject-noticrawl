@@ -27,12 +27,12 @@ async def check_for_change():
         for crawl_data in fake_db.crawls:
             current_value = await data_selector(url=crawl_data.url, xpath=crawl_data.xpath)
             if current_value != crawl_data.value:
-                msg = (
-                        "URL: " + crawl_data.url  + "\n" +
-                        "Old value: " + crawl_data.value  + "\n" +
-                        "New value: " + str(current_value)
-                    )
-                logger.log(level=logging.DEBUG, msg=msg)
+                # msg = (
+                #         "URL: " + crawl_data.url  + "\n" +
+                #         "Old value: " + crawl_data.value  + "\n" +
+                #         "New value: " + str(current_value)
+                #     )
+                # logger.log(level=logging.DEBUG, msg=msg)
 
                 filename = parse_url(crawl_data.url).host.replace(".", "_")
                 asyncio.create_task(take_screenshot(crawl_data.url, filename=filename))
