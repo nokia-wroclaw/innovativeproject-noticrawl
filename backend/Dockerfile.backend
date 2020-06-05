@@ -20,7 +20,7 @@ RUN pip install -q poetry==1.0.* && \
 RUN pyppeteer-install
 
 COPY ./src ./src
-COPY database.secrets.toml ./
+COPY database.secrets.toml auth.secrets.toml ./
 
 EXPOSE 8000
 
