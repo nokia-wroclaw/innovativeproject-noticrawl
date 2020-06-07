@@ -9,7 +9,7 @@ COPY ./frontend ./
 RUN npm run build
 
 
-FROM python:3.8.3 AS noticrawl-image
+FROM python:3.8 AS noticrawl-image
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
