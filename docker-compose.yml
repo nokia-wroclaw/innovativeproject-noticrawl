@@ -1,12 +1,10 @@
-version: '3'
+version: '3.4'
 
 services: 
 
-  backend:
-    build:
-      context: './'
-      dockerfile: 'Dockerfile.backend'
-    container_name: 'noticrawl_backend'
+  app:
+    image: noticrawl:latest
+    container_name: 'noticrawl_app'
     depends_on:
       - database
     ports:
