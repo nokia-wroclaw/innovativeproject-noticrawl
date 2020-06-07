@@ -1,6 +1,6 @@
 ## Running a backend app locally
-#### Using docker-compose (recommended)
-`sudo docker-compose up`
+#### Using Docker (recommended)
+`./run-noticrawl.sh` from main project's directory
 #### Directly on your computer (if for whatever reason Docker is not working properly)
 `poetry run task dev-server` from /backend directory
 
