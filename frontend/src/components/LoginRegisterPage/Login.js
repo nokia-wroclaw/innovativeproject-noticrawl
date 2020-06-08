@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom";
-import  qs from "qs";
+import qs from "qs";
 
 
 class LoginBox extends React.Component {
@@ -9,17 +9,16 @@ class LoginBox extends React.Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      error: ""
     };
   }
 
 
   submitLogin = async () => {
-    console.log("work????")
+
     let username = document.getElementById("login_values").username.value
     let password = document.getElementById("login_values").password.value
-
-    console.log(qs.stringify({ username: username, password: password }))
 
     const res = await fetch("/api/v1/login", {
       method: "POST",
@@ -28,13 +27,18 @@ class LoginBox extends React.Component {
         "Content-Type": "application/x-www-form-urlencoded"
       },
     });
-    console.log("5: " + res.ok)
-    console.log("6: " + res.status)
+
     if (res.ok) {
       document.getElementById("go_to_new-crawl_login").click()
-    } else {
-      let status = res.status
-      console.log("Such an account does not exists")
+    }
+    else if (res.status == 400) {
+      this.setState({ error: "Incorrect username or password" })
+    }
+    else if (res.status == 422) {
+      this.setState({ error: "Validation Error" })
+    }
+    else{
+      this.setState({ error: "Oops, something went wrong" })
     }
 
   }
@@ -63,7 +67,7 @@ class LoginBox extends React.Component {
               <button className="login-btn" type="button" value="Submit" onClick={this.submitLogin}>Login</button>
             </div>
           </form>
-
+          <div className="error">{this.state.error}</div>
           {/* 
           <div className="input-group">
             <label htmlFor="username">Username</label>

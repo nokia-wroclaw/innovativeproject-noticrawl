@@ -100,15 +100,12 @@ class RegisterBox extends React.Component {
                 document.getElementById("go_to_new-crawl").click()
               }
               else if (res.status == 409) {
-                let status = res.status
                 this.setState({ error: "Email in use" })
               }
               else if (res.status == 400) {
-                let status = res.status
                 this.setState({ error: "Passwords are not the same" })
               }
               else if (res.status == 422) {
-                let status = res.status
                 this.setState({ error: "Validation Error" })
               }
               else{
