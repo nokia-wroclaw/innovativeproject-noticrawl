@@ -19,7 +19,10 @@ class LoginBox extends React.Component {
 
     let username = document.getElementById("login_values").username.value
     let password = document.getElementById("login_values").password.value
-
+    if (username == "" || password == ""){
+      this.setState({ error: "Enter login details" })
+      return
+    }
     const res = await fetch("/api/v1/login", {
       method: "POST",
       body: qs.stringify({ username: username, password: password }),
