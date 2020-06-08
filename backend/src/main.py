@@ -16,9 +16,9 @@ from .user.user_controller import user_router
 logger = logging.getLogger("Noticrawl")
 
 app = FastAPI()
+app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(crawling_router)
-app.include_router(auth_router)
 
 database_schemas.create()
 
@@ -29,7 +29,9 @@ templates = Jinja2Templates(directory="../frontend/build")
 
 
 @app.get("/", tags=["Statics"])
-@app.get("/404", tags=["Statics"])
+@app.get("/code/{status_code}", tags=["Statics"])
+@app.get("/manifest.json", tags=["Statics"])
+@app.get("/favicon.ico", tags=["Statics"])
 def show_public_statics(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
