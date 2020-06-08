@@ -55,23 +55,11 @@ class RegisterBox extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      username: "",
-      password: "",
-      email: "",
-      acceptedTerms: false,
-      errors: {
-        username: '',
-        email: '',
-        password: '',
-      }
-
-    };
+    this.state = { error: "" };
 
   }
 
   render() {
-    const { errors } = this.state;
     return (
       <div className="inner-container">
 
@@ -108,14 +96,26 @@ class RegisterBox extends React.Component {
                   "Content-Type": "application/json"
                 },
               });
-              console.log("5: " + res.ok)
-              console.log("6: " + res.status)
               if (res.ok) {
                 document.getElementById("go_to_new-crawl").click()
-              } else {
-                let status = res.status
-                console.log("Such an email exists")
               }
+              else if (res.status == 409) {
+                let status = res.status
+                this.setState({ error: "Email in use" })
+              }
+              else if (res.status == 400) {
+                let status = res.status
+                this.setState({ error: "Passwords are not the same" })
+              }
+              else if (res.status == 422) {
+                let status = res.status
+                this.setState({ error: "Validation Error" })
+              }
+              else{
+                this.setState({ error: "Oops, something went wrong" })
+              }
+
+
             })
             }
           >
@@ -153,6 +153,7 @@ class RegisterBox extends React.Component {
             </div>
           </Formik>
         </div>
+        <div className="error">{this.state.error}</div>
         <Link to="/new-crawl">
           <div id="go_to_new-crawl"></div>
         </Link>
