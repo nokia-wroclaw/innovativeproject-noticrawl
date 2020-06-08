@@ -21,37 +21,38 @@ class NewCrawlContent extends Component{
   }
 
 submitForm = async e => {
-    e.preventDefault();
-    console.log(this.state);
-    this.setState({ isSubmitting: true });
+  e.preventDefault();
+  console.log(this.state);
+  this.setState({ isSubmitting: true });
 
-    //communication with backend
-    const url = {
-      url: this.state.values.link.toString()
-    };
-    const res = await fetch("/api/v1/page", {
-      method: "POST",
-      body: JSON.stringify(url),
-      headers: {
-        "Content-Type": "application/json"
-      },
-    });
+  //communication with backend
+  const url = {
+    url: this.state.values.link.toString()
+  };
+  const res = await fetch("/api/v1/page", {
+    method: "POST",
+    body: JSON.stringify(url),
+    headers: {
+      "Content-Type": "application/json"
+    },
+  });
 
-    this.setState({ isSubmitting: false });
-    let data = await res.json();
-    !data.hasOwnProperty("error")
-      ? this.setState({ message: data.success })
-      : this.setState({ message: data.error, isError: true });
-    data = {
-      parsedPage: data.html
-    };
+  this.setState({ isSubmitting: false });
+  let data = await res.json();
+  !data.hasOwnProperty("error")
+    ? this.setState({ message: data.success })
+    : this.setState({ message: data.error, isError: true });
+  data = {
+    parsedPage: data.html
+  };
 
-    data.parsedPage = data.parsedPage + AddingScripts 
+  data.parsedPage = data.parsedPage + AddingScripts 
 
-//setting parsed code received from backend to the variable, which will be exported
-this.setState({parsedPageToExport: data.parsedPage}) 
+  //setting parsed code received from backend to the variable, which will be exported
+  this.setState({parsedPageToExport: data.parsedPage}) 
 
-    
+  
+  if (res.ok) {
     setTimeout(
       () => {
         this.setState({
@@ -62,9 +63,18 @@ this.setState({parsedPageToExport: data.parsedPage})
       },
       500
     );
-
-
-  };
+  }
+  else if (res.status == 401) {
+    alert("User not logged in!")
+    document.getElementById("redirectToHome").click()
+  } 
+  else if (res.status == 422){
+    alert("422: Validation Error!")
+  } 
+  else {
+    alert("Undefined error just happened. Try again!")
+  }
+};
 
   handleInputChange = e =>
     this.setState({
@@ -113,6 +123,11 @@ this.setState({parsedPageToExport: data.parsedPage})
         }}>
           <button id="sendCrawlData" hidden="true"/>
         </Link>
+
+        <Link to={"/"}>
+          <button id="redirectToHome" hidden="true"/>
+        </Link>
+
       </div>
       </div>
     );
