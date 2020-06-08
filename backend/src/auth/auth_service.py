@@ -85,12 +85,6 @@ def save_revoked_token(token: str, db: Session):
     db.add(db_token)
     db.commit()
 
-    db.refresh(db_token)
-    logger.log(
-        logging.DEBUG,
-        msg=f"Successfuly revoked token {db_token.signature}. Expiry time: {db_token.expiry_date}",
-    )
-
 
 async def remove_expired_tokens(sec_frequency: int, db: Session):
     while True:

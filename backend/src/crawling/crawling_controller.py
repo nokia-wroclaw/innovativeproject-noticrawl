@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from src.auth.auth_service import verify_token
 from src.helpers.debug import save_to_html
+from src.helpers.status_code_model import StatusCodeBase
 
 from . import crawling_service
 from .models.crawl_data_model import CrawlData
@@ -16,8 +17,14 @@ crawling_router = APIRouter()
 
 
 @crawling_router.post(
-    "/api/v1/page", dependencies=[Depends(verify_token)], response_model=Page
-)
+    "/api/v1/page",
+    dependencies=[Depends(verify_token)],
+    response_model=Page,
+    tags=["Crawling"],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+) 
 async def get_page(url: Url):
     page_url = url.url
     html, page_title = await crawling_service.parse(page_url)
@@ -26,7 +33,14 @@ async def get_page(url: Url):
     return Page(url=page_url, html=html)
 
 
-@crawling_router.post("/api/v1/crawling-data", dependencies=[Depends(verify_token)])
+@crawling_router.post(
+    "/api/v1/crawling-data",
+    dependencies=[Depends(verify_token)],
+    tags=["Crawling"],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+)
 async def add_crawl(crawl_data: CrawlData):
     crawl_data.value = await crawling_service.data_selector(
         crawl_data.url, crawl_data.xpath
