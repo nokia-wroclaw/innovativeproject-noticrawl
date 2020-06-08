@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { Link } from "react-router-dom";
 
 class TopBanner extends React.Component {
 
@@ -56,10 +57,6 @@ class TopBanner extends React.Component {
 
     await this.sleep(2000);
 
-    ///////////// what will be send to backend
-    console.log(JSON.stringify(this.state.values))
-    /////////////
-
     //start communication with backend
     const res = await fetch("/api/v1/crawling-data", {
       method: "POST",
@@ -80,15 +77,26 @@ class TopBanner extends React.Component {
       ? this.setState({ message: data.success })
       : this.setState({ message: data.error, isError: true });
 
-
-    setTimeout(
-      () => {
-        this.setState({
-          isError: false,
-        })
-      },
-      1600
-    );
+    if (res.ok) {
+      setTimeout(
+        () => {
+          this.setState({
+            isError: false,
+          })
+        },
+        1600
+      );
+    }
+    else if (res.status == 401) {
+      alert("User not logged in!")
+      document.getElementById("redirectToHome").click()
+    } 
+    else if (res.status == 422){
+      alert("422: Validation Error!")
+    } 
+    else {
+      alert("Oops, something went wrong! Try again!")
+    }
   }
 
   render() {
@@ -198,8 +206,12 @@ class TopBanner extends React.Component {
           </FormControl>
         </div>
       </div>
-      
 </form>  
+
+    <Link to={"/"}>
+          <button id="redirectToHome" hidden="true"/>
+    </Link>
+
     </div>
     )
   }

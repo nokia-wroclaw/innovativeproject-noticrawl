@@ -72,7 +72,7 @@ submitForm = async e => {
     alert("422: Validation Error!")
   } 
   else {
-    alert("Undefined error just happened. Try again!")
+    alert("Oops, something went wrong! Try again!")
   }
 };
 
