@@ -23,7 +23,8 @@ asyncio.create_task(
     "/api/v1/register",
     tags=["Auth"],
     responses={
-        400: {"model": StatusCodeBase, "description": "Email in use | Passwords are not the same"}
+        400: {"model": StatusCodeBase, "description": "Passwords are not the same"},
+        409: {"model": StatusCodeBase, "description": "Email in use"}
     }
 )
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
@@ -33,7 +34,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = user_service.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(
-            status_code=400, detail="User with this email already exists."
+            status_code=409, detail="User with this email already exists."
         )
 
     user_service.create_user(db, user)
