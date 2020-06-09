@@ -19,7 +19,7 @@ class LoginBox extends React.Component {
 
     let username = document.getElementById("login_values").username.value
     let password = document.getElementById("login_values").password.value
-    if (username == "" || password == ""){
+    if (username == "" || password == "") {
       this.setState({ error: "Enter login details" })
       return
     }
@@ -40,7 +40,7 @@ class LoginBox extends React.Component {
     else if (res.status == 422) {
       this.setState({ error: "Validation Error" })
     }
-    else{
+    else {
       this.setState({ error: "Oops, something went wrong" })
     }
 
@@ -51,7 +51,7 @@ class LoginBox extends React.Component {
         <div className="box">
           <form id="login_values">
             <div className="input-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Email</label>
               <input
                 label="Email Address"
                 type='email'
