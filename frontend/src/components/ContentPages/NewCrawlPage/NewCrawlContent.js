@@ -51,11 +51,13 @@ submitForm = async e => {
       parsedPage: data.html
     };
 
-    data.parsedPage = data.parsedPage + AddingScripts 
+  data.parsedPage = data.parsedPage + AddingScripts 
 
-    //setting parsed code received from backend to the variable, which will be exported
-    this.setState({parsedPageToExport: data.parsedPage}) 
-    
+  //setting parsed code received from backend to the variable, which will be exported
+  this.setState({parsedPageToExport: data.parsedPage}) 
+
+  
+  if (res.ok) {
     setTimeout(
       () => {
         this.setState({
@@ -66,9 +68,18 @@ submitForm = async e => {
       },
       500
     );
-  };
-
-
+  }
+  else if (res.status == 401) {
+    alert("User not logged in!")
+    document.getElementById("redirectToHome").click()
+  } 
+  else if (res.status == 422){
+    alert("422: Validation Error!")
+  } 
+  else {
+    alert("Oops, something went wrong! Try again!")
+  }
+};
 
   handleInputChange = e =>
     this.setState({
@@ -119,6 +130,11 @@ submitForm = async e => {
         }}>
           <button id="sendCrawlData" hidden="true"/>
         </Link>
+
+        <Link to={"/"}>
+          <button id="redirectToHome" hidden="true"/>
+        </Link>
+
       </div>
       </div>
     );
