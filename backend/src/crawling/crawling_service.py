@@ -8,22 +8,31 @@ from sqlalchemy.orm import Session
 from src.crawling.communicators import Communicators
 from src.database import fake_db
 from src.database.database_schemas import Users, Links, Scripts, Notifications
+from src.user import user_service
 
-from .models.crawl_data_model import CrawlData
+from .models.crawl_data_model import CrawlDataPublic, CrawlDataInDb
 from .models.link_model import LinkCreate
 from .models.notification_model import NotificationCreate
 from .models.script_model import ScriptCreate
 
 
+logger = logging.getLogger("Noticrawl")
+
+
 async def parse(url):
     logging.getLogger("websockets").setLevel("WARN")
+
     browser = await pyppeteer.launch(
-        headless=True, args=["--no-sandbox"], logLevel="WARN"
+        headless=True, 
+        args=["--no-sandbox"], 
+        logLevel="WARN"
     )
     page = await browser.newPage()
     await page.goto(url)
+
     page_title = await page.title()
     html = await page.content()
+
     await browser.close()
     return html, page_title
 
@@ -36,36 +45,30 @@ def fix_relative_paths(html: str, url: str):
 
 
 def get_crawls_by_user(db: Session, user_email: str):
-    crawls = []
-    user_id = db.query(Users)\
-        .filter(Users.email == user_email)\
-        .first()
 
-    for link in db.query(Links)\
-            .filter(Links.user_id == user_id)\
-            .all():
+    user_id = user_service.get_user_by_email(db, user_email).user_id
 
-        crawls.append(db.query(Scripts)
-                      .filter(Scripts.link_id == link)
-                      .first()
-                      )
+    links = db.query(Links).filter(Links.user_id == user_id).all()
+    logger.log(logging.DEBUG, msg=f"Links: {str(links)}")
+    crawls = map(
+        lambda link: db.query(Scripts).filter(Scripts.link_id == link).first(),
+        links
+    )
+
     return crawls #todo
 
 
 # todo wywalić
-def add_crawl_to_fake_db(crawl_data: CrawlData):
+def add_crawl_to_fake_db(crawl_data: CrawlDataInDb):
     fake_db.crawls.append(crawl_data)
 
 
-def add_crawl_to_db(db: Session, crawl_data: CrawlData):
-    user_id = (
-        db.query(Users)
-            .filter(Users.email == crawl_data.email)
-            .first()
-    ).user_id
-    link = LinkCreate(url=crawl_data.url,
-                      user_id=user_id
-                      )
+def add_crawl_to_db(db: Session, crawl_data: CrawlDataInDb):
+    user_id = user_service.get_user_by_email(db, crawl_data.email).user_id
+    link = Links(
+        url=crawl_data.url,
+        user_id=user_id
+    )
     db.add(link)
     db.flush()
 
@@ -74,12 +77,13 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlData):
             .filter(Links.user_id == user_id)
             .first()
     ).link_id
-    script = ScriptCreate(script_name=crawl_data.name,
-                          instructions=crawl_data.xpath,
-                          xpath_value=crawl_data.value,
-                          period=crawl_data.period,
-                          link_id=link_id
-                          )
+    script = Scripts(
+        script_name=crawl_data.name,
+        instructions=crawl_data.xpath,
+        element_value=crawl_data.element_value,
+        period=crawl_data.period,
+        link_id=link_id
+    )
     db.add(script)
     db.flush()
 
@@ -88,10 +92,11 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlData):
             .filter(Scripts.link_id == link_id)
             .first()
     ).script_id
-    notification = NotificationCreate(address=crawl_data.email,
-                                      communicator=Communicators.email,
-                                      script_id=script_id
-                                      )
+    notification = Notifications(
+        address=crawl_data.email,
+        communicator=Communicators.email,
+        script_id=script_id
+    )
     db.add(notification)
     db.flush()
 
@@ -99,7 +104,7 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlData):
     return
 
 
-def update_crawl_in_db(db: Session, crawl_data: CrawlData, crawl_id: int):
+def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataInDb, db: Session):
     link_id = (
         db.query(Scripts)
             .filter(Scripts.script_id == crawl_id)
@@ -107,15 +112,13 @@ def update_crawl_in_db(db: Session, crawl_data: CrawlData, crawl_id: int):
     ).link_id
     db.query(Links)\
         .filter(Links.link_id == link_id)\
-        .update({Links.url: crawl_data.url},
-                synchronize_session=False)
+        .update({Links.url: crawl_data.url}, synchronize_session=False)
 
     db.query(Scripts)\
         .filter(Scripts.script_id == crawl_id)\
-        .update({Scripts.name: crawl_data.name,
+        .update({Scripts.script_name: crawl_data.name,
                  Scripts.instructions: crawl_data.xpath,
-                 Scripts.period: crawl_data.period},
-                synchronize_session=False)
+                 Scripts.period: crawl_data.period}, synchronize_session=False)
 
     db.query(Notifications)\
         .filter(Notifications.script_id == crawl_id)\
