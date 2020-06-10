@@ -14,6 +14,7 @@ from sqlalchemy.orm import relationship
 
 from .connection import Base, engine
 
+
 class Users(Base):
     __tablename__ = "Users"
 

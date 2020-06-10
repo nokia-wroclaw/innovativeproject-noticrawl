@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 
 from src.auth.auth_service import verify_token
 from src.helpers.database import get_db
+from src.helpers.debug import save_to_html
+from src.helpers.status_code_model import StatusCodeBase
 
 from . import crawling_service
 from .models.crawl_data_model import CrawlData
@@ -16,10 +18,16 @@ logger = logging.getLogger("Noticrawl")
 crawling_router = APIRouter()
 
 
-
-@crawling_router.post("/api/v1/page", dependencies=[Depends(verify_token)], response_model=Page)
+@crawling_router.post(
+    "/api/v1/page",
+    dependencies=[Depends(verify_token)],
+    response_model=Page,
+    tags=["Crawling"],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+) 
 async def get_page(url: Url):
-    # logger.log(level=logging.DEBUG, msg="GET /api/v1/page url:" + url.url)
     page_url = url.url
     html, page_title = await crawling_service.parse(page_url)
     html = crawling_service.fix_relative_paths(html, page_url)
@@ -37,19 +45,19 @@ async def add_crawl(crawl_data: CrawlData, db: Session = Depends(get_db)):
 
 @crawling_router.patch("/api/v1/crawling-data/{crawl_id}", dependencies=[Depends(verify_token)])
 async def update_crawl(
-            crawl_data: CrawlData,
-            crawl_id: int,
-            db: Session = Depends(get_db)
-        ):
+        crawl_data: CrawlData,
+        crawl_id: int,
+        db: Session = Depends(get_db)
+    ):
     db_crawl = crawling_service.update_crawl_in_db(db, crawl_data, crawl_id)
     return db_crawl
 
 
 @crawling_router.get("/api/v1/crawling-data/{user_id}")
 async def read_crawls(
-            user_email: str = Depends(verify_token),
-            db: Session = Depends(get_db)
-        ):
+        user_email: str = Depends(verify_token),
+        db: Session = Depends(get_db)
+    ):
     db_crawls = crawling_service.get_crawls_by_user(db, user_email=user_email)
     if db_crawls is None:
         raise HTTPException(status_code=404, detail="Crawls not found")

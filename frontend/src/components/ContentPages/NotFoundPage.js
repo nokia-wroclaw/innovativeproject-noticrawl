@@ -6,7 +6,7 @@ import error from '../../media/404-cat.png'
 
 import {BrowserRouter as Router, Switch, Link} from "react-router-dom";
 
-function MyCrawlsMainContent() {
+function NotFoundPage() {
     return (
         <div>
         <center>
@@ -27,4 +27,4 @@ function MyCrawlsMainContent() {
     )
 }
 
-export default MyCrawlsMainContent
+export default NotFoundPage

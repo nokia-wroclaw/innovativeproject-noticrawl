@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from src.helpers.database import get_db
 from src.helpers.oauth2_scheme import oauth2_scheme
+from src.helpers.status_code_model import StatusCodeBase
 from src.user import user_service
 from src.user.user_model import UserCreate
 
@@ -18,7 +19,14 @@ asyncio.create_task(
 )
 
 
-@auth_router.post("/api/v1/register")
+@auth_router.post(
+    "/api/v1/register",
+    tags=["Auth"],
+    responses={
+        400: {"model": StatusCodeBase, "description": "Passwords are not the same"},
+        409: {"model": StatusCodeBase, "description": "Email in use"},
+    },
+)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     if user.password != user.re_password:
         raise HTTPException(status_code=400, detail="Passwords are not the same.")
@@ -26,23 +34,31 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = user_service.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(
-            status_code=400, detail="User with this email already exists."
+            status_code=409, detail="User with this email already exists."
         )
 
     user_service.create_user(db, user)
     return auth_service.generate_cookies(user.email)
 
 
-@auth_router.post("/api/v1/login")
+@auth_router.post(
+    "/api/v1/login",
+    tags=["Auth"],
+    responses={
+        400: {"model": StatusCodeBase, "description": "Incorrect username or password"}
+    },
+)
 def login(
-        form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
-    ):
+    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+):
     user_service.authenticate_user(db, form_data.username, form_data.password)
 
     return auth_service.generate_cookies(form_data.username)
 
 
-@auth_router.post("/api/v1/logout")
+@auth_router.post(
+    "/api/v1/logout", tags=["Auth"],
+)
 def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     auth_service.save_revoked_token(token, db)
 
