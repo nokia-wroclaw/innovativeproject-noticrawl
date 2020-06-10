@@ -49,15 +49,16 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     },
 )
 def login(
-    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
-):
+        form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+    ):
     user_service.authenticate_user(db, form_data.username, form_data.password)
 
     return auth_service.generate_cookies(form_data.username)
 
 
 @auth_router.post(
-    "/api/v1/logout", tags=["Auth"],
+    "/api/v1/logout",
+    tags=["Auth"],
 )
 def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     auth_service.save_revoked_token(token, db)
