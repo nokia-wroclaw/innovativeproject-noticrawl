@@ -28,7 +28,7 @@ class Users(Base):
     )
     password = Column(VARCHAR(128), nullable=False)
 
-    user_link = relationship("Links", back_populates="link_user")
+    links = relationship("Links", back_populates="user")
 
 
 class Links(Base):
@@ -39,8 +39,8 @@ class Links(Base):
     description = Column(Text, index=True)
     user_id = Column(Integer, ForeignKey("Users.user_id"))
 
-    link_user = relationship("Users", back_populates="user_link")
-    link_script = relationship("Scripts", back_populates="script_link")
+    user = relationship("Users", back_populates="links")
+    scripts = relationship("Scripts", back_populates="link")
 
 
 class Scripts(Base):
@@ -52,9 +52,9 @@ class Scripts(Base):
     period = Column(Integer, index=True)
     link_id = Column(Integer, ForeignKey("Links.link_id"))
 
-    script_link = relationship("Links", back_populates="link_script")
-    script_notification = relationship(
-        "Notifications", back_populates="notification_script"
+    link = relationship("Links", back_populates="scripts")
+    notifications = relationship(
+        "Notifications", back_populates="script"
     )
 
 
@@ -65,14 +65,14 @@ class Notifications(Base):
     communicator = Column(Enum("email", "slack", name="Communicators"), nullable=False)
     script_id = Column(Integer, ForeignKey("Scripts.script_id"))
 
-    notification_script = relationship("Scripts", back_populates="script_notification")
+    script = relationship("Scripts", back_populates="notifications")
 
 
 class RevokedTokens(Base):
     __tablename__ = "Revoked Tokens"
-    token_id = Column(Integer, autoincrement=True, primary_key=True)
-    signature = Column(VARCHAR(1023))
-    expiry_date = Column(Integer, nullable=False)
+    token_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    signature = Column(VARCHAR(1023), index=True)
+    expiry_date = Column(Integer, nullable=False, index=True)
 
 
 def create():
