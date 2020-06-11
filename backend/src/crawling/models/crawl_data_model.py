@@ -4,29 +4,26 @@ from pydantic import BaseModel, validator
 
 
 class CrawlDataBase(BaseModel):
-    name: str
-    url: str
-    period: int = 10  # seconds
-    email: str
+    name: str = None
+    url: str = None
+    period: int = None
+    email: str = None
 
 
-class CrawlDataInput(CrawlDataBase):
-    xpath: str
+class CrawlDataCreate(CrawlDataBase):
+    xpath: str = None
 
+    class Config:
+        orm_mode = True
 
-class CrawlDataInDb(CrawlDataBase):
+class CrawlData(CrawlDataBase):
+    crawl_id: int
     xpath: str
     element_value: str
 
     class Config:
         orm_mode = True
 
-
-class CrawlDataPublic(CrawlDataBase):
-    element_value: str
-
-    class Config:
-        orm_mode = True
 
     # @validator("url")
     # def if_url(cls, url):

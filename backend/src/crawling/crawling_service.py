@@ -5,13 +5,13 @@ from datetime import datetime
 
 import pyppeteer
 from sqlalchemy.orm import Session
+
 from src.crawling.communicators import Communicators
 from src.database import fake_db
-from src.database.database_schemas import Users, Links, Scripts, Notifications
+from src.database.database_schemas import Links, Notifications, Scripts
 from src.user import user_service
 
-from .models.crawl_data_model import CrawlDataPublic, CrawlDataInDb
-
+from .models.crawl_data_model import CrawlData, CrawlDataCreate
 
 logger = logging.getLogger("Noticrawl")
 
@@ -51,12 +51,14 @@ def get_crawls_by_user(db: Session, user_email: str):
     )
 
 
-def get_crawl_from_link(link: Links) -> CrawlDataPublic:
+def get_crawl_from_link(link: Links) -> CrawlData:
     script = link.scripts[0]
     notification = script.notifications[0]             
-    return CrawlDataPublic(
+    return CrawlData(
+        crawl_id=link.link_id,
         name=script.script_name,
         url=link.url,
+        xpath=script.instructions,
         period=script.period,
         email=notification.address,
         element_value=script.element_value
@@ -64,11 +66,11 @@ def get_crawl_from_link(link: Links) -> CrawlDataPublic:
 
 
 # todo wywalić
-def add_crawl_to_fake_db(crawl_data: CrawlDataInDb):
+def add_crawl_to_fake_db(crawl_data: CrawlData):
     fake_db.crawls.append(crawl_data)
 
 
-def add_crawl_to_db(db: Session, crawl_data: CrawlDataInDb):
+def add_crawl_to_db(db: Session, crawl_data: CrawlData):
     user_id = user_service.get_user_by_email(db, crawl_data.email).user_id
     link = Links(
         url=crawl_data.url,
@@ -100,32 +102,38 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlDataInDb):
     db.commit()
 
 
-def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataInDb, db: Session):
-    link_id = (
-        db.query(Scripts)
-            .filter(Scripts.script_id == crawl_id)
-            .first()
-    ).link_id
-    db.query(Links)\
-        .filter(Links.link_id == link_id)\
-        .update({Links.url: crawl_data.url}, synchronize_session=False)
+def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
+    
 
-    db.query(Scripts)\
-        .filter(Scripts.script_id == crawl_id)\
-        .update({Scripts.script_name: crawl_data.name,
-                 Scripts.instructions: crawl_data.xpath,
-                 Scripts.period: crawl_data.period}, synchronize_session=False)
+    db.query(Links) \
+        .filter(Links.link_id == crawl_id) \
+        .update(
+            {Links.url: crawl_data.url},
+            synchronize_session=False
+        )
 
-    db.query(Notifications)\
-        .filter(Notifications.script_id == crawl_id)\
-        .update({Notifications.address: crawl_data.email},
-                synchronize_session=False)
+    db.query(Scripts) \
+        .filter(Scripts.link_id == crawl_id) \
+        .update({
+                Scripts.script_name: crawl_data.name,
+                Scripts.instructions: crawl_data.xpath,
+                Scripts.period: crawl_data.period
+            },
+            synchronize_session=False
+        )
 
-    db.flush()
+    db.query(Notifications) \
+        .filter(Notifications.script_id == crawl_id) \
+        .update(
+            {Notifications.address: crawl_data.email},
+            synchronize_session=False
+        )
+
     db.commit()
 
-    crawl = db.query(Scripts).filter(Scripts.script_id == crawl_id).first()
-    return crawl  # todo
+    return get_crawl_from_link(
+        db.query(Links).filter(Links.link_id == crawl_id).first()
+    )
 
 
 async def data_selector(url, xpath):

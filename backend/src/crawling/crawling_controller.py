@@ -5,13 +5,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.auth.auth_service import verify_token
+from src.database.database_schemas import Links
 from src.helpers.database import get_db
 from src.helpers.debug import save_to_html
 from src.helpers.status_code_model import StatusCodeBase
 
 from . import crawling_service
-from .models.crawl_data_model import (CrawlDataInDb, CrawlDataInput,
-                                      CrawlDataPublic)
+from .models.crawl_data_model import CrawlData, CrawlDataCreate
 from .models.page_model import Page
 from .models.url_model import Url
 
@@ -40,44 +40,52 @@ async def get_page(url: Url):
 @crawling_router.post(
     "/api/v1/crawling-data",
     dependencies=[Depends(verify_token)],
-    response_model=CrawlDataPublic,
+    response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
     }
 )
-async def add_crawl(crawl_data_input: CrawlDataInput, db: Session = Depends(get_db)):
-    crawl_data_in_db = CrawlDataInDb.construct(
-        _fields_set=crawl_data_input.__fields_set__,
-        **dict(crawl_data_input)
+async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(get_db)):
+    crawl_data = CrawlData.construct(
+        _fields_set=crawl_data_create.__fields_set__,
+        **dict(crawl_data_create)
     )
-    crawl_data_in_db.element_value = await crawling_service.data_selector(
-        crawl_data_input.url, crawl_data_input.xpath
+    crawl_data.element_value = await crawling_service.data_selector(
+        crawl_data_create.url, crawl_data_create.xpath
     )
-    crawling_service.add_crawl_to_db(db, crawl_data_in_db)
-    logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data_in_db))
+    crawling_service.add_crawl_to_db(db, crawl_data)
+    logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
 
 
 @crawling_router.patch(
     "/api/v1/crawling-data/{crawl_id}",
     dependencies=[Depends(verify_token)],
     tags=["Auth"],
+    response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
+        404: {"model": StatusCodeBase, "description": "Crawl not found"}
     }
 )
 async def update_crawl(
         crawl_id: int,
-        crawl_data: CrawlDataInput,
+        crawl_data: CrawlDataCreate,
         db: Session = Depends(get_db)
     ):
-    db_crawl = crawling_service.update_crawl_in_db(crawl_id, crawl_data, db)
-    return db_crawl
+    link = db.query(Links).filter(Links.link_id == crawl_id).first()
+    if link is None:
+        raise HTTPException(status_code=404, detail=f"Crawl {crawl_id} not found")
+    stored_crawl_model = crawling_service.get_crawl_from_link(link)
+    update_data = crawl_data.dict(exclude_unset=True)
+    logger.log(logging.DEBUG, msg=str(update_data))
+    updated_crawl_model = stored_crawl_model.copy(update=update_data)
+    return crawling_service.update_crawl_in_db(crawl_id, updated_crawl_model, db)
 
 
 @crawling_router.get(
     "/api/v1/crawling-data/me",
     tags=["Crawling"],
-    response_model=List[CrawlDataPublic],
+    response_model=List[CrawlData],
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
     }
@@ -86,7 +94,4 @@ async def read_crawls(
         user_email: str = Depends(verify_token),
         db: Session = Depends(get_db)
     ):
-    db_crawls = crawling_service.get_crawls_by_user(db, user_email=user_email)
-    # if db_crawls is None:
-
-    return db_crawls
+    return crawling_service.get_crawls_by_user(db, user_email=user_email)
