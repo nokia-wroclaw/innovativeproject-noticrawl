@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -9,7 +10,8 @@ from src.helpers.debug import save_to_html
 from src.helpers.status_code_model import StatusCodeBase
 
 from . import crawling_service
-from .models.crawl_data_model import CrawlDataInput, CrawlDataPublic, CrawlDataInDb
+from .models.crawl_data_model import (CrawlDataInDb, CrawlDataInput,
+                                      CrawlDataPublic)
 from .models.page_model import Page
 from .models.url_model import Url
 
@@ -75,6 +77,7 @@ async def update_crawl(
 @crawling_router.get(
     "/api/v1/crawling-data/me",
     tags=["Crawling"],
+    response_model=List[CrawlDataPublic],
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
     }

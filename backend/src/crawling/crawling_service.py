@@ -11,9 +11,6 @@ from src.database.database_schemas import Users, Links, Scripts, Notifications
 from src.user import user_service
 
 from .models.crawl_data_model import CrawlDataPublic, CrawlDataInDb
-from .models.link_model import LinkCreate
-from .models.notification_model import NotificationCreate
-from .models.script_model import ScriptCreate
 
 
 logger = logging.getLogger("Noticrawl")
@@ -45,17 +42,25 @@ def fix_relative_paths(html: str, url: str):
 
 
 def get_crawls_by_user(db: Session, user_email: str):
-
-    user_id = user_service.get_user_by_email(db, user_email).user_id
-
-    links = db.query(Links).filter(Links.user_id == user_id).all()
-    logger.log(logging.DEBUG, msg=f"Links: {str(links)}")
-    crawls = map(
-        lambda link: db.query(Scripts).filter(Scripts.link_id == link).first(),
-        links
+    user = user_service.get_user_by_email(db, user_email)
+    return list(
+        map(
+            get_crawl_from_link,
+            user.links
+        )
     )
 
-    return crawls #todo
+
+def get_crawl_from_link(link: Links) -> CrawlDataPublic:
+    script = link.scripts[0]
+    notification = script.notifications[0]             
+    return CrawlDataPublic(
+        name=script.script_name,
+        url=link.url,
+        period=script.period,
+        email=notification.address,
+        element_value=script.element_value
+    )
 
 
 # todo wywalić
@@ -71,37 +76,28 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlDataInDb):
     )
     db.add(link)
     db.flush()
+    db.refresh(link)
 
-    link_id = (
-        db.query(Links)
-            .filter(Links.user_id == user_id)
-            .first()
-    ).link_id
     script = Scripts(
         script_name=crawl_data.name,
         instructions=crawl_data.xpath,
         element_value=crawl_data.element_value,
         period=crawl_data.period,
-        link_id=link_id
+        link_id=link.link_id
     )
     db.add(script)
     db.flush()
+    db.refresh(script)
 
-    script_id = (
-        db.query(Scripts)
-            .filter(Scripts.link_id == link_id)
-            .first()
-    ).script_id
     notification = Notifications(
         address=crawl_data.email,
         communicator=Communicators.email,
-        script_id=script_id
+        script_id=script.script_id
     )
     db.add(notification)
     db.flush()
 
     db.commit()
-    return
 
 
 def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataInDb, db: Session):
