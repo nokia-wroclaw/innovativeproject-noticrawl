@@ -7,7 +7,6 @@ from src.crawling.crawling_service import take_screenshot
 from src.database import fake_db
 
 from .crawling_service import data_selector
-from .models.crawl_data_model import CrawlData
 
 logger = logging.getLogger("Noticrawl")
 
@@ -26,10 +25,10 @@ async def check_for_change():
         # logger.log(level=logging.DEBUG, msg="Checking crawls...")
         for crawl_data in fake_db.crawls:
             current_value = await data_selector(url=crawl_data.url, xpath=crawl_data.xpath)
-            if current_value != crawl_data.value:
+            if current_value != crawl_data.element_value:
                 # msg = (
                 #         "URL: " + crawl_data.url  + "\n" +
-                #         "Old value: " + crawl_data.value  + "\n" +
+                #         "Old value: " + crawl_data.element_value  + "\n" +
                 #         "New value: " + str(current_value)
                 #     )
                 # logger.log(level=logging.DEBUG, msg=msg)
@@ -38,7 +37,7 @@ async def check_for_change():
                 asyncio.create_task(take_screenshot(crawl_data.url, filename=filename))
 
                 idx = fake_db.crawls.index(crawl_data)
-                crawl_data.value = current_value
+                crawl_data.element_value = current_value
                 fake_db.crawls[idx] = crawl_data
 
         await asyncio.sleep(10)

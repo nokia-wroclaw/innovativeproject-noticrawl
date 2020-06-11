@@ -1,30 +1,35 @@
 import logging
-import re
 import os
+import re
 from datetime import datetime
 
 import pyppeteer
 from sqlalchemy.orm import Session
 
-from src.user.user_model import User
-from src.database.database_schemas import Users
+from src.crawling.communicators import Communicators
 from src.database import fake_db
+from src.database.database_schemas import Links, Notifications, Scripts
+from src.user import user_service
 
-from .models.crawl_data_model import CrawlData
-from .models.link_model import LinkCreate
-from .models.notification_model import NotificationCreate
-from .models.script_model import ScriptCreate
+from .models.crawl_data_model import CrawlData, CrawlDataCreate
+
+logger = logging.getLogger("Noticrawl")
 
 
 async def parse(url):
     logging.getLogger("websockets").setLevel("WARN")
+
     browser = await pyppeteer.launch(
-        headless=True, args=["--no-sandbox"], logLevel="WARN"
+        headless=True, 
+        args=["--no-sandbox"], 
+        logLevel="WARN"
     )
     page = await browser.newPage()
     await page.goto(url)
+
     page_title = await page.title()
     html = await page.content()
+
     await browser.close()
     return html, page_title
 
@@ -36,16 +41,99 @@ def fix_relative_paths(html: str, url: str):
     return base_href + "\n" + html
 
 
+def get_crawls_by_user(db: Session, user_email: str):
+    user = user_service.get_user_by_email(db, user_email)
+    return list(
+        map(
+            get_crawl_from_link,
+            user.links
+        )
+    )
+
+
+def get_crawl_from_link(link: Links) -> CrawlData:
+    script = link.scripts[0]
+    notification = script.notifications[0]             
+    return CrawlData(
+        crawl_id=link.link_id,
+        name=script.script_name,
+        url=link.url,
+        xpath=script.instructions,
+        period=script.period,
+        email=notification.address,
+        element_value=script.element_value
+    )
+
+
+# todo wywalić
 def add_crawl_to_fake_db(crawl_data: CrawlData):
     fake_db.crawls.append(crawl_data)
 
-# def add_crawl_to_db(db: Session, crawl_data: CrawlData):
-    # user_id = (db.query(Users).filter(Users.email == crawl_data.email).first()).user_id
-    # link = LinkCreate(url=crawl_data.url, user_id=user_id)
-    # db.add(link)
-    # db.commit()
-    # db.refresh(link)
-    # script = ScriptCreate(instructions=crawl_data.xpath, link_id=link.link_id)
+
+def add_crawl_to_db(db: Session, crawl_data: CrawlData):
+    user_id = user_service.get_user_by_email(db, crawl_data.email).user_id
+    link = Links(
+        url=crawl_data.url,
+        user_id=user_id
+    )
+    db.add(link)
+    db.flush()
+    db.refresh(link)
+
+    script = Scripts(
+        script_name=crawl_data.name,
+        instructions=crawl_data.xpath,
+        element_value=crawl_data.element_value,
+        period=crawl_data.period,
+        link_id=link.link_id
+    )
+    db.add(script)
+    db.flush()
+    db.refresh(script)
+
+    notification = Notifications(
+        address=crawl_data.email,
+        communicator=Communicators.email,
+        script_id=script.script_id
+    )
+    db.add(notification)
+    db.flush()
+
+    db.commit()
+
+
+def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
+    
+
+    db.query(Links) \
+        .filter(Links.link_id == crawl_id) \
+        .update(
+            {Links.url: crawl_data.url},
+            synchronize_session=False
+        )
+
+    db.query(Scripts) \
+        .filter(Scripts.link_id == crawl_id) \
+        .update({
+                Scripts.script_name: crawl_data.name,
+                Scripts.instructions: crawl_data.xpath,
+                Scripts.period: crawl_data.period
+            },
+            synchronize_session=False
+        )
+
+    db.query(Notifications) \
+        .filter(Notifications.script_id == crawl_id) \
+        .update(
+            {Notifications.address: crawl_data.email},
+            synchronize_session=False
+        )
+
+    db.commit()
+
+    return get_crawl_from_link(
+        db.query(Links).filter(Links.link_id == crawl_id).first()
+    )
 
 
 async def data_selector(url, xpath):
@@ -63,6 +151,7 @@ async def data_selector(url, xpath):
     await page.close()
     await browser.close()
     return text_content
+
 
 async def take_screenshot(url, filename="sreenshot", directory="/app/logs/sreenshots"):
     filename = filename + datetime.now().strftime("_%d-%m-%Y_%H-%M-%S-%f") + ".png"

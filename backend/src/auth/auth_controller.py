@@ -24,8 +24,8 @@ asyncio.create_task(
     tags=["Auth"],
     responses={
         400: {"model": StatusCodeBase, "description": "Passwords are not the same"},
-        409: {"model": StatusCodeBase, "description": "Email in use"}
-    }
+        409: {"model": StatusCodeBase, "description": "Email in use"},
+    },
 )
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     if user.password != user.re_password:
@@ -46,7 +46,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     tags=["Auth"],
     responses={
         400: {"model": StatusCodeBase, "description": "Incorrect username or password"}
-    }
+    },
 )
 def login(
         form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
