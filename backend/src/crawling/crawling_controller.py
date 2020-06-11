@@ -54,7 +54,7 @@ async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(ge
         crawl_data_create.url, crawl_data_create.xpath
     )
     crawling_service.add_crawl_to_db(db, crawl_data)
-    logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
+    # logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
 
 
 @crawling_router.patch(
@@ -77,7 +77,6 @@ async def update_crawl(
         raise HTTPException(status_code=404, detail=f"Crawl {crawl_id} not found")
     stored_crawl_model = crawling_service.get_crawl_from_link(link)
     update_data = crawl_data.dict(exclude_unset=True)
-    logger.log(logging.DEBUG, msg=str(update_data))
     updated_crawl_model = stored_crawl_model.copy(update=update_data)
     return crawling_service.update_crawl_in_db(crawl_id, updated_crawl_model, db)
 
