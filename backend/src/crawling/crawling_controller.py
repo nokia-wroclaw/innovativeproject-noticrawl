@@ -24,10 +24,10 @@ crawling_router = APIRouter()
     "/api/v1/page",
     dependencies=[Depends(verify_token)],
     response_model=Page,
-    tags=["Crawling"],
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
-    }
+    },
+    tags=["Crawling"],
 )
 async def get_page(url: Url):
     page_url = url.url
@@ -43,7 +43,8 @@ async def get_page(url: Url):
     response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
-    }
+    },
+    tags=["Crawling"],
 )
 async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(get_db)):
     crawl_data = CrawlData.construct(
@@ -60,12 +61,12 @@ async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(ge
 @crawling_router.patch(
     "/api/v1/crawling-data/{crawl_id}",
     dependencies=[Depends(verify_token)],
-    tags=["Auth"],
     response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
         404: {"model": StatusCodeBase, "description": "Crawl not found"}
-    }
+    },
+    tags=["Crawling"],
 )
 async def update_crawl(
         crawl_id: int,
@@ -83,11 +84,11 @@ async def update_crawl(
 
 @crawling_router.get(
     "/api/v1/crawling-data/me",
-    tags=["Crawling"],
     response_model=List[CrawlData],
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
-    }
+    },
+    tags=["Crawling"],
 )
 async def read_crawls(
         user_email: str = Depends(verify_token),
