@@ -64,7 +64,7 @@ def verify_token(token=Depends(oauth2_scheme), db: Session = Depends(get_db)) ->
         email = payload.get("sub")
         if get_user_by_email(db, email) is None:
             raise HTTPException(
-                status_code=404, detail=f"User with email {email} doesn't exist"
+                status_code=401, detail=f"Owner of token doesn't exist"
             )
         return email
     except ExpiredSignatureError:

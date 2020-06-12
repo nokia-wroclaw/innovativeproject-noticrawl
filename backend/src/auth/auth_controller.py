@@ -66,3 +66,14 @@ def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     response = Response()
     response.delete_cookie("access_token")
     return response
+
+@auth_router.post(
+    "/api/v1/check-token",
+    tags=["Auth"],
+    dependencies=[Depends(auth_service.verify_token)],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+)
+def check_token():
+    pass
