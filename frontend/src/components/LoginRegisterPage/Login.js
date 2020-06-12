@@ -16,7 +16,7 @@ class LoginBox extends React.Component {
 
 
   submitLogin = async () => {
-      document.getElementById("go_to_new-crawl_login").click()
+      // document.getElementById("go_to_new-crawl_login").click()
 
     let username = document.getElementById("login_values").username.value
     let password = document.getElementById("login_values").password.value

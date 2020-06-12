@@ -6,9 +6,30 @@ class MyAccountContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "example@com.pl",
+            email: "",
             error: "Here will be errors"
         };
+    }
+
+    async componentDidMount() {
+        console.log("one")
+        const res = await fetch("/api/v1/user/me")
+        if (res.ok) {
+            const json = await res.json()
+
+            this.setState({ email: json.email })
+
+        }
+        else if (res.status == 401) {
+            this.setState({ email: "Not logged in" })
+        }
+        else if (res.status == 404) {
+            this.setState({ email: "User not found " })
+        }
+        else {
+            this.setState({ email: "Oops, something went wrong" })
+        }
+
     }
 
     submitChange = async () => {
@@ -95,7 +116,7 @@ class MyAccountContent extends React.Component {
                             />
                         </div>
                         <Button variant="contained" color="primary" id="change-password-button" className="login-btn"
-                         type="button" value="Submit" nClick={this.submitChange}>Cofnirm change</Button>
+                            type="button" value="Submit" nClick={this.submitChange}>Cofnirm change</Button>
 
                         <div id="error-change-password" className="error">{this.state.error}</div>
                     </div>
