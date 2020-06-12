@@ -39,18 +39,18 @@ async def get_page(url: Url):
 
 @crawling_router.post(
     "/api/v1/crawling-data",
-    dependencies=[Depends(verify_token)],
     response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
     },
     tags=["Crawling"],
 )
-async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(get_db)):
+async def add_crawl(crawl_data_create: CrawlDataCreate, email = Depends(verify_token), db: Session = Depends(get_db)):
     crawl_data_dict = crawl_data_create.dict()
     for key in crawl_data_dict.keys():
         if crawl_data_dict[key] is None:
             raise HTTPException(status_code=422, detail=f"Field \"{key}\" is missing.")
+
     crawl_data = CrawlData.construct(
         _fields_set=crawl_data_create.__fields_set__,
         **crawl_data_dict
@@ -58,7 +58,7 @@ async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(ge
     crawl_data.element_value = await crawling_service.data_selector(
         crawl_data_create.url, crawl_data_create.xpath
     )
-    crawling_service.add_crawl_to_db(db, crawl_data)
+    crawling_service.add_crawl_to_db(db, crawl_data, email)
     # logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
 
 

@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 
 import pyppeteer
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.crawling.communicators import Communicators
@@ -20,7 +21,7 @@ async def parse(url):
     logging.getLogger("websockets").setLevel("WARN")
 
     browser = await pyppeteer.launch(
-        headless=True, 
+        headless=True,
         args=["--no-sandbox"], 
         logLevel="WARN"
     )
@@ -70,8 +71,8 @@ def add_crawl_to_fake_db(crawl_data: CrawlData):
     fake_db.crawls.append(crawl_data)
 
 
-def add_crawl_to_db(db: Session, crawl_data: CrawlData):
-    user_id = user_service.get_user_by_email(db, crawl_data.email).user_id
+def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
+    user_id = user_service.get_user_by_email(db, user_email).user_id
     link = Links(
         url=crawl_data.url,
         user_id=user_id
