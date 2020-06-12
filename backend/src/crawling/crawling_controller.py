@@ -47,9 +47,13 @@ async def get_page(url: Url):
     tags=["Crawling"],
 )
 async def add_crawl(crawl_data_create: CrawlDataCreate, db: Session = Depends(get_db)):
+    crawl_data_dict = crawl_data_create.dict()
+    for key in crawl_data_dict.keys():
+        if crawl_data_dict[key] is None:
+            raise HTTPException(status_code=422, detail=f"Field \"{key}\" is missing.")
     crawl_data = CrawlData.construct(
         _fields_set=crawl_data_create.__fields_set__,
-        **dict(crawl_data_create)
+        **crawl_data_dict
     )
     crawl_data.element_value = await crawling_service.data_selector(
         crawl_data_create.url, crawl_data_create.xpath

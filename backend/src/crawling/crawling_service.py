@@ -103,8 +103,6 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlData):
 
 
 def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
-    
-
     db.query(Links) \
         .filter(Links.link_id == crawl_id) \
         .update(
