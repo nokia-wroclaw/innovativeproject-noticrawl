@@ -14,6 +14,18 @@ class LoginBox extends React.Component {
     };
   }
 
+  async componentDidMount(){
+    const res = await fetch("/api/v1/check-token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    if (res.ok) {
+      document.getElementById("go_to_new-crawl_login").click()
+    }
+  }
+
 
   submitLogin = async () => {
 
