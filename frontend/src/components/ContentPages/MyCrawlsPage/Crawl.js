@@ -3,8 +3,12 @@ import React from "react"
 function Crawl(props) {
     return (
         <div>
-            <h3>Name: {props.name}</h3>
-            <h3>Link: {props.link}</h3>
+            <hr/>
+                <div className="MyCrawlsText">
+                    <text>Crawl Name: {props.name}</text>
+                    <br />
+                    <text><a href={props.link}>{props.link}</a></text>
+                </div>
             <hr/>
         </div>
     )

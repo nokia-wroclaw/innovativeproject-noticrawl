@@ -27,7 +27,7 @@ pointer-events: none;
 
 .MainContent {
 width: 40%;
-height: 432px;
+height: 460px;
 background-color: rgba(255, 255, 255, 0.9);
 border-radius: 50px;
 }
@@ -231,10 +231,24 @@ visibility: visible;
 }
 
 .PageContent {
-display : block;
-position: center;
-padding-top: 30px;
-height: 320px;
+align-items: center;
+position: relative;
+padding-top: 10px;
+height: 380px;
+}
+
+.MyCrawls {
+  padding-top: -10px;
+  overflow: auto;
+  height: 280px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.MyCrawlsText {
+  align-items: left;
+  width: 75%
 }
 
 .navbar {
