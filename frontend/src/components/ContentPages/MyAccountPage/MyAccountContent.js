@@ -7,7 +7,7 @@ class MyAccountContent extends React.Component {
         super(props);
         this.state = {
             email: "",
-            error: "Here will be errors"
+            error: ""
         };
     }
 
@@ -34,39 +34,59 @@ class MyAccountContent extends React.Component {
 
     submitChange = async () => {
 
-        let current_password = document.getElementById("current_password").current_password.value
-        let new_password = document.getElementById("new_password").new_password.value
-        let confirm_password = document.getElementById("confirm_password").confirm_password.value
+        let current_password = document.getElementById("current_password").value
+        let new_password = document.getElementById("new_password").value
+        let confirm_password = document.getElementById("confirm_password").value
+        
+        console.log("sumbitchange")
+          if (current_password == "" || new_password == "" || confirm_password == "") {
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Complete all fields" })
+            return
+          }
+          else if (new_password != confirm_password) {
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Passwords are not the same" })
+            return
+          }
+          else if (new_password.length < 8){
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Minimum length 8" })
+            return
+          }
+          else if (current_password == new_password){
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "The new password cannot be the same" })
+            return
+          }
+          const res = await fetch("/api/v1/change-password", {
+            method: "PATCH",
+            body: JSON.stringify({ current_password: current_password, new_password: new_password }),
+            headers: {
+              "Content-Type": "application/json"
+            },
+          });
 
-        //   if (current_password == "" || new_password == "" || confirm_password == "") {
-        //     this.setState({ error: "Enter all details" })
-        //     return
-        //   }        
-        //   if (new_password != new_password) {
-        //     this.setState({ error: "Passwords are not the same" })
-        //     return
-        //   }
-
-        //   const res = await fetch("/api/v1/login", {
-        //     method: "POST",
-        //     body: JSON.stringify({ username: username, password: password }),
-        //     headers: {
-        //       "Content-Type": "application/x-www-form-urlencoded"
-        //     },
-        //   });
-
-        //   if (res.ok) {
-        //     document.getElementById("go_to_new-crawl_login").click()
-        //   }
-        //   else if (res.status == 400) {
-        //     this.setState({ error: "Incorrect username or password" })
-        //   }
-        //   else if (res.status == 422) {
-        //     this.setState({ error: "Validation Error" })
-        //   }
-        //   else {
-        //     this.setState({ error: "Oops, something went wrong" })
-        //   }
+          if (res.ok) {
+            document.getElementById("error-change-password").style.color = "green"
+            this.setState({ error: "Password has been successfully changed" })
+          }
+          else if(res.status == 400){
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Wrong password" })
+          }
+          else if (res.status == 401) {
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Not logged in" })
+          }
+          else if (res.status == 422) {
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Validation Error" })
+          }
+          else {
+            document.getElementById("error-change-password").style.color = "red"
+            this.setState({ error: "Oops, something went wrong" })
+          }
 
     }
 
@@ -116,9 +136,9 @@ class MyAccountContent extends React.Component {
                             />
                         </div>
                         <Button variant="contained" color="primary" id="change-password-button" className="login-btn"
-                            type="button" value="Submit" nClick={this.submitChange}>Cofnirm change</Button>
+                            type="button" value="Submit" onClick={this.submitChange}>Cofnirm change</Button>
 
-                        <div id="error-change-password" className="error">{this.state.error}</div>
+                        <div id="error-change-password">{this.state.error}</div>
                     </div>
                 </div>
             </div>
