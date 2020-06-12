@@ -19,7 +19,6 @@ class TopBanner extends React.Component {
         email: "",
         period: "",
         xpath: "",
-        value: "not supported",
         url: this.props.url
       },
       isSubmitting: false,
@@ -197,14 +196,14 @@ class TopBanner extends React.Component {
               <MenuItem value="">
                 <em>Choose one...</em>
               </MenuItem>
-              <MenuItem value={1/360}>10sec</MenuItem>
-              <MenuItem value={1/60}>1min</MenuItem>
-              <MenuItem value={1/6}>10min</MenuItem>
-              <MenuItem value={0.5}>0.5h</MenuItem>
-              <MenuItem value={1}>1h</MenuItem>
-              <MenuItem value={6}>6h</MenuItem>
-              <MenuItem value={12}>12h</MenuItem>
-              <MenuItem value={24}>24h</MenuItem>
+              <MenuItem value={10}>10sec</MenuItem>
+              <MenuItem value={60}>1min</MenuItem>
+              <MenuItem value={600}>10min</MenuItem>
+              <MenuItem value={1800}>0.5h</MenuItem>
+              <MenuItem value={3600}>1h</MenuItem>
+              <MenuItem value={21600}>6h</MenuItem>
+              <MenuItem value={43200}>12h</MenuItem>
+              <MenuItem value={86400}>24h</MenuItem>
             </Select>
         </FormControl>
       </div>
