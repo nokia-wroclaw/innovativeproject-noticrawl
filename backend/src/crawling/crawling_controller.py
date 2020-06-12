@@ -55,6 +55,7 @@ async def add_crawl(crawl_data_create: CrawlDataCreate, email = Depends(verify_t
         _fields_set=crawl_data_create.__fields_set__,
         **crawl_data_dict
     )
+
     crawl_data.element_value = await crawling_service.data_selector(
         crawl_data_create.url, crawl_data_create.xpath
     )

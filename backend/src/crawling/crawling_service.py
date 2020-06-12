@@ -141,7 +141,7 @@ async def data_selector(url, xpath):
         headless=True, args=["--no-sandbox"], logLevel="WARN"
     )
     page = await browser.newPage()
-    await page.goto(url, waitUntil="networkidle0", timeout=600000)
+    await page.goto(url, waitUntil="networkidle2", timeout=600000)
     await page.waitForXPath(xpath)
     xpath_content = await page.xpath(xpath)
     text_content = await page.evaluate(
