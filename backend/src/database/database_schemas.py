@@ -28,7 +28,7 @@ class Users(Base):
     )
     password = Column(VARCHAR(128), nullable=False)
 
-    links = relationship("Links", back_populates="user")
+    links = relationship("Links", back_populates="user", cascade="delete-orphan", passive_deletes=True)
 
 
 class Links(Base):
@@ -37,10 +37,10 @@ class Links(Base):
     link_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     url = Column(VARCHAR(2048), nullable=False, index=True)
     description = Column(Text, index=True)
-    user_id = Column(Integer, ForeignKey("Users.user_id"))
+    user_id = Column(Integer, ForeignKey("Users.user_id", ondelete='CASCADE'))
 
     user = relationship("Users", back_populates="links")
-    scripts = relationship("Scripts", back_populates="link")
+    scripts = relationship("Scripts", back_populates="link", cascade="delete-orphan", passive_deletes=True)
 
 
 class Scripts(Base):
@@ -50,11 +50,11 @@ class Scripts(Base):
     instructions = Column(Text, nullable=False, index=True)
     element_value = Column(Text, nullable=False, index=True)
     period = Column(Integer, index=True)
-    link_id = Column(Integer, ForeignKey("Links.link_id"))
+    link_id = Column(Integer, ForeignKey("Links.link_id", ondelete='CASCADE'))
 
     link = relationship("Links", back_populates="scripts")
     notifications = relationship(
-        "Notifications", back_populates="script"
+        "Notifications", back_populates="script", cascade="delete-orphan", passive_deletes=True
     )
 
 
@@ -63,7 +63,7 @@ class Notifications(Base):
     notification_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     address = Column(VARCHAR(255), index=True)
     communicator = Column(Enum("email", "slack", name="Communicators"), nullable=False)
-    script_id = Column(Integer, ForeignKey("Scripts.script_id"))
+    script_id = Column(Integer, ForeignKey("Scripts.script_id", ondelete='CASCADE'))
 
     script = relationship("Scripts", back_populates="notifications")
 

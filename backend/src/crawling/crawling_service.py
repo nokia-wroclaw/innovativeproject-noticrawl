@@ -113,7 +113,8 @@ def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
 
     db.query(Scripts) \
         .filter(Scripts.link_id == crawl_id) \
-        .update({
+        .update(
+            {
                 Scripts.script_name: crawl_data.name,
                 Scripts.instructions: crawl_data.xpath,
                 Scripts.period: crawl_data.period
@@ -133,6 +134,13 @@ def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
     return get_crawl_from_link(
         db.query(Links).filter(Links.link_id == crawl_id).first()
     )
+
+
+def delete_crawl(crawl_id: int, db: Session):
+    db.query(Links) \
+        .filter(Links.link_id == crawl_id) \
+        .delete(synchronize_session=False)
+    db.commit()
 
 
 async def data_selector(url, xpath):

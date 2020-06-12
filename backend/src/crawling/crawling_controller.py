@@ -45,7 +45,11 @@ async def get_page(url: Url):
     },
     tags=["Crawling"],
 )
-async def add_crawl(crawl_data_create: CrawlDataCreate, email = Depends(verify_token), db: Session = Depends(get_db)):
+async def add_crawl(
+        crawl_data_create: CrawlDataCreate, 
+        email=Depends(verify_token), 
+        db: Session = Depends(get_db)
+    ):
     crawl_data_dict = crawl_data_create.dict()
     for key in crawl_data_dict.keys():
         if crawl_data_dict[key] is None:
@@ -81,6 +85,7 @@ async def update_crawl(
     link = db.query(Links).filter(Links.link_id == crawl_id).first()
     if link is None:
         raise HTTPException(status_code=404, detail=f"Crawl {crawl_id} not found")
+   
     stored_crawl_model = crawling_service.get_crawl_from_link(link)
     update_data = crawl_data.dict(exclude_unset=True)
     updated_crawl_model = stored_crawl_model.copy(update=update_data)
@@ -100,3 +105,24 @@ async def read_crawls(
         db: Session = Depends(get_db)
     ):
     return crawling_service.get_crawls_by_user(db, user_email=user_email)
+
+
+@crawling_router.delete(
+    "/api/v1/crawling-data/{crawl_id}",
+    dependencies=[Depends(verify_token)],
+    response_model=CrawlData,
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+        404: {"model": StatusCodeBase, "description": "Crawl not found"}
+    },
+    tags=["Crawling"],
+)
+async def delete_crawl(
+        crawl_id: int,
+        db: Session = Depends(get_db)
+    ):
+    link = db.query(Links).filter(Links.link_id == crawl_id).first()
+    if link is None:
+        raise HTTPException(status_code=404, detail=f"Crawl {crawl_id} not found")
+
+    return crawling_service.delete_crawl(crawl_id, db)
