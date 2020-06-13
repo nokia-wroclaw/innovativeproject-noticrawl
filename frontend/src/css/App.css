@@ -238,12 +238,20 @@ height: 380px;
 }
 
 .MyCrawls {
-  padding-top: -10px;
   overflow: auto;
   height: 280px;
   text-align: left;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.crawlBorder {
+  border-top: 1px lightgrey;
+  color: lightgrey
+}
+
+span + span {
+  margin-left: 15px;
 }
 
 .MyCrawlsElements {

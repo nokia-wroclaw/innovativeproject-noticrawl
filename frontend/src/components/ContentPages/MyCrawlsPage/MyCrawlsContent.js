@@ -53,7 +53,7 @@ async componentDidMount() {
             <div className="PageContent">
                 <h1>My Crawls</h1>
                 <div className="MyCrawls">
-                    <p>{crawlsList}</p>
+                    {crawlsList}
                 </div>
             </div>
         )
