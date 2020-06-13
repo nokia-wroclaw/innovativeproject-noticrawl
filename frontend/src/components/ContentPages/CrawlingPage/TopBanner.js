@@ -28,9 +28,9 @@ class TopBanner extends React.Component {
 
   sendState = () => {
     if (this.props.borderState)
-    this.props.Callback(0);
-    else 
-    this.props.Callback(1);
+      this.props.Callback(0);
+    else
+      this.props.Callback(1);
   }
 
   handleInputChange = e => {
@@ -48,7 +48,7 @@ class TopBanner extends React.Component {
 
     //setting xpath
     var x = this.props.xpathFromParent();
-    console.log("Wysyłany xpath: "+ x);
+    console.log("Wysyłany xpath: " + x);
     this.setState({
       values: { ...this.state.values, xpath: x }
     })
@@ -56,9 +56,12 @@ class TopBanner extends React.Component {
     this.setState({ isSubmitting: true });
 
     await this.sleep(2000);
-    if (x === 5)
-    {
-      alert ("Select element")
+    if (x === 5) {
+      alert("Select element")
+      return
+    }
+    if (this.state.values.period === "") {
+      alert("Select frequency")
       return
     }
     //start communication with backend
@@ -94,10 +97,10 @@ class TopBanner extends React.Component {
     else if (res.status == 401) {
       alert("User not logged in!")
       document.getElementById("redirectToHome").click()
-    } 
-    else if (res.status == 422){
+    }
+    else if (res.status == 422) {
       alert("422: Validation Error!")
-    } 
+    }
     else {
       alert("Oops, something went wrong! Try again!")
     }
@@ -105,118 +108,118 @@ class TopBanner extends React.Component {
 
   render() {
 
-    return(
+    return (
       <div id='CrawlingBanner' >
-          
-      <div className='Logo'>
-        <div className ='elements'>
-          <img src={logo} alt="logo" height="40" width="167" />
+
+        <div className='Logo'>
+          <div className='elements'>
+            <img src={logo} alt="logo" height="40" width="167" />
+          </div>
         </div>
-      </div>
-      
-      
-      <div className='Status'>
-        <div className ='elements'>
-          <text className="textLeft">Recording is</text><text className="textRight"> ON</text>
-        </div>
-      </div>
 
 
-      <div className='Bordering'>
-        <div className='elements'>
-        Bordering
+        <div className='Status'>
+          <div className='elements'>
+            <text className="textLeft">Recording is</text><text className="textRight"> ON</text>
+          </div>
+        </div>
+
+
+        <div className='Bordering'>
+          <div className='elements'>
+            Bordering
         <br></br>
-        <div className="toggle-switch">
-        <input
-          type="checkbox"
-          className="toggle-switch-checkbox"
-          name="toggleSwitch"
-          id="toggleSwitch"
-          onChange={this.sendState}
-          defaultChecked
-        />
-        <label className="toggle-switch-label" htmlFor="toggleSwitch">
-          <span className="toggle-switch-inner" />
-          <span className="toggle-switch-switch" />
-        </label>
-      </div>
-      </div>
-      </div>
-
-
-
-<form onSubmit={this.submitForm}>
-
-      <div className='EmailInput'>
-        <div className ='elements'>
-        <FormControl id="crawlingForm" style={{ width:'30ch', paddingTop:'8px'}} onSubmit={this.submitForm} >
-
-          <TextField 
-            size="small"
-            id="filled-email" 
-            label="E-mail" 
-            type="email" 
-            name="email"
-            variant="filled" 
-            onChange={this.handleInputChange}
-            value={this.state.values.email}
-            required
-          />
-        </FormControl>  
+            <div className="toggle-switch">
+              <input
+                type="checkbox"
+                className="toggle-switch-checkbox"
+                name="toggleSwitch"
+                id="toggleSwitch"
+                onChange={this.sendState}
+                defaultChecked
+              />
+              <label className="toggle-switch-label" htmlFor="toggleSwitch">
+                <span className="toggle-switch-inner" />
+                <span className="toggle-switch-switch" />
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className='NotificationFreq'>
-        <div className ='elements'>
-        <FormControl variant="filled" id="crawlingForm" style={{ width: '25ch', paddingTop:'8px'}} size="small">
-          <InputLabel id="simple-select-outlined-label" style={{  paddingTop:'8px' }}>Notification frequency</InputLabel>
-   
-            <Select
-              labelId="simple-select-outlined-label"
-              id="simple-select-outlined"
-              name="period"
-              value={this.state.values.period}
-              onChange={this.handleInputChange}
-              label="period"
-              required
-            >
-              <MenuItem value="">
-                <em>Choose one...</em>
-              </MenuItem>
-              <MenuItem value={1/360}>10sec</MenuItem>
-              <MenuItem value={1/60}>1min</MenuItem>
-              <MenuItem value={1/6}>10min</MenuItem>
-              <MenuItem value={0.5}>0.5h</MenuItem>
-              <MenuItem value={1}>1h</MenuItem>
-              <MenuItem value={6}>6h</MenuItem>
-              <MenuItem value={12}>12h</MenuItem>
-              <MenuItem value={24}>24h</MenuItem>
-            </Select>
-        </FormControl>
-        </div>
-      </div>
 
-      <div className='SubmitButton'>
-        <div className ='elements'>
-          <FormControl id="crawlingForm">
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CloudUploadIcon />}
-              type="submit"
-            >
-              Submit
+
+        <form onSubmit={this.submitForm}>
+
+          <div className='EmailInput'>
+            <div className='elements'>
+              <FormControl id="crawlingForm" style={{ width: '30ch', paddingTop: '8px' }} onSubmit={this.submitForm} >
+
+                <TextField
+                  size="small"
+                  id="filled-email"
+                  label="E-mail"
+                  type="email"
+                  name="email"
+                  variant="filled"
+                  onChange={this.handleInputChange}
+                  value={this.state.values.email}
+                  required
+                />
+              </FormControl>
+            </div>
+          </div>
+
+          <div className='NotificationFreq'>
+            <div className='elements'>
+              <FormControl variant="filled" id="crawlingForm" style={{ width: '25ch', paddingTop: '8px' }} size="small">
+                <InputLabel id="simple-select-outlined-label" style={{ paddingTop: '8px' }}>Notification frequency</InputLabel>
+
+                <Select
+                  labelId="simple-select-outlined-label"
+                  id="simple-select-outlined"
+                  name="period"
+                  value={this.state.values.period}
+                  onChange={this.handleInputChange}
+                  label="period"
+                  required
+                >
+                  <MenuItem value="">
+                    <em>Choose one...</em>
+                  </MenuItem>
+                  <MenuItem value={1/360}>10sec</MenuItem>
+                  <MenuItem value={1/60}>1min</MenuItem>
+                  <MenuItem value={1/6}>10min</MenuItem>
+                  <MenuItem value={0.5}>0.5h</MenuItem>
+                  <MenuItem value={1}>1h</MenuItem>
+                  <MenuItem value={6}>6h</MenuItem>
+                  <MenuItem value={12}>12h</MenuItem>
+                  <MenuItem value={24}>24h</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+
+          <div className='SubmitButton'>
+            <div className='elements'>
+              <FormControl id="crawlingForm">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<CloudUploadIcon />}
+                  type="submit"
+                >
+                  Submit
             </Button>
-          </FormControl>
-        </div>
+              </FormControl>
+            </div>
+          </div>
+        </form>
+
+        <Link to={"/"}>
+          <button id="redirectToHome" hidden="true" />
+        </Link>
+
       </div>
-</form>  
-
-    <Link to={"/"}>
-          <button id="redirectToHome" hidden="true"/>
-    </Link>
-
-    </div>
     )
   }
 }
