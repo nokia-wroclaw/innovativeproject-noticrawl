@@ -1,15 +1,19 @@
-import smtplib
 import imghdr
-from dynaconf import settings
+import smtplib
 from email.message import EmailMessage
+
+from dynaconf import settings
 from fastapi import HTTPException
 
 
 def send_email(send_to, screenshot, subject, email_text):
+    html = open(email_text)  # "../helpers/email_notifications/email_crawling.html"
+
     with open(screenshot, 'rb') as f:
         file_data = f.read()
         file_type = imghdr.what(f.name)
         file_name = f.name
+        f.close()
 
     email_address = settings.EMAIL
     email_password = settings.PASSWORD
@@ -18,7 +22,7 @@ def send_email(send_to, screenshot, subject, email_text):
     msg["Subject"] = subject
     msg["From"] = email_address
     msg["To"] = send_to
-    msg.add_alternative(email_text, subtype='html')
+    msg.add_alternative(html.read(), subtype='html')
     msg.add_attachment(file_data, maintype='image', subtype=file_type, filename=file_name)
 
     try:
