@@ -56,7 +56,11 @@ class TopBanner extends React.Component {
     this.setState({ isSubmitting: true });
 
     await this.sleep(2000);
-
+    if (x === 5)
+    {
+      alert ("Select element")
+      return
+    }
     //start communication with backend
     const res = await fetch("/api/v1/crawling-data", {
       method: "POST",
@@ -151,7 +155,7 @@ class TopBanner extends React.Component {
             size="small"
             id="filled-email" 
             label="E-mail" 
-            type="text" 
+            type="email" 
             name="email"
             variant="filled" 
             onChange={this.handleInputChange}
@@ -174,7 +178,7 @@ class TopBanner extends React.Component {
               value={this.state.values.period}
               onChange={this.handleInputChange}
               label="period"
-              required="true"
+              required
             >
               <MenuItem value="">
                 <em>Choose one...</em>
