@@ -8,12 +8,14 @@ from dynaconf import settings
 from fastapi import Depends, HTTPException, Response
 from fastapi.encoders import jsonable_encoder
 from jwt.exceptions import ExpiredSignatureError
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from src.database.database_schemas import RevokedTokens
+from src.database.database_schemas import RevokedTokens, Users
 from src.helpers.database import get_db
 from src.helpers.oauth2_scheme import oauth2_scheme
 from src.user.user_service import get_user_by_email
+from src.user.user_model import User, UserCreate
 
 logger = logging.getLogger("Noticrawl")
 
@@ -21,6 +23,17 @@ SECRET_KEY = settings.SECRET_KEY
 JWT_ALGORITHM = settings.ALGORITHM
 
 ACCESS_TOKEN_LIFETIME = settings.as_int("ACCESS_TOKEN_LIFETIME")
+
+PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def create_user(db: Session, user: UserCreate):
+    hashed_password = hash_password(user.password)
+    db_user = Users(email=user.email, password=hashed_password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 
 def create_token(*, data: dict, lifetime: int) -> jwt:
@@ -100,6 +113,28 @@ def datetime_to_int(datetime_val: datetime):
     return calendar.timegm(datetime_val.utctimetuple())
 
 
+def hash_password(password: str):
+    return PWD_CONTEXT.hash(password)
+
+
+def verify_password(plain_password, hashed_password) -> bool:
+    return PWD_CONTEXT.verify(plain_password, hashed_password)
+
+
+def authenticate_user(db: Session, email: str, password: str) -> User:
+    user = get_user_by_email(db, email)
+    if user is None or not verify_password(password, user.password):
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+    return User.from_orm(user)
+
+
+def change_password(db: Session, email: str, new_password: str) -> None:
+    hashed_password = hash_password(new_password)
+    db.query(Users) \
+        .filter(Users.email == email) \
+        .update({Users.password: hashed_password})
+    db.commit()
+
+
 class RevokedTokenError(Exception):
     """Raised when token is revoked"""
-    pass

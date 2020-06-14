@@ -1,0 +1,78 @@
+
+
+#h1{
+    text-align: left;
+    margin-left: 55px;
+    margin-top: -10px;
+    color:  blue;
+  }
+  
+#line{
+border-top: 1px solid gray;
+width: 81%;
+margin-top: -2%;
+}
+#line2{
+    border-top: 1px solid gray;
+    width: 81%;
+    margin-top: 3%;
+    }
+#email{
+    text-align: left;
+    margin-top: 2%;
+    padding-left: 10%;
+    padding-right: 0%;
+    color: gray;
+    font-size: 1.1vw;
+}
+#password{
+    text-align: left;
+    margin-top: 2%;
+    padding-left: 10%;
+    width: 22%;
+    color: gray;
+    font-size: 1.1vw;
+}
+#ueserEmail{
+    text-align: left;
+    margin-top: 2%;
+    padding-left: 1%;
+    font-weight: 600;
+    font-size: 1.1vw;
+}
+#container{
+    display: flex;
+}
+#changePassword{
+    text-align: left;
+    margin-top: 2%;
+    padding-left: 5%;
+    font-weight: 400;
+    font-size: 1.1vw;
+    text-decoration: underline;
+}
+#current_password, #new_password, #confirm_password {
+    display: inline-block;
+    width: 7em;
+    top: -3em;
+    margin-top: 7px;
+    width: 110%;
+    height: 25px;
+  }
+#change-password-button{
+    width: 115%;
+    margin-top: 7%;
+    height: 35px;
+}
+#input{
+    margin-top: 7%;
+    display: block;
+    padding-left: 3%;
+    margin-top: 1%;
+    width: 28%;
+}
+#error-change-password{
+text-align: center;
+padding-left: 10%;
+font-size: 1.0vw;
+}
