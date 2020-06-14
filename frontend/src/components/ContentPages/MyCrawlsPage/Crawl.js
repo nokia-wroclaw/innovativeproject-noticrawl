@@ -7,26 +7,30 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
 
+import { Link } from "react-router-dom";
 
 class Crawl extends React.Component {
     constructor() {
         super()
         this.state = {
             editOpen: false,
+            submit: "",
             values: {
+                id: "",
                 name: "",
                 email: "",
                 period: "",
               },
         }
     }
+
 
     //not work for now
     showPeriod = () => {
@@ -47,9 +51,74 @@ class Crawl extends React.Component {
         this.setState({ editOpen: true })
     };
     
+    //cancel button in edit form action 
     handleCloseEdit = () => {
         this.setState({ editOpen: false })
     };
+
+
+    //edit button in edit form action
+    handleSubmitEdit = async e => {
+
+        if(this.state.values.id === "") {
+            this.setState({
+                values: { ...this.state.values, id: this.props.id }
+              })
+        }
+
+        if(this.state.values.name === "") {
+            this.setState({
+                values: { ...this.state.values, name: this.props.name }
+              })
+        }
+
+        if(this.state.values.email === "") {
+            this.setState({
+                values: { ...this.state.values, email: this.props.email }
+              })
+        }
+
+        if(this.state.values.period === "") {
+            this.setState({
+                values: { ...this.state.values, period: this.props.period }
+              })
+        }
+
+
+        e.preventDefault();
+
+
+        const res = await fetch("/api/v1/crawling-data/tospecjalnie" + this.props.id, {
+        method: "PATCH",
+        body: JSON.stringify(this.state.values),
+        headers: {
+            "Content-Type": "application/json"
+        },
+        });
+    
+        ////////////// what has been sent to backend 
+        console.log(JSON.stringify(this.state.values))
+        //////////////
+  
+        if (res.ok) {
+        setTimeout(
+            () => {
+            this.forceUpdate();
+            },
+            1600
+        );
+        }
+        else if (res.status == 401) {
+        alert("User not logged in!")
+        document.getElementById("redirectToHome").click()
+        } 
+        else if (res.status == 422){
+        alert("422: Validation Error!")
+        } 
+        else {
+        alert("Oops, something went wrong! Try again!")
+        }
+    }
 
     render() {
         return (
@@ -70,74 +139,83 @@ class Crawl extends React.Component {
                 </div>
             </div>
 
+
+
             {/* edit dialog */}
             <Dialog open={this.state.editOpen} onClose={this.handleCloseEdit} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title"><center>Crawl Edit</center></DialogTitle>
-                <DialogContent>
-                <DialogContentText>
-                    If you want to change some information about your crawl, you can do it below by filling appropriate fields and clicking "Edit".
-                </DialogContentText>
-                <br />
-                Actual name: {this.props.name}
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="New name"
-                    value={this.state.values.name}
-                    onChange={this.handleInputChange}
-                    fullWidth
-                />
-                <br /><br />
-                <br />
-                Actual e-mail: {this.props.email}
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="New e-mail"
-                    value={this.state.values.email}
-                    onChange={this.handleInputChange}
-                    type="email"
-                    fullWidth
-                />
-                <br /><br />
-                <br />
-                Actual checking period: {this.props.period}s
-                <br /><br />
-                <InputLabel id="simple-select-outlined-label" style={{  paddingTop:'8px' }}>Checking period</InputLabel>
-                <Select
-                    labelId="simple-select-outlined-label"
-                    id="simple-select-outlined"
-                    name="period"
-                    value={this.state.values.period}
-                    onChange={this.handleInputChange}
-                    label="period"
-                    fullWidth
-                >
-                    <MenuItem value="">
-                        <em>Choose one...</em>
-                    </MenuItem>
-                    <MenuItem value={10}>10sec</MenuItem>
-                    <MenuItem value={60}>1min</MenuItem>
-                    <MenuItem value={600}>10min</MenuItem>
-                    <MenuItem value={1800}>0.5h</MenuItem>
-                    <MenuItem value={3600}>1h</MenuItem>
-                    <MenuItem value={21600}>6h</MenuItem>
-                    <MenuItem value={43200}>12h</MenuItem>
-                    <MenuItem value={86400}>24h</MenuItem>
-                </Select>
-                <br /><br />
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={this.handleCloseEdit} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={this.handleCloseEdit} color="primary">
-                    Edit
-                </Button>
-                </DialogActions>
+                <FormControl id="editCrawlForm" onSubmit={this.handleSubmitEdit} >
+                    <DialogContent>
+                    <DialogContentText>
+                        If you want to change some information about your crawl, you can do it below by filling appropriate fields and clicking "Edit".
+                    </DialogContentText>    
+                    <br />
+                    Actual name: {this.props.name}
+                    <TextField
+                        margin="dense"
+                        id="name"
+                        name="name"
+                        label="New name"
+                        type="text" 
+                        value={this.state.values.name}
+                        onChange={this.handleInputChange}
+                        fullWidth
+                    />
+                    <br /><br />
+                    <br />
+                    Actual e-mail: {this.props.email}
+                    <TextField
+                        margin="dense"
+                        id="email"
+                        name="email"
+                        label="New e-mail"
+                        type="text"
+                        value={this.state.values.email}
+                        onChange={this.handleInputChange}
+                        fullWidth
+                    />
+                    <br /><br />
+                    <br />
+                    Actual checking period: {this.props.period}
+                    <br /><br />
+                    <DialogContentText>New checking period:</DialogContentText>
+                    <Select
+                        labelId="simple-select-outlined-label"
+                        id="simple-select-outlined"
+                        name="period"
+                        value={this.state.values.period}
+                        onChange={this.handleInputChange}
+                        label="period"
+                        fullWidth
+                    >
+                        <MenuItem value="">
+                            <em>Choose one...</em>
+                        </MenuItem>
+                        <MenuItem value={10}>10sec</MenuItem>
+                        <MenuItem value={60}>1min</MenuItem>
+                        <MenuItem value={600}>10min</MenuItem>
+                        <MenuItem value={1800}>0.5h</MenuItem>
+                        <MenuItem value={3600}>1h</MenuItem>
+                        <MenuItem value={21600}>6h</MenuItem>
+                        <MenuItem value={43200}>12h</MenuItem>
+                        <MenuItem value={86400}>24h</MenuItem>
+                    </Select>
+                    <br /><br />
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={this.handleCloseEdit} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={this.handleSubmitEdit} color="primary" type="submit"> 
+                        Edit
+                    </Button>
+                    </DialogActions>
+                </FormControl>
             </Dialog>
+
+            <Link to={"/"}>
+                <button id="redirectToHome" hidden="true"/>
+            </Link>
 
         </div>
         )

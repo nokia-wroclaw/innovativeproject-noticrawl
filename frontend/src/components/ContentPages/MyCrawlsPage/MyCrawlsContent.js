@@ -50,9 +50,9 @@ async componentDidMount() {
                                                 key={crawl.crawl_id} 
                                                 id={crawl.crawl_id} 
                                                 name={crawl.name} 
-                                                link={crawl.url} 
                                                 period={crawl.period} 
                                                 email={crawl.email}
+                                                link={crawl.url} 
                                                 />)
 
         //const loader = this.state.loading ? "loading..." : this.state.crawlList.link
