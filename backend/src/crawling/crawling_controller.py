@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.auth.auth_service import verify_token
-from src.database.database_schemas import Links
+from src.database.database_schemas import Users, Links
 from src.helpers.database import get_db
 from src.helpers.debug import save_to_html
 from src.helpers.status_code_model import StatusCodeBase
@@ -109,20 +109,24 @@ async def read_crawls(
 
 @crawling_router.delete(
     "/api/v1/crawling-data/{crawl_id}",
-    dependencies=[Depends(verify_token)],
-    response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
+        403: {"model": StatusCodeBase, "description": "Forbidden"},
         404: {"model": StatusCodeBase, "description": "Crawl not found"}
     },
     tags=["Crawling"],
 )
 async def delete_crawl(
         crawl_id: int,
+        email=Depends(verify_token),
         db: Session = Depends(get_db)
     ):
     link = db.query(Links).filter(Links.link_id == crawl_id).first()
     if link is None:
         raise HTTPException(status_code=404, detail=f"Crawl {crawl_id} not found")
 
-    return crawling_service.delete_crawl(crawl_id, db)
+    sender = db.query(Users).filter(Users.email == email).first()
+    if sender.user_id != link.user_id:
+        raise HTTPException(status_code=403, detail="Not an owner of the crawl")
+
+    crawling_service.delete_crawl(crawl_id, db)
