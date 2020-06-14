@@ -110,7 +110,6 @@ async def read_crawls(
 @crawling_router.delete(
     "/api/v1/crawling-data/{crawl_id}",
     dependencies=[Depends(verify_token)],
-    response_model=CrawlData,
     responses={
         401: {"model": StatusCodeBase, "description": "Not logged in"},
         404: {"model": StatusCodeBase, "description": "Crawl not found"}
@@ -125,4 +124,4 @@ async def delete_crawl(
     if link is None:
         raise HTTPException(status_code=404, detail=f"Crawl {crawl_id} not found")
 
-    return crawling_service.delete_crawl(crawl_id, db)
+    crawling_service.delete_crawl(crawl_id, db)
