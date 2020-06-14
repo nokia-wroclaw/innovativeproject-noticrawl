@@ -22,6 +22,7 @@ class Crawl extends React.Component {
         super(props)
         this.state = {
             editOpen: false,
+            deleteOpen: false,
             submit: "",
             values: {
 
@@ -38,7 +39,8 @@ class Crawl extends React.Component {
           values: { ...this.state.values, [e.target.name]: e.target.value }
         });
       }
-
+    
+    //opening edit popup
     handleClickOpenEdit = () => {
         this.setState({ editOpen: true })
     };
@@ -47,7 +49,6 @@ class Crawl extends React.Component {
     handleCloseEdit = () => {
         this.setState({ editOpen: false })
     };
-
 
     //edit button in edit form action
     handleSubmitEdit = async e => {
@@ -87,6 +88,21 @@ class Crawl extends React.Component {
         }
     }
 
+     //opening delete popup
+    handleClickOpenDelete = () => {
+        this.setState({ deleteOpen: true })
+    };
+    
+    //cancel button in delete form action 
+    handleCloseDelete = () => {
+        this.setState({ deleteOpen: false })
+    };
+
+    //delete button in delete form action
+    handleSubmitDelete = () => {
+        console.log("WOW!")
+    }
+
     render() {
 
         let showPeriod;
@@ -108,10 +124,9 @@ class Crawl extends React.Component {
                 <div className="MyCrawlsIcons">
                     <img src={editIcon} alt="Edit" height="28" width="28" onClick={this.handleClickOpenEdit} style={{"pointer-events": "all"}} />
                     <span></span><span></span>
-                    <img src={deleteIcon} alt="Delete" height="28" width="28" />
+                    <img src={deleteIcon} alt="Delete" height="28" width="28" onClick={this.handleClickOpenDelete} style={{"pointer-events": "all"}}/>
                 </div>
             </div>
-
 
 
             {/* edit dialog */}
@@ -121,10 +136,10 @@ class Crawl extends React.Component {
                 aria-labelledby="form-dialog-title" 
                 TransitionComponent={this.Transition}
                 keepMounted>
-            <br /><br />
+                <br /><br />    
                 <DialogTitle id="form-dialog-title"><center>Crawl Edit</center></DialogTitle>
                 <FormControl id="editCrawlForm" onSubmit={this.handleSubmitEdit} >
-                    <DialogContent>
+                    <DialogContent dividers>
                     <DialogContentText>
                         If you want to change some information about your crawl, you can do it below by filling appropriate fields and clicking "Edit".
                     </DialogContentText>    
@@ -197,6 +212,34 @@ class Crawl extends React.Component {
             <Link to={"/"}>
                 <button id="redirectToHome" hidden="true"/>
             </Link>
+
+
+            {/* delete confirmation dialog */}
+            <Dialog
+                maxWidth="sm"
+                fullWidth={true}
+                aria-labelledby="confirmation-dialog-title"
+                open={this.state.deleteOpen}
+                TransitionComponent={this.Transition}
+                keepMounted
+            >
+            <br /><br />
+                <DialogContent dividers>
+                    <DialogTitle>
+                        <center>Wait... Are you sure?</center>
+                        <br />
+                        <center>You really want to delete this crawl? :(</center>
+                    </DialogTitle>
+                </DialogContent>
+            <DialogActions>
+                <Button autoFocus onClick={this.handleCloseDelete} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={this.handleSubmitDelete} color="primary">
+                    Yes, delete it
+                </Button>
+        </DialogActions>
+    </Dialog>
 
         </div>
         )
