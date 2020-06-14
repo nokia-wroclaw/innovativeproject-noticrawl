@@ -17,17 +17,14 @@ import FormControl from '@material-ui/core/FormControl';
 import { Link } from "react-router-dom";
 
 class Crawl extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             editOpen: false,
             submit: "",
             values: {
-                id: "",
-                name: "",
-                email: "",
-                period: "",
-              },
+
+            },
         }
     }
 
@@ -50,34 +47,10 @@ class Crawl extends React.Component {
     //edit button in edit form action
     handleSubmitEdit = async e => {
 
-        if(this.state.values.id === "") {
-            this.setState({
-                values: { ...this.state.values, id: this.props.id }
-              })
-        }
-
-        if(this.state.values.name === "") {
-            this.setState({
-                values: { ...this.state.values, name: this.props.name }
-              })
-        }
-
-        if(this.state.values.email === "") {
-            this.setState({
-                values: { ...this.state.values, email: this.props.email }
-              })
-        }
-
-        if(this.state.values.period === "") {
-            this.setState({
-                values: { ...this.state.values, period: this.props.period }
-              })
-        }
-
         e.preventDefault();
 
 
-        const res = await fetch("/api/v1/crawling-data/tospecjalnie" + this.props.id, {
+        const res = await fetch("/api/v1/crawling-data/" + this.props.id, {
         method: "PATCH",
         body: JSON.stringify(this.state.values),
         headers: {
@@ -92,7 +65,7 @@ class Crawl extends React.Component {
         if (res.ok) {
         setTimeout(
             () => {
-            this.forceUpdate();
+                window.location.reload(true); 
             },
             1600
         );
@@ -138,6 +111,7 @@ class Crawl extends React.Component {
 
             {/* edit dialog */}
             <Dialog open={this.state.editOpen} onClose={this.handleCloseEdit} aria-labelledby="form-dialog-title">
+            <br /><br />
                 <DialogTitle id="form-dialog-title"><center>Crawl Edit</center></DialogTitle>
                 <FormControl id="editCrawlForm" onSubmit={this.handleSubmitEdit} >
                     <DialogContent>
@@ -148,7 +122,6 @@ class Crawl extends React.Component {
                     Actual name: {this.props.name}
                     <TextField
                         margin="dense"
-                        id="name"
                         name="name"
                         label="New name"
                         type="text" 
@@ -158,20 +131,19 @@ class Crawl extends React.Component {
                     />
                     <br /><br />
                     <br />
-                    Actual e-mail: {this.props.email}
+                    Actual e-mail: {this.props.email} 
                     <TextField
                         margin="dense"
-                        id="email"
                         name="email"
                         label="New e-mail"
-                        type="text"
+                        type="email"
                         value={this.state.values.email}
                         onChange={this.handleInputChange}
                         fullWidth
                     />
                     <br /><br />
                     <br />
-                    Actual checking period: {showPeriod}
+                    Actual checking period: {showPeriod} 
                     <br /><br />
                     <DialogContentText>New checking period:</DialogContentText>
                     <Select
@@ -196,6 +168,10 @@ class Crawl extends React.Component {
                         <MenuItem value={86400}>24h</MenuItem>
                     </Select>
                     <br /><br />
+                    <br /><br />
+                    <DialogContentText>
+                        Your edited crawl will be shown on the bottom of the list. 
+                    </DialogContentText>  
                     </DialogContent>
                     <DialogActions>
                     <Button onClick={this.handleCloseEdit} color="primary">
