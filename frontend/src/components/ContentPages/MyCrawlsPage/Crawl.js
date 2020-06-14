@@ -25,8 +25,10 @@ class Crawl extends React.Component {
             deleteOpen: false,
             submit: "",
             values: {
-
             },
+            valuesToDelete: {
+
+            }
         }
     }
 
@@ -98,10 +100,38 @@ class Crawl extends React.Component {
     };
 
     //delete button in delete form action
-    handleSubmitDelete = () => {
-        console.log("WOW!")
+    handleSubmitDelete = async e => {
+        e.preventDefault();
+
+        const res = await fetch("/api/v1/crawling-data/" + this.props.id, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        });
+  
+        if (res.ok) {
+        setTimeout(
+            () => {
+                window.location.reload(true); 
+            },
+            1600
+        );
+        }
+        else if (res.status == 401) {
+        alert("User not logged in!")
+        document.getElementById("redirectToHome").click()
+        } 
+        else if (res.status == 422){
+        alert("422: Validation Error!")
+        } 
+        else {
+        alert("Oops, something went wrong! Try again!")
+        }
     }
 
+
+    
     render() {
 
         let showPeriod;
