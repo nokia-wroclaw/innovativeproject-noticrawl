@@ -94,7 +94,8 @@ class MyAccountContent extends React.Component {
   render() {
     return (
       <div className="PageContent">
-        <h1 id="h1">My Account</h1>
+        <h1>My Account</h1>
+        <br />
         <div id="line"></div>
         <div id="container">
           <div id="email">email:</div>
