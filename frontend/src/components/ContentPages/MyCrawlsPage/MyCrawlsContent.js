@@ -9,8 +9,6 @@ class MyCrawlsContent extends Component {
             crawlList: []
         }
     }
-    
-
 
 
 async componentDidMount() {

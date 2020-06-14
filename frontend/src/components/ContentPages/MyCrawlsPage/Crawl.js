@@ -1,6 +1,6 @@
 import React from "react"
 import deleteIcon from "../../../media/delete-icon.png"
-import editIcon from "../../../media/edit-icon-new.png"
+import editIcon from "../../../media/edit-icon.png"
 
 
 import Button from '@material-ui/core/Button';
@@ -54,7 +54,6 @@ class Crawl extends React.Component {
     handleSubmitEdit = async e => {
 
         e.preventDefault();
-
 
         const res = await fetch("/api/v1/crawling-data/" + this.props.id, {
         method: "PATCH",
@@ -122,9 +121,9 @@ class Crawl extends React.Component {
                     <text>Checking period: {showPeriod} </text>
                 </div>
                 <div className="MyCrawlsIcons">
-                    <img src={editIcon} alt="Edit" height="28" width="28" onClick={this.handleClickOpenEdit} style={{"pointer-events": "all"}} />
+                    <img src={editIcon} alt="Edit" height="35" width="35" onClick={this.handleClickOpenEdit} style={{"pointer-events": "all"}} />
                     <span></span><span></span>
-                    <img src={deleteIcon} alt="Delete" height="28" width="28" onClick={this.handleClickOpenDelete} style={{"pointer-events": "all"}}/>
+                    <img src={deleteIcon} alt="Delete" height="35" width="35" onClick={this.handleClickOpenDelete} style={{"pointer-events": "all"}}/>
                 </div>
             </div>
 
@@ -135,7 +134,8 @@ class Crawl extends React.Component {
                 onClose={this.handleCloseEdit} 
                 aria-labelledby="form-dialog-title" 
                 TransitionComponent={this.Transition}
-                keepMounted>
+                keepMounted
+            >
                 <br /><br />    
                 <DialogTitle id="form-dialog-title"><center>Crawl Edit</center></DialogTitle>
                 <FormControl id="editCrawlForm" onSubmit={this.handleSubmitEdit} >
@@ -222,6 +222,7 @@ class Crawl extends React.Component {
                 open={this.state.deleteOpen}
                 TransitionComponent={this.Transition}
                 keepMounted
+                onClose={this.handleCloseDelete} 
             >
             <br /><br />
                 <DialogContent dividers>
