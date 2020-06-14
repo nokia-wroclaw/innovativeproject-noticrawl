@@ -46,7 +46,14 @@ async componentDidMount() {
     
     render() {
         const crawls =  this.state.crawlList;
-        const crawlsList = crawls.map(crawl => <Crawl key={crawl.crawl_id} id={crawl.crawl_id} name={crawl.name} link={crawl.url} period={crawl.period} />)
+        const crawlsList = crawls.map(crawl => <Crawl 
+                                                key={crawl.crawl_id} 
+                                                id={crawl.crawl_id} 
+                                                name={crawl.name} 
+                                                link={crawl.url} 
+                                                period={crawl.period} 
+                                                email={crawl.email}
+                                                />)
 
         //const loader = this.state.loading ? "loading..." : this.state.crawlList.link
         return (
