@@ -13,6 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
+import Slide from '@material-ui/core/Slide';
 
 import { Link } from "react-router-dom";
 
@@ -27,6 +28,10 @@ class Crawl extends React.Component {
             },
         }
     }
+
+    Transition = React.forwardRef(function Transition(props, ref) {
+        return <Slide direction="up" ref={ref} {...props} />;
+      });
 
     handleInputChange = e => {
         this.setState({
@@ -110,7 +115,12 @@ class Crawl extends React.Component {
 
 
             {/* edit dialog */}
-            <Dialog open={this.state.editOpen} onClose={this.handleCloseEdit} aria-labelledby="form-dialog-title">
+            <Dialog 
+                open={this.state.editOpen} 
+                onClose={this.handleCloseEdit} 
+                aria-labelledby="form-dialog-title" 
+                TransitionComponent={this.Transition}
+                keepMounted>
             <br /><br />
                 <DialogTitle id="form-dialog-title"><center>Crawl Edit</center></DialogTitle>
                 <FormControl id="editCrawlForm" onSubmit={this.handleSubmitEdit} >
