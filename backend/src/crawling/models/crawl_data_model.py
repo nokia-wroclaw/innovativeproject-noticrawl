@@ -3,12 +3,27 @@ from pydantic import BaseModel, validator
 # from src.helpers.validation.validation import validate_url
 
 
-class CrawlData(BaseModel):
-    url: str
+class CrawlDataBase(BaseModel):
+    name: str = None
+    url: str = None
+    period: int = None
+    email: str = None
+
+
+class CrawlDataCreate(CrawlDataBase):
+    xpath: str = None
+
+    class Config:
+        orm_mode = True
+
+class CrawlData(CrawlDataBase):
+    crawl_id: int
     xpath: str
-    period: int = 10 #seconds
-    email: str
-    value: str = "1"
+    element_value: str
+
+    class Config:
+        orm_mode = True
+
 
     # @validator("url")
     # def if_url(cls, url):

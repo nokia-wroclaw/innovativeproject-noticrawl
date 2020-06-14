@@ -28,7 +28,7 @@ class Users(Base):
     )
     password = Column(VARCHAR(128), nullable=False)
 
-    user_link = relationship("Links", back_populates="link_user")
+    links = relationship("Links", back_populates="user", cascade="delete-orphan", passive_deletes=True)
 
 
 class Links(Base):
@@ -37,21 +37,24 @@ class Links(Base):
     link_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     url = Column(VARCHAR(2048), nullable=False, index=True)
     description = Column(Text, index=True)
-    user_id = Column(Integer, ForeignKey("Users.user_id"))
+    user_id = Column(Integer, ForeignKey("Users.user_id", ondelete='CASCADE'))
 
-    link_user = relationship("Users", back_populates="user_link")
-    link_script = relationship("Scripts", back_populates="script_link")
+    user = relationship("Users", back_populates="links")
+    scripts = relationship("Scripts", back_populates="link", cascade="delete-orphan", passive_deletes=True)
 
 
 class Scripts(Base):
     __tablename__ = "Scripts"
     script_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    script_name = Column(Text, nullable=False, index=True)
     instructions = Column(Text, nullable=False, index=True)
-    link_id = Column(Integer, ForeignKey("Links.link_id"))
+    element_value = Column(Text, nullable=False, index=True)
+    period = Column(Integer, index=True)
+    link_id = Column(Integer, ForeignKey("Links.link_id", ondelete='CASCADE'))
 
-    script_link = relationship("Links", back_populates="link_script")
-    script_notification = relationship(
-        "Notifications", back_populates="notification_script"
+    link = relationship("Links", back_populates="scripts")
+    notifications = relationship(
+        "Notifications", back_populates="script", cascade="delete-orphan", passive_deletes=True
     )
 
 
@@ -60,16 +63,16 @@ class Notifications(Base):
     notification_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     address = Column(VARCHAR(255), index=True)
     communicator = Column(Enum("email", "slack", name="Communicators"), nullable=False)
-    script_id = Column(Integer, ForeignKey("Scripts.script_id"))
+    script_id = Column(Integer, ForeignKey("Scripts.script_id", ondelete='CASCADE'))
 
-    notification_script = relationship("Scripts", back_populates="script_notification")
+    script = relationship("Scripts", back_populates="notifications")
 
 
 class RevokedTokens(Base):
     __tablename__ = "Revoked Tokens"
-    token_id = Column(Integer, autoincrement=True, primary_key=True)
-    signature = Column(VARCHAR(1023))
-    expiry_date = Column(Integer, nullable=False)
+    token_id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    signature = Column(VARCHAR(1023), index=True)
+    expiry_date = Column(Integer, nullable=False, index=True)
 
 
 def create():

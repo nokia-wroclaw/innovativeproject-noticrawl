@@ -20,31 +20,36 @@ class NewCrawlContent extends Component{
     };
   }
 
+
 submitForm = async e => {
-  e.preventDefault();
-  console.log(this.state);
-  this.setState({ isSubmitting: true });
+    e.preventDefault();
 
-  //communication with backend
-  const url = {
-    url: this.state.values.link.toString()
-  };
-  const res = await fetch("/api/v1/page", {
-    method: "POST",
-    body: JSON.stringify(url),
-    headers: {
-      "Content-Type": "application/json"
-    },
-  });
+    const url = {
+      url: this.state.values.link.toString()
+    };
+    
+    this.setState({ isSubmitting: true });
 
-  this.setState({ isSubmitting: false });
-  let data = await res.json();
-  !data.hasOwnProperty("error")
-    ? this.setState({ message: data.success })
-    : this.setState({ message: data.error, isError: true });
-  data = {
-    parsedPage: data.html
-  };
+    //communication with backend
+    const res = await fetch("/api/v1/page", {
+      method: "POST",
+      body: JSON.stringify(url),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+
+    this.setState({ isSubmitting: false });
+
+    let data = await res.json();
+
+    !data.hasOwnProperty("error")
+      ? this.setState({ message: data.success })
+      : this.setState({ message: data.error, isError: true });
+
+    data = {
+      parsedPage: data.html
+    };
 
   data.parsedPage = data.parsedPage + AddingScripts 
 
@@ -80,6 +85,8 @@ submitForm = async e => {
     this.setState({
       values: { ...this.state.values, [e.target.name]: e.target.value }
     });
+
+
 
   render() {
     return (
