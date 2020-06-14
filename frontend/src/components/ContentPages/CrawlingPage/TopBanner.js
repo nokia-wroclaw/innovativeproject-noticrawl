@@ -107,7 +107,9 @@ class TopBanner extends React.Component {
         
     <div className='Logo'>
       <div className ='elements'>
+        <a href="/">
         <img src={logo} alt="logo" height="40" width="167" />
+        </a>
       </div>
     </div>
     
