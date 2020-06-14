@@ -20,6 +20,7 @@ class LoginBox extends React.Component {
     let password = document.getElementById("login_values").password.value
     if (username == "" || password == "") {
       this.setState({ error: "Complete all fields" })
+
       return
     }
     const res = await fetch("/api/v1/login", {
