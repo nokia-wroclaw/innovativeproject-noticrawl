@@ -31,7 +31,7 @@ RUN pip install -q poetry==1.0.* && \
 RUN pyppeteer-install
 
 COPY ./backend/src ./src
-COPY ./backend/database.secrets.toml ./backend/auth.secrets.toml ./
+COPY ./backend/*.secrets.toml ./backend/*.config.toml ./
 COPY --from=compile-frontend /app/frontend/build/ /app/frontend/build/
 
 EXPOSE 8000

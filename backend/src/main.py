@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 
 from .auth.auth_controller import auth_router
 from .auth.auth_service import verify_token
-from .crawling import scheduler
+from .crawling.scheduler import run_scheduler
 from .crawling.crawling_controller import crawling_router
 from .database import database_schemas
 from .helpers.status_code_model import StatusCodeBase
@@ -22,7 +22,7 @@ app.include_router(crawling_router)
 
 database_schemas.create()
 
-asyncio.create_task(scheduler.check_for_change())
+asyncio.create_task(run_scheduler())
 
 app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
 templates = Jinja2Templates(directory="../frontend/build")

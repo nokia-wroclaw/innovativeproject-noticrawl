@@ -13,7 +13,7 @@ services:
       - './backend/src:/app/backend/src'
       - './logs:/app/logs'
     environment: 
-      SETTINGS_FILE_FOR_DYNACONF: '["database.secrets.toml", "auth.secrets.toml"]'
+      SETTINGS_FILE_FOR_DYNACONF: '["database.secrets.toml", "auth.secrets.toml", "crawling.config.toml"]'
 
 
   database:

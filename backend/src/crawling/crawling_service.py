@@ -8,7 +8,6 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.crawling.communicators import Communicators
-from src.database import fake_db
 from src.database.database_schemas import Links, Notifications, Scripts
 from src.user import user_service
 
@@ -64,11 +63,6 @@ def get_crawl_from_link(link: Links) -> CrawlData:
         email=notification.address,
         element_value=script.element_value
     )
-
-
-# todo wywalić
-def add_crawl_to_fake_db(crawl_data: CrawlData):
-    fake_db.crawls.append(crawl_data)
 
 
 def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
