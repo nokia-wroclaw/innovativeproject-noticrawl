@@ -23,27 +23,25 @@ async def run_scheduler():
 class __Scheduler:
     waiting_crawls: asyncio.PriorityQueue
 
-
-          
     async def create(self):
         self.waiting_crawls = asyncio.PriorityQueue(
             maxsize=MAX_WAITING_CRAWLS_QUEUE_SIZE
         )
-        # links = get_all_links()
-        # for link in links:
-        #     for script in link.scripts:
-        #         await self.waiting_crawls.put(
-        #             (
-        #                 script.period,
-        #                 self.__Crawl(
-        #                     link.link_id,
-        #                     script.script_id,
-        #                     script.instructions,
-        #                     script.element_value,
-        #                     script.period,
-        #                 ),
-        #             )
-        #         )
+        links = get_all_links()
+        for link in links:
+            for script in link.scripts:
+                crawl_tuple = (
+                    script.period,
+                    self.__Crawl(
+                        link.link_id,
+                        script.script_id,
+                        script.instructions,
+                        script.element_value,
+                        script.period,
+                    )
+                )
+                await self.waiting_crawls.put(crawl_tuple)
+
 
     # def run(self):
         
@@ -81,6 +79,21 @@ class __Scheduler:
             #         fake_db.crawls[idx] = crawl_data
 
             await asyncio.sleep(10)
+
+    class __Crawl:
+        def __init__(
+                self,
+                link_id: int,
+                script_id: int,
+                instructions: str,
+                element_value: str,
+                period: int,
+        ):
+            self.link_id = link_id
+            self.script_id = script_id
+            self.instructions = instructions
+            self.element_value = element_value
+            self.period = period
 
 
 def get_all_links():
