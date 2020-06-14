@@ -28,8 +28,8 @@ function App() {
               <Route exact strict path="/my-crawls" component={MyCrawls} />
               <Route exact strict path="/new-crawl" component={NewCrawl} />
               <Route path="/new-crawl/start-crawling" component={Crawling} />
-              <Route exact strict path="/404" component={NotFoundPage} />
-              <Redirect to="/404" />
+              <Route exact strict path="/error/404" component={NotFoundPage} />
+              <Redirect to="/error/404" />
             </Switch>
           </Router> 
       </body>

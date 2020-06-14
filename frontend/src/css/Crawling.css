@@ -89,24 +89,6 @@
 	position: fixed;
 	transition:all 300ms ease;
 }
-#selector-left, #selector-right {
-  z-Index: 65000000;
-	background: blue;
-	width:3px;
-	position: fixed;
-	transition:all 300ms ease;
-}
-
-
-.outer
-{
-  display: "none";
-  position: absolute;
-  z-Index: 65000000;
-  background: rgba(37, 172, 131, 0.2);
-}
-
-
 
 #CrawlingBanner {
   background-image: url(../media/crawling-banner-background.jpg);
