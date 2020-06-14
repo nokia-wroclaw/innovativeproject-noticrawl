@@ -22,7 +22,16 @@ class ExampleMenu extends Component {
   moveToMyCrawls() {
     window.location.assign("./my-crawls")
   }
-  Logout() {
+  Logout = async () => {
+
+    const res = await fetch("/api/v1/logout", {
+      method: "POST",
+      body: "",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    
     window.location.assign("./")
   }
 

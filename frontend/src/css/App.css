@@ -27,7 +27,7 @@ pointer-events: none;
 
 .MainContent {
 width: 40%;
-height: 432px;
+height: 460px;
 background-color: rgba(255, 255, 255, 0.9);
 border-radius: 50px;
 }
@@ -231,10 +231,43 @@ visibility: visible;
 }
 
 .PageContent {
-display : block;
-position: center;
-padding-top: 30px;
-height: 320px;
+align-items: center;
+position: relative;
+padding-top: 10px;
+height: 380px;
+}
+
+.MyCrawls {
+  overflow: auto;
+  height: 280px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+
+.crawlBorder {
+  border-top: 1px lightgrey;
+  color: lightgrey
+}
+
+span + span {
+  margin-left: 10px;
+}
+
+.MyCrawlsElements {
+  position: relative;
+}
+
+.MyCrawlsText {
+  align-items: left;
+  display: inline-block;
+  margin-right: 20px;
+  width: 83%;
+}
+
+.MyCrawlsIcons {
+  display: inline-block;
 }
 
 .navbar {

@@ -5,11 +5,10 @@ import threading
 from dynaconf import settings
 from urllib3.util import parse_url
 
-from src.crawling.crawling_service import take_screenshot
 from src.database.database_schemas import Links
 from src.helpers.database import get_db
 
-from .crawling_service import data_selector
+from .crawling_service import data_selector, take_screenshot
 
 logger = logging.getLogger("Noticrawl")
 

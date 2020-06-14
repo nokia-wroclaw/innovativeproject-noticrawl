@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.security import OAuth2PasswordRequestForm
@@ -11,6 +12,9 @@ from src.user import user_service
 from src.user.user_model import UserCreate
 
 from . import auth_service
+from .password_model import PasswordChange
+
+logger = logging.getLogger("Noticrawl")
 
 auth_router = APIRouter()
 
@@ -37,7 +41,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
             status_code=409, detail="User with this email already exists."
         )
 
-    user_service.create_user(db, user)
+    auth_service.create_user(db, user)
     return auth_service.generate_cookies(user.email)
 
 
@@ -49,9 +53,10 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     },
 )
 def login(
-        form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        db: Session = Depends(get_db)
     ):
-    user_service.authenticate_user(db, form_data.username, form_data.password)
+    auth_service.authenticate_user(db, form_data.username, form_data.password)
 
     return auth_service.generate_cookies(form_data.username)
 
@@ -59,6 +64,9 @@ def login(
 @auth_router.post(
     "/api/v1/logout",
     tags=["Auth"],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
 )
 def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     auth_service.save_revoked_token(token, db)
@@ -66,3 +74,34 @@ def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     response = Response()
     response.delete_cookie("access_token")
     return response
+
+
+@auth_router.post(
+    "/api/v1/check-token",
+    tags=["Auth"],
+    dependencies=[Depends(auth_service.verify_token)],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+)
+def check_token():
+    pass
+@auth_router.patch(
+    "/api/v1/change-password",
+    tags=["Auth"],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+)
+
+
+def change_password(
+        passwords: PasswordChange,
+        token=Depends(oauth2_scheme),
+        email=Depends(auth_service.verify_token),
+        db: Session = Depends(get_db)
+    ):
+    auth_service.authenticate_user(db, email, passwords.current_password)
+    auth_service.save_revoked_token(token, db)
+    auth_service.change_password(db, email, passwords.new_password)
+    return auth_service.generate_cookies(email)
