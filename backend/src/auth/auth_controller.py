@@ -64,6 +64,9 @@ def login(
 @auth_router.post(
     "/api/v1/logout",
     tags=["Auth"],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
 )
 def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     auth_service.save_revoked_token(token, db)
@@ -73,6 +76,16 @@ def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
     return response
 
 
+@auth_router.post(
+    "/api/v1/check-token",
+    tags=["Auth"],
+    dependencies=[Depends(auth_service.verify_token)],
+    responses={
+        401: {"model": StatusCodeBase, "description": "Not logged in"},
+    }
+)
+def check_token():
+    pass
 @auth_router.patch(
     "/api/v1/change-password",
     tags=["Auth"],
@@ -80,6 +93,8 @@ def logout(token: str = Depends(oauth2_scheme), db=Depends(get_db)):
         401: {"model": StatusCodeBase, "description": "Not logged in"},
     }
 )
+
+
 def change_password(
         passwords: PasswordChange,
         token=Depends(oauth2_scheme),
