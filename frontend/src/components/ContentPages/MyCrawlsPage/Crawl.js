@@ -31,21 +31,11 @@ class Crawl extends React.Component {
         }
     }
 
-
-    //not work for now
-    showPeriod = () => {
-        if (this.props.period == 10) return <text>10 sec</text>
-        else if (this.props.period == 60 || this.props.period == 600) return <text>{this.props.period}min</text>
-        else return <text>{this.props.period}h</text>
-    }
-
-
     handleInputChange = e => {
         this.setState({
           values: { ...this.state.values, [e.target.name]: e.target.value }
         });
       }
-
 
     handleClickOpenEdit = () => {
         this.setState({ editOpen: true })
@@ -84,7 +74,6 @@ class Crawl extends React.Component {
               })
         }
 
-
         e.preventDefault();
 
 
@@ -121,6 +110,12 @@ class Crawl extends React.Component {
     }
 
     render() {
+
+        let showPeriod;
+        if (this.props.period == 10) showPeriod = <text>10 sec</text>
+        else if (this.props.period == 60 || this.props.period == 600 || this.props.period == 1800) showPeriod = <text>{this.props.period/60}min</text>
+        else showPeriod = <text>{this.props.period/3600}h</text>
+
         return (
         <div>
             <hr className="crawlBorder" />
@@ -130,7 +125,7 @@ class Crawl extends React.Component {
                     <br />
                     <text><a href={this.props.link}>{this.props.link}</a></text>
                     <br />
-                    <text>Checking period: {this.props.period}s (will be changed)</text>
+                    <text>Checking period: {showPeriod} </text>
                 </div>
                 <div className="MyCrawlsIcons">
                     <img src={editIcon} alt="Edit" height="28" width="28" onClick={this.handleClickOpenEdit} style={{"pointer-events": "all"}} />
@@ -176,7 +171,7 @@ class Crawl extends React.Component {
                     />
                     <br /><br />
                     <br />
-                    Actual checking period: {this.props.period}
+                    Actual checking period: {showPeriod}
                     <br /><br />
                     <DialogContentText>New checking period:</DialogContentText>
                     <Select
