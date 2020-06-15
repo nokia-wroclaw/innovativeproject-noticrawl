@@ -4,7 +4,7 @@ import time
 
 from dynaconf import settings
 
-from src.database.database_schemas import Links
+from src.database.database_schemas import Links, Scripts
 from src.helpers.database import get_db
 
 from src.helpers.crawling import data_selector, take_screenshot
@@ -48,7 +48,7 @@ class Scheduler:
 
 
         async def reload_crawls(self):
-            links = self.__get_all_links()
+            links = get_all_links()
             for link in links:
                 for script in link.scripts:
                     await self.add_crawl(
@@ -68,11 +68,10 @@ class Scheduler:
 
 
         async def run(self):
-            # loop = asyncio.new_event_loop()
             loop = asyncio.get_event_loop()
             asyncio.create_task(self.__remove_done_futures())
             while True:
-                logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
+                # logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
 
                 moment_of_exec, crawl = await self.__waiting_crawls.get()
                 logger.log(level=logging.DEBUG, msg=f"Got crawl {crawl.name} from queue.")
@@ -111,12 +110,12 @@ class Scheduler:
                 )
                 logger.log(level=logging.DEBUG, msg="Value changed! \n" + msg)
                 
+                update_element_value_in_db(crawl.crawl_id, current_value)
                 crawl.element_value = current_value
-                
-                
+
                 screenshot_name = f"{crawl.crawl_id}_{time.time_ns()}"
                 await take_screenshot(crawl.url, filename=screenshot_name)
-                logger.log(level=logging.DEBUG, msg="Here screenshot will be sent.") # TODO send email
+                # logger.log(level=logging.DEBUG, msg="Here screenshot will be sent.") # TODO send email
             
             logger.log(level=logging.DEBUG, msg=f"Putting crawl {crawl.name} back to queue.")
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
@@ -129,8 +128,19 @@ class Scheduler:
                 await asyncio.sleep(1)
 
 
-        def __get_all_links(self):
-            db = next(get_db())
-            return db.query(Links).all()
+def update_element_value_in_db(crawl_id, element_value):
+    db = next(get_db())
+    db.query(Scripts) \
+        .filter(Scripts.link_id == crawl_id) \
+        .update(
+            {Scripts.element_value: element_value},
+            synchronize_session=False
+        )
+    db.commit()
+
+
+def get_all_links():
+    db = next(get_db())
+    return db.query(Links).all()
 
 scheduler = Scheduler()
