@@ -5,7 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.auth.auth_service import verify_token
-from src.database.database_schemas import Users, Links
+from src.database.database_schemas import Links, Users
+from src.helpers.crawling import data_selector
 from src.helpers.database import get_db
 from src.helpers.debug import save_to_html
 from src.helpers.status_code_model import StatusCodeBase
@@ -60,10 +61,10 @@ async def add_crawl(
         **crawl_data_dict
     )
 
-    crawl_data.element_value = await crawling_service.data_selector(
+    crawl_data.element_value = await data_selector(
         crawl_data_create.url, crawl_data_create.xpath
     )
-    crawling_service.add_crawl_to_db(db, crawl_data, email)
+    await crawling_service.add_crawl_to_db(db, crawl_data, email)
     # logger.log(level=logging.DEBUG, msg="Crawl saved: " + str(crawl_data))
 
 
