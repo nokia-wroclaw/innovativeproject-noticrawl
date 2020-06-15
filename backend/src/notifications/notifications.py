@@ -15,7 +15,7 @@ def send_email(
         send_to,
         screenshot_path,
         subject,
-        email_text_path="/app/backend/src/helpers/email_notifications/email_crawling.html"
+        email_text_path="/app/backend/src/helpers/email_notifications/email_crawling2.html"
     ):
     logger.log(level=logging.DEBUG, msg=f"Entering send_email")
     email_address = settings.EMAIL

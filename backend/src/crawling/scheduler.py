@@ -74,14 +74,13 @@ class Scheduler:
                 # logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
 
                 moment_of_exec, crawl = await self.__waiting_crawls.get()
-                logger.log(level=logging.DEBUG, msg=f"Got crawl {crawl.name} from queue.")
                 time_to_wait = moment_of_exec - time.time()
                 if time_to_wait > 0:
-                    logger.log(level=logging.DEBUG, msg=f"Sleeping for {time_to_wait} seconds")
-                    await asyncio.sleep(time_to_wait)
-
-                logger.log(level=logging.DEBUG, msg=f"Running check for change for crawl {crawl.name}. Number of running crawls = {len(self.__running_crawls_futures)}.")
-                await self.__run_check_for_change(crawl, loop)
+                    await self.__waiting_crawls.put((moment_of_exec, crawl))
+                    await asyncio.sleep(1)
+                else:
+                    logger.log(level=logging.DEBUG, msg=f"Running check for change for crawl {crawl.name}. Number of running crawls = {len(self.__running_crawls_futures)}.")
+                    await self.__run_check_for_change(crawl, loop)
 
 
         async def __run_check_for_change(self, crawl, loop):
@@ -111,8 +110,11 @@ class Scheduler:
 
                 screenshot_name = crawl.name.replace(" ", "_")
                 screenshot_path = await take_screenshot(crawl.url, filename=screenshot_name)
-                send_email(crawl.email, screenshot_path, f"An element you observe in {crawl.name} has changed.")
-            
+                send_email(
+                    crawl.email, 
+                    screenshot_path, 
+                    f"Your crawl {crawl.name} has new value!")
+                # TODO delete screenshot
             logger.log(level=logging.DEBUG, msg=f"Putting crawl {crawl.name} back to queue.")
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
