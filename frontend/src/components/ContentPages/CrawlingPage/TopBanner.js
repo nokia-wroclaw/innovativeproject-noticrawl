@@ -8,6 +8,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Link } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class TopBanner extends React.Component {
 
@@ -25,6 +30,18 @@ class TopBanner extends React.Component {
       isError: false
     };
   }
+
+
+  useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+    },
+  }));
+
+  classes = this.useStyles;
 
   sendState = () => {
     if (this.props.borderState)
@@ -224,6 +241,38 @@ class TopBanner extends React.Component {
       <Link to={"/"}>
             <button id="redirectToHome" hidden="true"/>
       </Link>
+
+
+      {/* loading */}
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        maxWidth="sm"
+        fullWidth={true}
+        aria-labelledby="confirmation-dialog-title"
+        open={this.state.isSubmitting}
+        TransitionComponent={this.Transition}
+        keepMounted
+        >
+          <br /><br />
+              <DialogContent dividers>
+                  <DialogTitle>
+                    <center>
+                      <div>
+                        Please wait...
+                      </div>
+                      <div>
+                        We're sending your Crawl.
+                      </div>
+                      <br /><br />
+                      <div className={this.classes.root}>
+                        <CircularProgress />
+                      </div>
+                    </center>
+                  </DialogTitle>
+              </DialogContent>
+      </Dialog>
+
 
     </div>
     )
