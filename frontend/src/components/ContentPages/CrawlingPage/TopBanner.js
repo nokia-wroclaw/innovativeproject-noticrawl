@@ -11,8 +11,11 @@ import { Link } from "react-router-dom";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Slide from '@material-ui/core/Slide';
+import submitOk from "../../../media/oksubmit.jpg"
 
 class TopBanner extends React.Component {
 
@@ -27,7 +30,7 @@ class TopBanner extends React.Component {
         url: this.props.url
       },
       isSubmitting: false,
-      isError: false
+      showConfirm: false
     };
   }
 
@@ -42,6 +45,10 @@ class TopBanner extends React.Component {
   }));
 
   classes = this.useStyles;
+
+  TransitionSlide = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
   sendState = () => {
     if (this.props.borderState)
@@ -91,7 +98,7 @@ class TopBanner extends React.Component {
       setTimeout(
         () => {
           this.setState({
-            isError: false,
+            showConfirm: true,
           })
         },
         1600
@@ -109,7 +116,9 @@ class TopBanner extends React.Component {
     }
   }
 
-
+  handleCloseConfirm = () => {
+    this.setState({ showConfirm: false })
+  };
 
 
   render() {
@@ -251,7 +260,7 @@ class TopBanner extends React.Component {
         fullWidth={true}
         aria-labelledby="confirmation-dialog-title"
         open={this.state.isSubmitting}
-        TransitionComponent={this.Transition}
+        TransitionComponent={this.TransitionSlide}
         keepMounted
         >
           <br /><br />
@@ -264,7 +273,7 @@ class TopBanner extends React.Component {
                       <div>
                         We're sending your Crawl.
                       </div>
-                      <br /><br />
+                      <br />
                       <div className={this.classes.root}>
                         <CircularProgress />
                       </div>
@@ -272,6 +281,30 @@ class TopBanner extends React.Component {
                   </DialogTitle>
               </DialogContent>
       </Dialog>
+
+      {/* confirmation */}
+      <Dialog
+                maxWidth="sm"
+                fullWidth={true}
+                aria-labelledby="confirmation-dialog-title"
+                open={this.state.showConfirm}
+                onClose={this.handleCloseConfirm} 
+            >
+            <br />
+                <DialogContent dividers>
+                    <DialogTitle>
+                        <center>Crawl added</center>
+                        <br /> <br />
+                        <center><img src={submitOk} alt="OK" height="340" width="370"  /></center>
+                    </DialogTitle>
+                </DialogContent>
+            <DialogActions>
+                <Button onClick={this.handleCloseConfirm} color="primary">
+                    OK
+                </Button>
+        </DialogActions>
+    </Dialog>
+
 
 
     </div>
