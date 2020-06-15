@@ -1,15 +1,14 @@
+import asyncio
 import logging
-import os
 import re
-from datetime import datetime
 
 import pyppeteer
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.crawling.communicators import Communicators
-from src.database import fake_db
 from src.database.database_schemas import Links, Notifications, Scripts
+from src.crawling.scheduler import scheduler
 from src.user import user_service
 
 from .models.crawl_data_model import CrawlData, CrawlDataCreate
@@ -66,12 +65,7 @@ def get_crawl_from_link(link: Links) -> CrawlData:
     )
 
 
-# todo wywalić
-def add_crawl_to_fake_db(crawl_data: CrawlData):
-    fake_db.crawls.append(crawl_data)
-
-
-def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
+async def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
     user_id = user_service.get_user_by_email(db, user_email).user_id
     link = Links(
         url=crawl_data.url,
@@ -102,8 +96,11 @@ def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
 
     db.commit()
 
+    asyncio.create_task(scheduler.add_crawl(crawl_data))
 
-def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
+
+
+def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session): # TODO inform scheduler on crawl update
     db.query(Links) \
         .filter(Links.link_id == crawl_id) \
         .update(
@@ -131,46 +128,17 @@ def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
 
     db.commit()
 
+    asyncio.create_task(scheduler.reload_crawls())
+
     return get_crawl_from_link(
         db.query(Links).filter(Links.link_id == crawl_id).first()
     )
 
 
-def delete_crawl(crawl_id: int, db: Session):
+def delete_crawl(crawl_id: int, db: Session): # TODO inform scheduler on crawl update
     db.query(Links) \
         .filter(Links.link_id == crawl_id) \
         .delete(synchronize_session=False)
     db.commit()
 
-
-async def data_selector(url, xpath):
-    logging.getLogger("websockets").setLevel("WARN")
-    browser = await pyppeteer.launch(
-        headless=True, args=["--no-sandbox"], logLevel="WARN"
-    )
-    page = await browser.newPage()
-    await page.goto(url, waitUntil="networkidle2", timeout=600000)
-    await page.waitForXPath(xpath)
-    xpath_content = await page.xpath(xpath)
-    text_content = await page.evaluate(
-        "(xpath_content) => xpath_content.textContent", xpath_content[0]
-    )
-    await page.close()
-    await browser.close()
-    return text_content
-
-
-async def take_screenshot(url, filename="sreenshot", directory="/app/logs/sreenshots"):
-    filename = filename + datetime.now().strftime("_%d-%m-%Y_%H-%M-%S-%f") + ".png"
-    path = directory + "/" + filename
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    logging.getLogger("websockets").setLevel("WARN")
-    browser = await pyppeteer.launch(
-        headless=True, args=["--no-sandbox"], logLevel="WARN"
-    )
-    page = await browser.newPage()
-    await page.goto(url, waitUntil="networkidle0", timeout=600000)
-    await page.screenshot(path=path, fullPage=True)
-    await page.close()
-    await browser.close()
-    return
+    asyncio.create_task(scheduler.reload_crawls())

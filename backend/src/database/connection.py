@@ -10,11 +10,11 @@ database_url_template = Template(
     "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 )
 DATABASE_URL = database_url_template.substitute(
-    DB_USER=settings.USER,
-    DB_PASSWORD=settings.PASSWORD,
-    DB_NAME=settings.NAME,
-    DB_HOST=settings.HOST,
-    DB_PORT=settings.as_int("PORT"),
+    DB_USER=settings.DB_USER,
+    DB_PASSWORD=settings.DB_PASSWORD,
+    DB_NAME=settings.DB_NAME,
+    DB_HOST=settings.DB_HOST,
+    DB_PORT=settings.as_int("DB_PORT"),
 )
 
 # Create SQLAlchemy engine:
