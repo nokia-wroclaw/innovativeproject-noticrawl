@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 import time
 
 from dynaconf import settings
@@ -111,11 +112,12 @@ class Scheduler:
                 screenshot_name = crawl.name.replace(" ", "_")
                 screenshot_path = await take_screenshot(crawl.url, filename=screenshot_name)
                 send_email(
-                    crawl.email, 
-                    screenshot_path, 
-                    f"Your crawl {crawl.name} has new value!")
-                # TODO delete screenshot
-            logger.log(level=logging.DEBUG, msg=f"Putting crawl {crawl.name} back to queue.")
+                    crawl.email,
+                    screenshot_path,
+                    f"Your crawl \"{crawl.name}\" has new value!"
+                )
+                os.remove(screenshot_path)
+
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
         async def __remove_done_futures(self):
