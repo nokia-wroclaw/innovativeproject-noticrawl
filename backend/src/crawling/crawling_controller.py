@@ -32,8 +32,8 @@ crawling_router = APIRouter()
 async def get_page(url: Url):
     page_url = url.url
     html, page_title = await crawling_service.parse(page_url)
-    html = crawling_service.fix_relative_paths(html, page_url)
-    # save_to_html(data=html, filename=page_title)
+    html = crawling_service.redirect_to_proxy(html, page_url, "https://cors-anywhere.herokuapp.com/")
+    save_to_html(data=html, filename=page_title)
     return Page(url=page_url, html=html)
 
 
