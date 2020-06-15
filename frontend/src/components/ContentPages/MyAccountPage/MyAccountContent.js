@@ -12,7 +12,6 @@ class MyAccountContent extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("one")
     const res = await fetch("/api/v1/user/me")
     if (res.ok) {
       const json = await res.json()
@@ -137,7 +136,7 @@ class MyAccountContent extends React.Component {
               />
             </div>
             <Button variant="contained" color="primary" id="change-password-button" className="login-btn"
-              type="button" value="Submit" onClick={this.submitChange}>Cofnirm change</Button>
+              type="button" value="Submit" onClick={this.submitChange}>Confirm change</Button>
 
             <div id="error-change-password">{this.state.error}</div>
           </div>

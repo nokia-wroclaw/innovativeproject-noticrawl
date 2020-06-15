@@ -25,13 +25,26 @@ class TopBanner extends React.Component {
       values: {
         name: "",
         email: "",
-        period: "",
+        period: " ",
         xpath: "",
         url: this.props.url
       },
       isSubmitting: false,
       showConfirm: false
     };
+  }
+
+  async componentWillMount() {
+    const res = await fetch("/api/v1/user/me")
+    if (res.ok) {
+      const json = await res.json()
+      this.setState({
+        values: { ...this.state.values, email: json.email }
+      })
+    }
+    this.setState({
+      values: { ...this.state.values, period: "" }
+    })
   }
 
 
@@ -52,9 +65,9 @@ class TopBanner extends React.Component {
 
   sendState = () => {
     if (this.props.borderState)
-    this.props.Callback(0);
-    else 
-    this.props.Callback(1);
+      this.props.Callback(0);
+    else
+      this.props.Callback(1);
   }
 
   handleInputChange = e => {
@@ -68,16 +81,22 @@ class TopBanner extends React.Component {
   }
 
   submitForm = async e => {
-
     e.preventDefault();
-
-    this.setState({ isSubmitting: true });
-    
     //setting xpath
+    console.log(this.state.values.period)
     var x = this.props.xpathFromParent();
     this.setState({
       values: { ...this.state.values, xpath: x }
     })
+    if (x === 5) {
+      alert("Select element")
+      return
+    }
+    if (this.state.values.period === "") {
+      alert("Select frequency")
+      return
+    }
+    this.setState({ isSubmitting: true });
 
     await this.sleep(1000);
 
@@ -107,10 +126,10 @@ class TopBanner extends React.Component {
     else if (res.status == 401) {
       alert("User not logged in!")
       document.getElementById("redirectToHome").click()
-    } 
-    else if (res.status == 422){
+    }
+    else if (res.status == 422) {
       alert("422: Validation Error!")
-    } 
+    }
     else {
       alert("Oops, something went wrong! Try again!")
     }
@@ -122,27 +141,27 @@ class TopBanner extends React.Component {
 
 
   render() {
-    return(
+    return (
 
-    <div id='CrawlingBanner' >
-        
-      <div className='Logo'>
-        <div className ='elements'>
-          <a href="/">
-          <img src={logo} alt="logo" height="40" width="167" />
-          </a>
-        </div>
-      </div>
-      
-      <div className='Status'>
-        <div className ='elements'>
-          <text className="textLeft">Recording is</text><text className="textRight"> ON</text>
-        </div>
-      </div>
+      <div id='CrawlingBanner' >
 
-      <div className='Bordering'>
-        <div className='elements'>
-          Bordering
+        <div className='Logo'>
+          <div className='elements'>
+            <a href="/">
+              <img src={logo} alt="logo" height="40" width="167" />
+            </a>
+          </div>
+        </div>
+
+        <div className='Status'>
+          <div className='elements'>
+            <text className="textLeft">Recording is</text><text className="textRight"> ON</text>
+          </div>
+        </div>
+
+        <div className='Bordering'>
+          <div className='elements'>
+            Bordering
           <br></br>
             <div className="toggle-switch">
               <input
@@ -158,156 +177,156 @@ class TopBanner extends React.Component {
                 <span className="toggle-switch-switch" />
               </label>
             </div>
+          </div>
         </div>
-      </div>
 
 
 
-      <form onSubmit={this.submitForm}>
+        <form onSubmit={this.submitForm}>
 
-        <div className='TextInput'>
-          <div className ='elements'>
-            <FormControl id="crawlingForm" style={{ width:'20ch', paddingTop:'8px'}} >
-              <TextField 
+          <div className='TextInput'>
+            <div className='elements'>
+              <FormControl id="crawlingForm" style={{ width: '20ch', paddingTop: '8px' }} >
+                <TextField
                   size="small"
-                  id="filled-name" 
-                  label="Crawl's name" 
-                  type="text" 
+                  id="filled-name"
+                  label="Crawl's name"
+                  type="text"
                   name="name"
-                  variant="filled" 
+                  variant="filled"
                   onChange={this.handleInputChange}
                   value={this.state.values.name}
                   required
                 />
-            </FormControl>  
-          </div>
-        </div>
-
-        <div className='TextInput'>
-          <div className ='elements'>
-            <FormControl id="crawlingForm" style={{ width:'30ch', paddingTop:'8px'}} >
-              <TextField 
-                size="small"
-                id="filled-email" 
-                label="E-mail" 
-                type="text" 
-                name="email"
-                variant="filled" 
-                onChange={this.handleInputChange}
-                value={this.state.values.email}
-                required
-              />
-            </FormControl>  
-          </div>
-        </div>
-
-        <div className='NotificationFreq'>
-          <div className ='elements'>
-            <FormControl variant="filled" id="crawlingForm" style={{ width: '25ch', paddingTop:'8px'}} size="small">
-              <InputLabel id="simple-select-outlined-label" style={{  paddingTop:'8px' }}>Notification frequency</InputLabel>
-                  <Select
-                    labelId="simple-select-outlined-label"
-                    id="simple-select-outlined"
-                    name="period"
-                    value={this.state.values.period}
-                    onChange={this.handleInputChange}
-                    label="period"
-                    required="true"
-                  >
-                    <MenuItem value="">
-                      <em>Choose one...</em>
-                    </MenuItem>
-                    <MenuItem value={10}>10sec</MenuItem>
-                    <MenuItem value={60}>1min</MenuItem>
-                    <MenuItem value={600}>10min</MenuItem>
-                    <MenuItem value={1800}>0.5h</MenuItem>
-                    <MenuItem value={3600}>1h</MenuItem>
-                    <MenuItem value={21600}>6h</MenuItem>
-                    <MenuItem value={43200}>12h</MenuItem>
-                    <MenuItem value={86400}>24h</MenuItem>
-                  </Select>
               </FormControl>
+            </div>
           </div>
-        </div>
 
-        <div className='SubmitButton'>
-          <div className ='elements'>
-            <FormControl id="crawlingForm">
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<CloudUploadIcon />}
-                type="submit"
-              >
-                Submit
+          <div className='TextInput'>
+            <div className='elements'>
+              <FormControl id="crawlingForm" style={{ width: '30ch', paddingTop: '8px' }} >
+                <TextField
+                  size="small"
+                  id="filled-email"
+                  label="E-mail"
+                  type="email"
+                  name="email"
+                  variant="filled"
+                  onChange={this.handleInputChange}
+                  value={this.state.values.email}
+                  required
+                />
+              </FormControl>
+            </div>
+          </div>
+
+          <div className='NotificationFreq'>
+            <div className='elements'>
+              <FormControl variant="filled" id="crawlingForm" style={{ width: '25ch', paddingTop: '8px' }} size="small">
+                <InputLabel id="simple-select-outlined-label" style={{ paddingTop: '8px' }}>Notification frequency</InputLabel>
+                <Select
+                  labelId="simple-select-outlined-label"
+                  id="simple-select-outlined"
+                  name="period"
+                  value={this.state.values.period}
+                  onChange={this.handleInputChange}
+                  label="period"
+                  required="true"
+                >
+                  <MenuItem value="">
+                    <em>Choose one...</em>
+                  </MenuItem>
+                  <MenuItem value={10}>10sec</MenuItem>
+                  <MenuItem value={60}>1min</MenuItem>
+                  <MenuItem value={600}>10min</MenuItem>
+                  <MenuItem value={1800}>0.5h</MenuItem>
+                  <MenuItem value={3600}>1h</MenuItem>
+                  <MenuItem value={21600}>6h</MenuItem>
+                  <MenuItem value={43200}>12h</MenuItem>
+                  <MenuItem value={86400}>24h</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+
+          <div className='SubmitButton'>
+            <div className='elements'>
+              <FormControl id="crawlingForm">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<CloudUploadIcon />}
+                  type="submit"
+                >
+                  Submit
               </Button>
-            </FormControl>
+              </FormControl>
+            </div>
           </div>
-        </div>
 
-      </form>  
+        </form>
 
-      <Link to={"/"}>
-            <button id="redirectToHome" hidden="true"/>
-      </Link>
+        <Link to={"/"}>
+          <button id="redirectToHome" hidden="true" />
+        </Link>
 
 
-      {/* loading */}
-      <Dialog
-        disableBackdropClick
-        disableEscapeKeyDown
-        maxWidth="sm"
-        fullWidth={true}
-        aria-labelledby="confirmation-dialog-title"
-        open={this.state.isSubmitting}
-        TransitionComponent={this.TransitionSlide}
-        keepMounted
+        {/* loading */}
+        <Dialog
+          disableBackdropClick
+          disableEscapeKeyDown
+          maxWidth="sm"
+          fullWidth={true}
+          aria-labelledby="confirmation-dialog-title"
+          open={this.state.isSubmitting}
+          TransitionComponent={this.TransitionSlide}
+          keepMounted
         >
           <br /><br />
-              <DialogContent dividers>
-                  <DialogTitle>
-                    <center>
-                      <div>
-                        Please wait...
+          <DialogContent dividers>
+            <DialogTitle>
+              <center>
+                <div>
+                  Please wait...
                       </div>
-                      <div>
-                        We're sending your Crawl.
+                <div>
+                  We're sending your Crawl.
                       </div>
-                      <br />
-                      <div className={this.classes.root}>
-                        <CircularProgress />
-                      </div>
-                    </center>
-                  </DialogTitle>
-              </DialogContent>
-      </Dialog>
+                <br />
+                <div className={this.classes.root}>
+                  <CircularProgress />
+                </div>
+              </center>
+            </DialogTitle>
+          </DialogContent>
+        </Dialog>
 
-      {/* confirmation */}
-      <Dialog
-                maxWidth="sm"
-                fullWidth={true}
-                aria-labelledby="confirmation-dialog-title"
-                open={this.state.showConfirm}
-                onClose={this.handleCloseConfirm} 
-            >
-            <br />
-                <DialogContent dividers>
-                    <DialogTitle>
-                        <center>Crawl added</center>
-                        <br /> <br />
-                        <center><img src={submitOk} alt="OK" height="340" width="370"  /></center>
-                    </DialogTitle>
-                </DialogContent>
-            <DialogActions>
-                <Button onClick={this.handleCloseConfirm} color="primary">
-                    OK
+        {/* confirmation */}
+        <Dialog
+          maxWidth="sm"
+          fullWidth={true}
+          aria-labelledby="confirmation-dialog-title"
+          open={this.state.showConfirm}
+          onClose={this.handleCloseConfirm}
+        >
+          <br />
+          <DialogContent dividers>
+            <DialogTitle>
+              <center>Crawl added</center>
+              <br /> <br />
+              <center><img src={submitOk} alt="OK" height="340" width="370" /></center>
+            </DialogTitle>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseConfirm} color="primary">
+              OK
                 </Button>
-        </DialogActions>
-    </Dialog>
+          </DialogActions>
+        </Dialog>
 
 
 
-    </div>
+      </div>
     )
   }
 }
