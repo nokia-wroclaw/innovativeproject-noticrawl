@@ -12,6 +12,7 @@ from src.helpers.crawling import data_selector, take_screenshot
 from .models.crawl_data_model import CrawlData
 
 logger = logging.getLogger("Noticrawl")
+# logger.setLevel("WARN")
 
 MAX_RUNNING_CRAWLS = settings.as_int("MAX_RUNNING_CRAWLS")
 MAX_WAITING_CRAWLS_QUEUE_SIZE = settings.as_int("MAX_WAITING_CRAWLS_QUEUE_SIZE")
@@ -30,18 +31,23 @@ class Scheduler:
     async def add_crawl(self, crawl: CrawlData):
         await self.__scheduler.add_crawl(crawl)
 
+    async def reload_crawls(self):
+        await self.__scheduler.reload_crawls()
 
     class __Scheduler:
         __waiting_crawls: asyncio.PriorityQueue
         __running_crawls_num: int
-
+        __running_crawls_futures = []
 
         async def create(self):
             self.__waiting_crawls = asyncio.PriorityQueue(
                 maxsize=MAX_WAITING_CRAWLS_QUEUE_SIZE
             )
             self.__running_crawls_num = 0
+            await self.reload_crawls()
 
+
+        async def reload_crawls(self):
             links = self.__get_all_links()
             for link in links:
                 for script in link.scripts:
@@ -57,7 +63,6 @@ class Scheduler:
                         )
                     )
 
-
         async def add_crawl(self, crawl: CrawlData):
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
@@ -65,8 +70,10 @@ class Scheduler:
         async def run(self):
             # loop = asyncio.new_event_loop()
             loop = asyncio.get_event_loop()
+            asyncio.create_task(self.__remove_done_futures())
             while True:
-                logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")
+                logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
+
                 moment_of_exec, crawl = await self.__waiting_crawls.get()
                 logger.log(level=logging.DEBUG, msg=f"Got crawl {crawl.name} from queue.")
                 time_to_wait = moment_of_exec - time.time()
@@ -74,22 +81,18 @@ class Scheduler:
                     logger.log(level=logging.DEBUG, msg=f"Sleeping for {time_to_wait} seconds")
                     await asyncio.sleep(time_to_wait)
 
-                logger.log(level=logging.DEBUG, msg=f"Running check for change for crawl {crawl.name}. Number of running crawls = {self.__running_crawls_num}.")
+                logger.log(level=logging.DEBUG, msg=f"Running check for change for crawl {crawl.name}. Number of running crawls = {len(self.__running_crawls_futures)}.")
                 await self.__run_check_for_change(crawl, loop)
-                logger.log(level=logging.DEBUG, msg=f"Putting crawl {crawl.name} back to queue.")
-                await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
 
         async def __run_check_for_change(self, crawl, loop):
-            while self.__running_crawls_num >= MAX_RUNNING_CRAWLS:
+            while  len(self.__running_crawls_futures) >= MAX_RUNNING_CRAWLS:
                 await asyncio.sleep(1)
-            self.__running_crawls_num += 1
-            future = asyncio.run_coroutine_threadsafe(self.__check_for_change(crawl), loop)
-            future.add_done_callback(self.__decrement_running_crawls)
+            self.__running_crawls_futures.append(asyncio.run_coroutine_threadsafe(self.__check_for_change(crawl), loop))
 
 
-        def __decrement_running_crawls(self, fut):
-            self.__running_crawls_num -= 1
+        # def __decrement_running_crawls(self, fut):
+        #     self.__running_crawls_num -= 1
 
 
         async def __check_for_change(self, crawl):
@@ -108,13 +111,22 @@ class Scheduler:
                 )
                 logger.log(level=logging.DEBUG, msg="Value changed! \n" + msg)
                 
-                #TODO update crawl
-
-                screenshot_name = crawl.crawl_id + time.time_ns()
-                await take_screenshot(crawl.url, filename=screenshot_name) #TODO screenshots seems not to be saved
+                crawl.element_value = current_value
+                
+                
+                screenshot_name = f"{crawl.crawl_id}_{time.time_ns()}"
+                await take_screenshot(crawl.url, filename=screenshot_name)
                 logger.log(level=logging.DEBUG, msg="Here screenshot will be sent.") # TODO send email
+            
+            logger.log(level=logging.DEBUG, msg=f"Putting crawl {crawl.name} back to queue.")
+            await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
-
+        async def __remove_done_futures(self):
+            while True:
+                for i, future in enumerate(self.__running_crawls_futures):
+                    if future.done():
+                        self.__running_crawls_futures.pop(i)
+                await asyncio.sleep(1)
 
 
         def __get_all_links(self):
