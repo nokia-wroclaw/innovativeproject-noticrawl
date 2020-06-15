@@ -2,7 +2,6 @@ import React from "react"
 import deleteIcon from "../../../media/delete-icon.png"
 import editIcon from "../../../media/edit-icon.png"
 
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
@@ -171,10 +170,10 @@ class Crawl extends React.Component {
                 <FormControl id="editCrawlForm" onSubmit={this.handleSubmitEdit} >
                     <DialogContent dividers>
                     <DialogContentText>
-                        If you want to change some information about your crawl, you can do it below by filling appropriate fields and clicking "Edit".
+                        If you want to change some information about your crawl, you can do it below by filling appropriate fields and clicking "Apply".
                     </DialogContentText>    
                     <br />
-                    Actual name: {this.props.name}
+                    Current name: {this.props.name}
                     <TextField
                         margin="dense"
                         name="name"
@@ -186,7 +185,7 @@ class Crawl extends React.Component {
                     />
                     <br /><br />
                     <br />
-                    Actual e-mail: {this.props.email} 
+                    Current e-mail: {this.props.email} 
                     <TextField
                         margin="dense"
                         name="email"
@@ -198,7 +197,7 @@ class Crawl extends React.Component {
                     />
                     <br /><br />
                     <br />
-                    Actual checking period: {showPeriod} 
+                    Current checking period: {showPeriod} 
                     <br /><br />
                     <DialogContentText>New checking period:</DialogContentText>
                     <Select
@@ -233,7 +232,7 @@ class Crawl extends React.Component {
                         Cancel
                     </Button>
                     <Button onClick={this.handleSubmitEdit} color="primary" type="submit"> 
-                        Edit
+                        Apply
                     </Button>
                     </DialogActions>
                 </FormControl>
