@@ -23,7 +23,7 @@ async def data_selector(url, xpath):
     return text_content
 
 
-async def take_screenshot(url, filename="sreenshot", directory="/app/logs/sreenshots"):
+async def take_screenshot(url, filename="screenshot", directory="/app/logs/screenshots"):
     filename = filename + datetime.now().strftime("_%d-%m-%Y_%H-%M-%S-%f") + ".png"
     path = directory + "/" + filename
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -37,3 +37,5 @@ async def take_screenshot(url, filename="sreenshot", directory="/app/logs/sreens
     await page.screenshot(path=path, fullPage=True)
     await page.close()
     await browser.close()
+
+    return path

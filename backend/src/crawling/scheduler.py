@@ -5,9 +5,9 @@ import time
 from dynaconf import settings
 
 from src.database.database_schemas import Links, Scripts
-from src.helpers.database import get_db
-
 from src.helpers.crawling import data_selector, take_screenshot
+from src.helpers.database import get_db
+from src.notifications.notifications import send_email
 
 from .models.crawl_data_model import CrawlData
 
@@ -90,10 +90,6 @@ class Scheduler:
             self.__running_crawls_futures.append(asyncio.run_coroutine_threadsafe(self.__check_for_change(crawl), loop))
 
 
-        # def __decrement_running_crawls(self, fut):
-        #     self.__running_crawls_num -= 1
-
-
         async def __check_for_change(self, crawl):
             logger.log(level=logging.DEBUG, msg=f"Checking crawl {crawl.name}")
             current_value = await data_selector(url=crawl.url, xpath=crawl.xpath)
@@ -113,9 +109,9 @@ class Scheduler:
                 update_element_value_in_db(crawl.crawl_id, current_value)
                 crawl.element_value = current_value
 
-                screenshot_name = f"{crawl.crawl_id}_{time.time_ns()}"
-                await take_screenshot(crawl.url, filename=screenshot_name)
-                # logger.log(level=logging.DEBUG, msg="Here screenshot will be sent.") # TODO send email
+                screenshot_name = crawl.name.replace(" ", "_")
+                screenshot_path = await take_screenshot(crawl.url, filename=screenshot_name)
+                send_email(crawl.email, screenshot_path, f"An element you observe in {crawl.name} has changed.")
             
             logger.log(level=logging.DEBUG, msg=f"Putting crawl {crawl.name} back to queue.")
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
