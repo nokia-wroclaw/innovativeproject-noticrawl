@@ -50,6 +50,9 @@ class Scheduler:
 
         async def reload_crawls(self):
             links = get_all_links()
+            self.__waiting_crawls = asyncio.PriorityQueue(
+                maxsize=MAX_WAITING_CRAWLS_QUEUE_SIZE
+            )
             for link in links:
                 for script in link.scripts:
                     await self.add_crawl(
