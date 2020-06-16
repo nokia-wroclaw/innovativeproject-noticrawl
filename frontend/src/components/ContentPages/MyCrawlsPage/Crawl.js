@@ -73,7 +73,7 @@ class Crawl extends React.Component {
             () => {
                 window.location.reload(true); 
             },
-            1600
+            100
         );
         }
         else if (res.status == 401) {

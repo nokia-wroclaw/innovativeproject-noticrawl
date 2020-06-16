@@ -120,7 +120,7 @@ class TopBanner extends React.Component {
             showConfirm: true,
           })
         },
-        1600
+        100
       );
     }
     else if (res.status == 401) {
