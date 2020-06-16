@@ -39,20 +39,22 @@ class Scheduler:
         __waiting_crawls: asyncio.PriorityQueue
         __running_crawls_num: int
         __running_crawls_futures = []
-
         async def create(self):
             self.__waiting_crawls = asyncio.PriorityQueue(
                 maxsize=MAX_WAITING_CRAWLS_QUEUE_SIZE
             )
-            self.__running_crawls_num = 0
+            self.__crawls_not_in_queue_num = 0
             await self.reload_crawls()
 
 
         async def reload_crawls(self):
-            links = get_all_links()
             self.__waiting_crawls = asyncio.PriorityQueue(
                 maxsize=MAX_WAITING_CRAWLS_QUEUE_SIZE
             )
+            while self.__crawls_not_in_queue_num > 0:
+                await self.__waiting_crawls.get()
+            
+            links = get_all_links()
             for link in links:
                 for script in link.scripts:
                     await self.add_crawl(
@@ -70,17 +72,25 @@ class Scheduler:
         async def add_crawl(self, crawl: CrawlData):
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
+        # async def update_crawl(self, crawl: CrawlData):
+        #     await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
+
+        # async def delete_crawl(self, crawl: CrawlData):
+        #     await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
+
 
         async def run(self):
             loop = asyncio.get_event_loop()
             asyncio.create_task(self.__remove_done_futures())
             while True:
-                # logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
+                logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
 
                 moment_of_exec, crawl = await self.__waiting_crawls.get()
+                self.__crawls_not_in_queue_num += 1
                 time_to_wait = moment_of_exec - time.time()
                 if time_to_wait > 0:
                     await self.__waiting_crawls.put((moment_of_exec, crawl))
+                    self.__crawls_not_in_queue_num -=1
                     await asyncio.sleep(1)
                 else:
                     logger.log(level=logging.DEBUG, msg=f"Running check for change for crawl {crawl.name}. Number of running crawls = {len(self.__running_crawls_futures)}.")
@@ -98,8 +108,8 @@ class Scheduler:
             current_value = await data_selector(url=crawl.url, xpath=crawl.xpath)
             if current_value != crawl.element_value:
                 msg = (
-                    "   URL: "
-                    + crawl.url
+                    "   Name: "
+                    + crawl.name
                     + "\n"
                     + "   Old value: "
                     + crawl.element_value
@@ -122,6 +132,7 @@ class Scheduler:
                 os.remove(screenshot_path)
 
             await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
+            self.__crawls_not_in_queue_num -=1
 
         async def __remove_done_futures(self):
             while True:
