@@ -66,7 +66,7 @@ submitForm = async e => {
         })
         document.getElementById("sendCrawlData").click()
       },
-      500
+      100
     );
   }
   else if (res.status == 401) {
