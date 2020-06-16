@@ -93,7 +93,8 @@ submitForm = async e => {
       <div>
       <div className="PageContent">
         <form onSubmit={this.submitForm}>
-            <h1>Paste your link below</h1>
+            <br /><br /><br />
+            <h1>Paste your link below</h1>  
             <FormControl style={{ width: '40ch'}} variant="outlined">
               <input value={this.state.values.link} pattern="https?://.+" hidden="true"></input>
               <OutlinedInput
