@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from src.crawling.communicators import Communicators
 from src.database.database_schemas import Links, Notifications, Scripts
-from src.crawling.scheduler import scheduler
+from src.crawling.scheduler_api import scheduler
 from src.user import user_service
 
 from .models.crawl_data_model import CrawlData, CrawlDataCreate

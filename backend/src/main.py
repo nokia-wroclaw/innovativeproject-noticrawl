@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 from .auth.auth_controller import auth_router
 from .auth.auth_service import verify_token
 from .crawling.crawling_controller import crawling_router
-from .crawling.scheduler import scheduler
+from .crawling.scheduler_api import run_scheduler
 from .database import database_schemas
 from .helpers.status_code_model import StatusCodeBase
 from .user.user_controller import user_router
@@ -22,7 +22,7 @@ app.include_router(crawling_router)
 
 database_schemas.create()
 
-asyncio.create_task(scheduler.run_scheduler())
+asyncio.create_task(run_scheduler())
 
 app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
 templates = Jinja2Templates(directory="../frontend/build")
