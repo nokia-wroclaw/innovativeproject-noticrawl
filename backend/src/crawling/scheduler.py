@@ -23,6 +23,7 @@ class Scheduler:
     __waiting_crawls: asyncio.PriorityQueue
     __crawls_not_in_queue_num: int
     __running_crawls_futures = []
+    __crawls_to_update_or_delete = {}
 
     async def __create(self):
         self.__waiting_crawls = asyncio.PriorityQueue(
@@ -60,11 +61,11 @@ class Scheduler:
     async def add_crawl(self, crawl: CrawlData):
         await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
 
-    # async def update_crawl(self, crawl: CrawlData):
-    #     await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
+    def update_crawl(self, crawl: CrawlData):
+        self.__crawls_to_update_or_delete.update([(crawl.crawl_id, crawl)])
 
-    # async def delete_crawl(self, crawl: CrawlData):
-    #     await self.__waiting_crawls.put((time.time() + crawl.period, crawl))
+    def delete_crawl(self, crawl_id):
+        self.__crawls_to_update_or_delete.update([(crawl_id, None)])
 
 
     async def __run(self):
@@ -76,6 +77,14 @@ class Scheduler:
             moment_of_exec, crawl = await self.__waiting_crawls.get()
             self.__crawls_not_in_queue_num += 1
             time_to_wait = moment_of_exec - time.time()
+
+            if crawl.crawl_id in self.__crawls_to_update_or_delete.keys():
+                crawl_name = crawl.name
+                crawl = self.__crawls_to_update_or_delete.pop(crawl.crawl_id)
+                if crawl is None:
+                    logger.log(level=logging.DEBUG, msg=f"Crawl {crawl_name} is deleted.")
+                    continue
+                    
             if time_to_wait > 0:
                 await self.__waiting_crawls.put((moment_of_exec, crawl))
                 self.__crawls_not_in_queue_num -=1

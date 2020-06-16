@@ -100,7 +100,7 @@ async def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
 
 
 
-def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session): # TODO inform scheduler on crawl update
+def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
     db.query(Links) \
         .filter(Links.link_id == crawl_id) \
         .update(
@@ -128,17 +128,19 @@ def update_crawl_in_db(crawl_id: int, crawl_data: CrawlDataCreate, db: Session):
 
     db.commit()
 
-    asyncio.create_task(scheduler.reload_crawls())
-
-    return get_crawl_from_link(
+    updated_crawl = get_crawl_from_link(
         db.query(Links).filter(Links.link_id == crawl_id).first()
     )
 
+    scheduler.update_crawl(updated_crawl)
 
-def delete_crawl(crawl_id: int, db: Session): # TODO inform scheduler on crawl update
+    return updated_crawl
+
+
+def delete_crawl(crawl_id: int, db: Session):
     db.query(Links) \
         .filter(Links.link_id == crawl_id) \
         .delete(synchronize_session=False)
     db.commit()
 
-    asyncio.create_task(scheduler.reload_crawls())
+    scheduler.delete_crawl(crawl_id)
