@@ -72,7 +72,7 @@ class Scheduler:
         loop = asyncio.get_event_loop()
         asyncio.create_task(self.__remove_done_futures())
         while True:
-            logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")        
+            logger.log(level=logging.DEBUG, msg=f"Number of waiting crawls = {self.__waiting_crawls.qsize()}.")
 
             moment_of_exec, crawl = await self.__waiting_crawls.get()
             self.__crawls_not_in_queue_num += 1
@@ -84,7 +84,7 @@ class Scheduler:
                 if crawl is None:
                     logger.log(level=logging.DEBUG, msg=f"Crawl {crawl_name} is deleted.")
                     continue
-                    
+
             if time_to_wait > 0:
                 await self.__waiting_crawls.put((moment_of_exec, crawl))
                 self.__crawls_not_in_queue_num -=1

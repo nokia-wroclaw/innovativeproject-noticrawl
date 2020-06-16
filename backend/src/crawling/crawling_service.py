@@ -96,7 +96,10 @@ async def add_crawl_to_db(db: Session, crawl_data: CrawlData, user_email: str):
 
     db.commit()
 
-    asyncio.create_task(scheduler.add_crawl(crawl_data))
+    db.refresh(link)
+    asyncio.create_task(scheduler.add_crawl(
+        get_crawl_from_link(link)
+    ))
 
 
 

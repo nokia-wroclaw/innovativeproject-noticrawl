@@ -47,8 +47,8 @@ async def get_page(url: Url):
     tags=["Crawling"],
 )
 async def add_crawl(
-        crawl_data_create: CrawlDataCreate, 
-        email=Depends(verify_token), 
+        crawl_data_create: CrawlDataCreate,
+        email=Depends(verify_token),
         db: Session = Depends(get_db)
     ):
     crawl_data_dict = crawl_data_create.dict()
