@@ -236,10 +236,10 @@ class TopBanner extends React.Component {
                   <MenuItem value="">
                     <em>Choose one...</em>
                   </MenuItem>
-                  <MenuItem value={10}>10sec</MenuItem>
+                  <MenuItem value={10}>10s</MenuItem>
                   <MenuItem value={60}>1min</MenuItem>
                   <MenuItem value={600}>10min</MenuItem>
-                  <MenuItem value={1800}>0.5h</MenuItem>
+                  <MenuItem value={1800}>30min</MenuItem>
                   <MenuItem value={3600}>1h</MenuItem>
                   <MenuItem value={21600}>6h</MenuItem>
                   <MenuItem value={43200}>12h</MenuItem>

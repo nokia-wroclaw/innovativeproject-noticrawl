@@ -134,7 +134,7 @@ class Crawl extends React.Component {
     render() {
 
         let showPeriod;
-        if (this.props.period == 10) showPeriod = <text>10 sec</text>
+        if (this.props.period == 10) showPeriod = <text>10s</text>
         else if (this.props.period == 60 || this.props.period == 600 || this.props.period == 1800) showPeriod = <text>{this.props.period/60}min</text>
         else showPeriod = <text>{this.props.period/3600}h</text>
 
