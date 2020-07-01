@@ -35,10 +35,69 @@ async def parse(url):
 
 
 # add_base_href_to_html
-def fix_relative_paths(html: str, url: str):
+def add_base_href(html: str, url: str):
     base_url = re.search(r"(?P<url>https?://[/\w+$]+.[/\w+$][^/]*)", url).group("url")
     base_href = '<base href="' + base_url + '">'
     return base_href + "\n" + html
+
+
+def relative_to_absolute_paths(html: str, url: str):
+    base_url = re.search(r"(?P<url>https?://[/\w+$]+.[/\w+$][^/]*)", url).group("url")
+    
+    relative_href_gen = [m.start() for m in re.finditer("href=\"/", html)]
+    start = 0
+    new_html = ""
+    end = 0
+    for pos in relative_href_gen:
+        end = pos + 6
+        new_html += html[start:end]
+        new_html += (base_url + "/")
+        start = end
+    new_html += html[end:]
+
+    html = new_html
+    relative_src_gen = [m.start() for m in re.finditer("src=\"/", html)]
+    start = 0
+    new_html = ""
+    end = 0
+    for pos in relative_src_gen:
+        end = pos + 5
+        new_html += html[start:end]
+        new_html += (base_url + "/")
+        start = end
+    new_html += html[end:]
+
+    return new_html
+
+
+def redirect_to_proxy(html: str, url: str, proxy_url: str):
+    html = relative_to_absolute_paths(html, url)
+    absolute_href_gen = [m.start() for m in re.finditer("href=\"http", html)]
+    
+    start = 0
+    new_html = ""
+    end = 0
+    for pos in absolute_href_gen:
+        end = pos + 6
+        new_html += html[start:end]
+        new_html += proxy_url
+        start = end
+    new_html += html[end:]
+
+    html = new_html
+    absolute_src_gen = [m.start() for m in re.finditer("src=\"http", html)]
+    start = 0
+    new_html = ""
+    end = 0
+    for pos in absolute_src_gen:
+        end = pos + 5
+        new_html += html[start:end]
+        new_html += proxy_url
+        start = end
+    new_html += html[end:]
+
+    return new_html
+
 
 
 def get_crawls_by_user(db: Session, user_email: str):
